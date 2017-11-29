@@ -35,22 +35,22 @@
       value: [String, Number],
     },
 
-    data() {
+    data () {
       return {};
     },
 
     computed: {
       selected: {
-        get() {
+        get () {
           return this.value;
         },
 
-        set(val) {
+        set (val) {
           this.$emit('input', val);
         },
       },
 
-      yearRange() {
+      yearRange () {
         let range = [];
 
         for (let y = this.startYear; y <= this.endYear; y++) {

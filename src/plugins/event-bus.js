@@ -1,28 +1,30 @@
+import Vue from 'vue';
+
 class EventBus {
-  constructor() {
+  constructor () {
     this.vue = new Vue();
   }
 
-  fire(event, data = null) {
+  fire (event, data = null) {
     this.vue.$emit(event, data);
   }
 
-  listen(event, callback) {
+  listen (event, callback) {
     this.vue.$on(event, callback);
   }
 
-  destroy() {
+  destroy () {
     this.vue.$off();
   }
 }
 
-const bus = new EventBus;
+const bus = new EventBus();
 
 export default {
-  install(Vue) {
+  install (Vue) {
     Object.defineProperties(Vue.prototype, {
       $bus: {
-        get() {
+        get () {
           return bus;
         },
       },

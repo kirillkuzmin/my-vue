@@ -17,8 +17,21 @@
 
       months: {
         type: Array,
-        default() {
-          return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        default () {
+          return [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+          ];
         },
       },
 
@@ -27,17 +40,17 @@
       value: [String, Number],
     },
 
-    data() {
+    data () {
       return {};
     },
 
     computed: {
       selected: {
-        get() {
+        get () {
           return this.value;
         },
 
-        set(val) {
+        set (val) {
           this.$emit('input', val);
         },
       },

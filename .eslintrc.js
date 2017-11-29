@@ -1,16 +1,18 @@
 module.exports = {
   root: true,
+  parser: 'babel-eslint',
   parserOptions: {
-    ecmaVersion: 6,
     sourceType: 'module',
-    ecmaFeatures: {},
   },
+  extends: 'fbjs',
   // required to lint *.vue files
   plugins: [
     'html',
   ],
   // add your custom rules here
   'rules': {
-    'semi': 2,
+    'no-new': 0,
+    'space-before-function-paren': 0,
+    'no-undef': 0,
   },
 };

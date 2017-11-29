@@ -17,7 +17,7 @@
   export default {
     props: {},
 
-    data() {
+    data () {
       return {
         show: false,
         x: 0,
@@ -30,7 +30,7 @@
     },
 
     computed: {
-      style() {
+      style () {
         return {
           left: this.x + 'px',
           top: this.y + 'px',
@@ -38,23 +38,24 @@
       },
     },
 
-    created() {
+    created () {
       this.$bus.listen('my-context-menu:hide', () => {
         this.hide();
       });
     },
 
     methods: {
-      hide() {
+      hide () {
         this.show = false;
       },
 
-      open(e) {
+      open (e) {
         this.$bus.fire('my-context-menu:hide');
 
         e = e || window.event;
 
-        const scrollingElement = document.scrollingElement || document.documentElement;
+        const scrollingElement = document.scrollingElement
+          || document.documentElement;
 
         const mouseX = e.pageX || e.clientX + scrollingElement.scrollLeft;
         const mouseY = e.pageY || e.clientY + scrollingElement.scrollTop;
@@ -67,7 +68,8 @@
 
           let rightEdge = window.innerWidth - mouseX;
 
-          let bottomEdge = window.innerHeight - mouseY - document.getElementsByTagName('footer')[0].clientHeight;
+          let bottomEdge = window.innerHeight - mouseY
+            - document.getElementsByTagName('footer')[0].clientHeight;
 
           if (rightEdge < menuWidth) {
             this.x = mouseX - menuWidth;

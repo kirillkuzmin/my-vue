@@ -33,12 +33,12 @@
       },
     },
 
-    data() {
+    data () {
       return {};
     },
 
     computed: {
-      itemClass() {
+      itemClass () {
         return {
           'my-context-menu__item': true,
           'my-context-menu__item--disabled': this.disabled,
@@ -48,7 +48,7 @@
     },
 
     methods: {
-      onClick() {
+      onClick () {
         if (!this.disabled) {
           this.$parent.show = false;
 
@@ -72,6 +72,10 @@
       padding-left: 24px;
       padding-right: 24px;
       white-space: nowrap;
+
+      &:focus {
+        outline: none;
+      }
 
       &:hover {
         background-color: #eee;

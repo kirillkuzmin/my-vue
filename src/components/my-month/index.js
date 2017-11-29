@@ -1,5 +1,3 @@
 import MyMonth from './my-month.vue';
 
-export {
-  MyMonth,
-}
+export default MyMonth;
