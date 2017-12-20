@@ -6,7 +6,8 @@
         :class="getTabClass(tab)"
         v-text="tab.title"
         @click="myTabs.selectTab(tab, index)"
-      ></li>
+      >
+      </li>
     </ul>
   </div>
 </template>

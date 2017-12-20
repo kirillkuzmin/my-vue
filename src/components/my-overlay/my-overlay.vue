@@ -2,7 +2,6 @@
   <div class="my-overlay" v-show="show">
     <div class="my-overlay__container">
       <div class="my-overlay__message">
-        <my-loading/>
         <span v-text="message" v-if="message"></span>
       </div>
     </div>
@@ -10,8 +9,6 @@
 </template>
 
 <script>
-  import MyLoading from 'components/my-loading.vue';
-
   export default {
     props: {
       hash: {
@@ -44,7 +41,6 @@
     },
 
     components: {
-      'my-loading': MyLoading,
     },
 
     created () {

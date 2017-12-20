@@ -1,19 +1,27 @@
 {
   "name": "@kirillkuzmin/my-vue",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Vue.js Component Library",
+  "main": "src/index.js",
   "author": {
     "name": "Kirill Kuzmin",
     "email": "rill7@yandex.ru"
   },
+  "private": false,
   "license": "MIT",
+  "homepage": "https://github.com/kirillkuzmin/my-vue",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kirillkuzmin/my-vue.git"
   },
-  "dependencies": {
-    "vue": "^2.5.8",
-    "vue-i18n": "^7.3.2"
+  "bugs": {
+    "url": "https://github.com/kirillkuzmin/my-vue/issues"
+  },
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "vue": "2.x"
   },
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.2.1",
@@ -43,14 +51,13 @@
     "postcss-loader": "^2.0.6",
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",
+    "vue": "^2.5.8",
+    "vue-i18n": "^7.3.2",
     "vue-loader": "^13.5.0",
     "vue-template-compiler": "^2.5.8",
     "webpack": "^3.8.1",
     "webpack-merge": "^4.1.1"
   },
-  "files": [
-    "src"
-  ],
   "scripts": {
     "build": "webpack --config build/webpack.prod.conf.js",
     "watch": "webpack --watch --config build/webpack.dev.conf.js"
