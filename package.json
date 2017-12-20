@@ -1,6 +1,6 @@
 {
   "name": "@kirillkuzmin/my-vue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue.js Component Library",
   "author": {
     "name": "Kirill Kuzmin",
@@ -48,6 +48,9 @@
     "webpack": "^3.8.1",
     "webpack-merge": "^4.1.1"
   },
+  "files": [
+    "src"
+  ],
   "scripts": {
     "build": "webpack --config build/webpack.prod.conf.js",
     "watch": "webpack --watch --config build/webpack.dev.conf.js"
