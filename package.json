@@ -1,8 +1,8 @@
 {
   "name": "@kirillkuzmin/my-vue",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Vue.js Component Library",
-  "main": "src/index.js",
+  "main": "dist/my-vue.min.js",
   "author": {
     "name": "Kirill Kuzmin",
     "email": "rill7@yandex.ru"
@@ -18,7 +18,7 @@
     "url": "https://github.com/kirillkuzmin/my-vue/issues"
   },
   "files": [
-    "src"
+    "dist"
   ],
   "peerDependencies": {
     "vue": "2.x"
