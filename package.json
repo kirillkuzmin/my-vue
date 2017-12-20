@@ -1,11 +1,16 @@
 {
-  "name": "my-vue",
+  "name": "@kirillkuzmin/my-vue",
+  "version": "1.0.0",
   "description": "Vue.js Component Library",
   "author": {
     "name": "Kirill Kuzmin",
     "email": "rill7@yandex.ru"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirillkuzmin/my-vue.git"
+  },
   "dependencies": {
     "vue": "^2.5.8",
     "vue-i18n": "^7.3.2"
