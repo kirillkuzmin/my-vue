@@ -1,8 +1,10 @@
 import MyAlert from './my-alert';
+import MyCode from './my-code';
 import MyConfirm from './my-confirm';
 import { MyContextMenu, MyContextMenuItem } from './my-context-menu';
 import MyDisabled from './my-disabled';
 import MyIcon from './my-icon';
+import MyLoading from './my-loading';
 import MyModal from './my-modal';
 import MyMonth from './my-month';
 import MyName from './my-name';
@@ -14,11 +16,13 @@ import MyYear from './my-year';
 
 export {
   MyAlert,
+  MyCode,
   MyConfirm,
   MyContextMenu,
   MyContextMenuItem,
   MyDisabled,
   MyIcon,
+  MyLoading,
   MyModal,
   MyMonth,
   MyName,
