@@ -1,6 +1,7 @@
 import { MyContextMenu, MyContextMenuItem } from './my-context-menu';
 import MyDisabled from './my-disabled';
 import MyIcon from './my-icon';
+import MyModal from './my-modal';
 import MyMonth from './my-month';
 import MyName from './my-name';
 import MyOverlay from './my-overlay';
@@ -14,6 +15,7 @@ export {
   MyContextMenuItem,
   MyDisabled,
   MyIcon,
+  MyModal,
   MyMonth,
   MyName,
   MyOverlay,
