@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 const clickOutside = Vue.directive('click-outside', {
   bind (el, binding) {
     const bubble = binding.modifiers.bubble;
