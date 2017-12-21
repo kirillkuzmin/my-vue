@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import MyIcon from 'components/my-icon-new.vue';
+  import MyIcon from 'components/my-icon.vue';
   import gif24 from 'images/icons/24/loading.gif';
   import svg16 from 'images/icons/16/loading.svg';
   import svg24 from 'images/icons/24/loading.svg';
