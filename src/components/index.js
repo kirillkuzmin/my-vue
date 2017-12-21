@@ -1,3 +1,5 @@
+import MyAlert from './my-alert';
+import MyConfirm from './my-confirm';
 import { MyContextMenu, MyContextMenuItem } from './my-context-menu';
 import MyDisabled from './my-disabled';
 import MyIcon from './my-icon';
@@ -11,6 +13,8 @@ import MyTwig from './my-twig';
 import MyYear from './my-year';
 
 export {
+  MyAlert,
+  MyConfirm,
   MyContextMenu,
   MyContextMenuItem,
   MyDisabled,
