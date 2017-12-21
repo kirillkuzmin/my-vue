@@ -21,6 +21,7 @@
     "dist"
   ],
   "peerDependencies": {
+    "highlightjs": "9.x",
     "vue": "2.x"
   },
   "devDependencies": {

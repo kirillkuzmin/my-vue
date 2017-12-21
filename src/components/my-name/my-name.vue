@@ -3,25 +3,28 @@
     <input
       :style="inputStyle"
       :value="name.lastname"
-      placeholder="Lastname"
+      placeholder="Фамилия"
       ref="lastname"
       type="text"
+      v-validate="lastnameValidator"
       @input="update"
     >
     <input
       :style="inputStyle"
       :value="name.firstname"
-      placeholder="Firstname"
+      placeholder="Имя"
       ref="firstname"
       type="text"
+      v-validate="firstnameValidator"
       @input="update"
     >
     <input
       :style="inputStyle"
       :value="name.middlename"
-      placeholder="Middlename"
+      placeholder="Отчество"
       ref="middlename"
       type="text"
+      v-validate="middlenameValidator"
       @input="update"
     >
   </div>
@@ -35,28 +38,29 @@
         default: 'h',
       },
 
-      /*firstnameValidator: {
+      firstnameValidator: {
         type: String,
         default: '',
-      },*/
+      },
 
       inputWidth: {
         type: String,
         default: '',
       },
 
-      /*lastnameValidator: {
+      lastnameValidator: {
         type: String,
         default: '',
-      },*/
+      },
 
-      /*middlenameValidator: {
+      middlenameValidator: {
         type: String,
         default: '',
-      },*/
+      },
 
       value: {
         type: String,
+        default: '',
       },
 
       width: {
@@ -82,13 +86,13 @@
 
       inputStyle () {
         return {
-          // with margin-right
+          // с учетом margin-right
           'width': this.inputWidth ? this.inputWidth : this.width / 3 - 8 / 3 + 'px',
         };
       },
 
       name () {
-        const n = this.value.split(' ');
+        const n = (this.value ? this.value : '').split(' ');
 
         return {
           firstname: n[1] || '',
