@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import MyModal from 'components/my-modal.vue';
+  import MyModal from 'components/my-modal';
 
   export default {
     props: {

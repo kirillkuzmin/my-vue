@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import MyIcon from 'components/my-icon.vue';
+  import MyIcon from 'components/my-icon';
   import s16 from 'images/icons/16/close.svg';
 
   export default {
