@@ -2,6 +2,7 @@
   <div class="my-overlay" v-show="show">
     <div class="my-overlay__container">
       <div class="my-overlay__message">
+        <my-loading/>
         <span v-text="message" v-if="message"></span>
       </div>
     </div>
@@ -9,6 +10,8 @@
 </template>
 
 <script>
+  import MyLoading from 'components/my-loading';
+
   export default {
     props: {
       hash: {
@@ -20,7 +23,7 @@
 
       message: {
         type: String,
-        default: 'Please wait.',
+        default: 'Запрос отправлен, ожидайте ответа.',
       },
 
       /*show: {
@@ -41,6 +44,7 @@
     },
 
     components: {
+      'my-loading': MyLoading,
     },
 
     created () {
