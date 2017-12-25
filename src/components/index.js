@@ -3,6 +3,7 @@ import MyCode from './my-code';
 import MyConfirm from './my-confirm';
 import { MyContextMenu, MyContextMenuItem } from './my-context-menu';
 import MyDisabled from './my-disabled';
+import MyForm from './my-form';
 import MyIcon from './my-icon';
 import MyLoading from './my-loading';
 import MyModal from './my-modal';
@@ -21,6 +22,7 @@ export {
   MyContextMenu,
   MyContextMenuItem,
   MyDisabled,
+  MyForm,
   MyIcon,
   MyLoading,
   MyModal,
