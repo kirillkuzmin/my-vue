@@ -11,10 +11,7 @@
           <tr>
             <td
               v-for="(column, key) in columns"
-              :class="[{
-								'my-table__column--sorted': sortKey === key,
-								'my-table__column--not-sortable': column.sortable === false
-							}, column.class]"
+              :class="getColumnClass(column, key)"
               :style="getColumnStyle(column)"
               v-show="!column.hidden"
               @click="column.sortable === false ? false : sortBy(key, null, column.sortType)"
@@ -99,11 +96,11 @@
 
 <script>
   import debounce from 'lodash/debounce';
-  import getScrollbarWidth from 'utils/scroll';
   import isObject from 'lodash/isObject';
   import MyTableActionBar from './my-table-action-bar.vue';
   import orderBy from 'lodash/orderBy';
   import remove from 'lodash/remove';
+  import { getScrollbarWidth } from 'utils/scroll';
 
   let onWindowResize = () => {
   };
@@ -354,6 +351,16 @@
         }
 
         return style;
+      },
+
+      getColumnClass (column, key) {
+        return [
+          {
+            'my-table__column--sorted': sortKey === key,
+            'my-table__column--not-sortable': column.sortable === false,
+          },
+          column.class,
+        ];
       },
 
       getColumnStyle (options) {
