@@ -1,48 +1,20 @@
-<template>
-  <my-icon
-    :icon="icon"
-    :size="size"
-  />
-</template>
-
 <script>
   import MyIcon from 'components/my-icon';
-  import s16 from 'images/icons/16/opacity.svg';
 
   export default {
-    props: {
-      disabled: {
-        type: Boolean,
-        default: false,
-      },
-
-      size: {
-        type: [Number, String],
-        default: 16,
-      },
-    },
+    extends: MyIcon,
 
     data () {
       return {
-        icons: {
-          '16': s16,
+        icon: {
+          size: '24',
+          paths: [
+            {
+              d: 'M 16.9525,9.0963232 12,5.0000002 7.0475,9.0963232 C 5.6825,10.227343 5,11.73537 5,13.185396 5,14.635422 5.6825,16.165199 7.0475,17.29622 8.4125,18.42724 10.20625,19 12,19 13.79375,19 15.5875,18.42724 16.9525,17.29622 18.3175,16.165199 19,14.635422 19,13.185396 19,11.73537 18.3175,10.227343 16.9525,9.0963232 M 6.75,13.446401 c 0,-1.450026 0.5425,-2.370793 1.54,-3.190057 L 12,7.117038 l 3.71,3.175557 c 0.9975,0.812014 1.54,1.70378 1.54,3.153806 z',
+            },
+          ],
         },
       };
     },
-
-    components: {
-      'my-icon': MyIcon,
-    },
-
-    computed: {
-      icon () {
-        const name = this.size + (this.disabled ? '_disabled' : '');
-
-        return this.icons[name];
-      },
-    },
   };
 </script>
-
-<style lang="less" scoped>
-</style>

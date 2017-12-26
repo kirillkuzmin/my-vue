@@ -1,48 +1,24 @@
-<template>
-  <my-icon
-    :icon="icon"
-    :size="size"
-  />
-</template>
-
 <script>
   import MyIcon from 'components/my-icon';
-  import s16 from 'images/icons/16/maximize.svg';
 
   export default {
-    props: {
-      disabled: {
-        type: Boolean,
-        default: false,
-      },
-
-      size: {
-        type: [Number, String],
-        default: 16,
-      },
-    },
+    extends: MyIcon,
 
     data () {
       return {
-        icons: {
-          '16': s16,
+        icon: {
+          size: '24',
+          paths: [
+            {
+              d: 'M0 0h24v24H0z',
+              fill: 'none',
+            },
+            {
+              d: 'M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z',
+            },
+          ],
         },
       };
     },
-
-    components: {
-      'my-icon': MyIcon,
-    },
-
-    computed: {
-      icon () {
-        const name = this.size + (this.disabled ? '_disabled' : '');
-
-        return this.icons[name];
-      },
-    },
   };
 </script>
-
-<style lang="less" scoped>
-</style>

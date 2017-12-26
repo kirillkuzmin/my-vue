@@ -1,44 +1,67 @@
 <template>
-  <img
-    :height="size"
-    :src="icon"
-    :width="size"
+  <div
+    :title="title"
     class="my-icon"
     @click="click"
     @mouseenter="mouseenter"
     @mouseleave="mouseleave"
   >
+    <svg
+      :fill="color"
+      :height="size"
+      :viewBox="viewBox"
+      :width="size"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        v-for="(path, i) in icon.paths"
+        :d="path.d"
+        :fill="path.fill"
+      />
+    </svg>
+  </div>
 </template>
 
 <script>
   export default {
     props: {
-      icon: {
+      color: {
         type: String,
-        required: true,
+        default: '#fff',
       },
 
       size: {
         type: [Number, String],
-        required: true,
+        default: 24,
+      },
+
+      title: {
+        type: String,
+        default: '',
+      },
+    },
+
+    computed: {
+      viewBox () {
+        return `0 0 ${this.icon.size} ${this.icon.size}`;
       },
     },
 
     methods: {
       click (e) {
         if (e.shiftKey) {
-          this.$parent.$emit('shift');
+          this.$emit('shift');
         } else {
-          this.$parent.$emit('click');
+          this.$emit('click');
         }
       },
 
       mouseenter () {
-        this.$parent.$emit('mouseenter');
+        this.$emit('mouseenter');
       },
 
       mouseleave () {
-        this.$parent.$emit('mouseleave');
+        this.$emit('mouseleave');
       },
     },
   };
@@ -47,5 +70,6 @@
 <style lang="less" scoped>
   .my-icon {
     cursor: pointer;
+    display: inline-flex;
   }
 </style>

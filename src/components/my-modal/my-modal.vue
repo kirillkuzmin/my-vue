@@ -7,7 +7,6 @@
           <slot name="header">default header</slot>
           <div class="my-modal__header-icons">
             <icon-opacity
-              size="16"
               title="Изменить прозрачность"
               v-if="opacityControl"
               @mouseenter="disappear"
@@ -245,7 +244,7 @@
     }
 
     &__header {
-      //align-items: center;
+      align-items: center;
       background-color: @header-bgcolor-default;
       box-sizing: border-box;
       color: #fff;
