@@ -1,6 +1,6 @@
 {
   "name": "@kirillkuzmin/my-vue",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Vue.js Component Library",
   "main": "dist/my-vue.min.js",
   "author": {
@@ -63,6 +63,5 @@
   "scripts": {
     "build": "webpack --config build/webpack.prod.conf.js",
     "watch": "webpack --watch --config build/webpack.dev.conf.js"
-  },
-  "dependencies": {}
+  }
 }
