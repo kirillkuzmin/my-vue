@@ -1,27 +1,28 @@
 <template>
-  <div>
-
+  <div class="my-collapse">
+    <slot></slot>
   </div>
 </template>
 
 <script>
   export default {
-    props: {},
+    props: {
+      collapseAll: {
+        type: Boolean,
+        default: false,
+      },
+
+      showAll: {
+        type: Boolean,
+        default: false,
+      },
+    },
 
     data () {
       return {};
     },
-
-    components: {},
-
-    directives: {},
-
-    computed: {},
-
-    methods: {},
   };
 </script>
 
 <style lang="less" scoped>
-
 </style>
