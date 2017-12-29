@@ -1,13 +1,13 @@
 <template>
   <div
+    :class="iconClass"
     :title="title"
-    class="my-icon"
     @click="click"
     @mouseenter="mouseenter"
     @mouseleave="mouseleave"
   >
     <svg
-      :fill="color"
+      :fill="fill"
       :height="size"
       :viewBox="viewBox"
       :width="size"
@@ -30,6 +30,11 @@
         default: '#fff',
       },
 
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
+
       size: {
         type: [Number, String],
         default: 24,
@@ -42,6 +47,19 @@
     },
 
     computed: {
+      iconClass () {
+        return [
+          'my-icon',
+          {
+            'my-icon--disabled': this.disabled,
+          },
+        ];
+      },
+
+      fill () {
+        return (this.disabled ? '#9e9e9e' : this.color);
+      },
+
       viewBox () {
         return `0 0 ${this.icon.size} ${this.icon.size}`;
       },
@@ -49,6 +67,10 @@
 
     methods: {
       click (e) {
+        if (this.disabled) {
+          return;
+        }
+
         if (e.shiftKey) {
           this.$emit('shift');
         } else {
@@ -71,5 +93,9 @@
   .my-icon {
     cursor: pointer;
     display: inline-flex;
+
+    &--disabled {
+      cursor: default;
+    }
   }
 </style>
