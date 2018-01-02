@@ -11,6 +11,7 @@ import MyModal from './my-modal';
 import MyMonth from './my-month';
 import MyName from './my-name';
 import MyOverlay from './my-overlay';
+import MyRadio from './my-radio';
 import MySidenav from './my-sidenav';
 //import { MyTable, MyTableActionBar } from './my-table';
 import { MyTabs, MyTabsFixed, MyTabsPane } from './my-tabs';
@@ -33,6 +34,7 @@ export {
   MyMonth,
   MyName,
   MyOverlay,
+  MyRadio,
   MySidenav,
   //MyTable,
   //MyTableActionBar,
