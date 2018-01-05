@@ -2,7 +2,6 @@ import MyAlert from './my-alert';
 import MyCheckbox from './my-checkbox';
 import MyCode from './my-code';
 import { MyCollapse, MyCollapseBlock } from './my-collapse';
-import MyConfirm from './my-confirm';
 import { MyContextMenu, MyContextMenuItem } from './my-context-menu';
 import MyDisabled from './my-disabled';
 import MyForm from './my-form';
@@ -25,7 +24,6 @@ export {
   MyCode,
   MyCollapse,
   MyCollapseBlock,
-  MyConfirm,
   MyContextMenu,
   MyContextMenuItem,
   MyDisabled,
