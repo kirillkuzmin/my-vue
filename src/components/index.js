@@ -1,4 +1,5 @@
 import MyAlert from './my-alert';
+import MyButton from './my-button';
 import MyCheckbox from './my-checkbox';
 import MyCode from './my-code';
 import { MyCollapse, MyCollapseBlock } from './my-collapse';
@@ -21,6 +22,7 @@ import MyYear from './my-year';
 
 export {
   MyAlert,
+  MyButton,
   MyCheckbox,
   MyCode,
   MyCollapse,
