@@ -8,6 +8,7 @@ import MyDisabled from './my-disabled';
 import MyForm from './my-form';
 import MyIcon from './my-icon';
 import MyLoading from './my-loading';
+import { MyMenu, MyMenuItem, MyMenuSection } from './my-menu';
 import MyModal from './my-modal';
 import MyMonth from './my-month';
 import MyName from './my-name';
@@ -33,6 +34,9 @@ export {
   MyForm,
   MyIcon,
   MyLoading,
+  MyMenu,
+  MyMenuItem,
+  MyMenuSection,
   MyModal,
   MyMonth,
   MyName,
