@@ -10,7 +10,7 @@
       <span slot="header">Экспорт в Excel</span>
       <div slot="body">
         <h6 style="margin: 0 0 5px;">Выберите колонки для экспорта</h6>
-        <template v-for="(col,ind) in columns">
+        <template v-for="(col, ind) in columns">
           <my-checkbox
             :label="col.title.replace(/<\/?[^>]+>/gi, ' ')"
             :value="ind"
@@ -22,7 +22,12 @@
       <div slot="footer">
         Формат:
         <select v-model="format">
-          <option v-for="form in fformats" :value="form.type">{{ form.ext }}</option>
+          <option
+            v-for="form in fformats"
+            :value="form.type"
+            v-text="form.ext"
+          >
+          </option>
         </select>
         <button
           :disabled="!anyColumnSelected"
@@ -39,18 +44,18 @@
 </template>
 
 <script>
-  import MyModal from 'components/my-modal.vue';
-  import MyLoading from 'components/my-loading.vue';
   import MyCheckbox from 'components/my-checkbox.vue';
+  import MyLoading from 'components/my-loading.vue';
+  import MyModal from 'components/my-modal.vue';
 
   export default {
     props: {
       ajaxPath: {
-	    type: String,
-		default: '/ajax/excel/mytable2excel', 
-	  },
-	  
-	  columns: {
+        type: String,
+        default: '/ajax/excel/mytable2excel',
+      },
+
+      columns: {
         type: Object,
         required: true,
       },
@@ -76,21 +81,29 @@
       },
     },
 
-    data() {
+    data () {
       return {
         allCb: true,
         blockButton: false,
+        fformats: [
+          {
+            type: 'Excel2007',
+            ext: '.xlsx',
+          },
+          {
+            type: 'Excel5',
+            ext: '.xls',
+          },
+          {
+            type: 'CSV',
+            ext: '.csv',
+          },
+        ],
+        format: 'Excel2007',
         modalShow: false,
         selectedCols: [],
-        format: 'Excel2007',
-        fformats: [
-          { type: 'Excel2007', ext: '.xlsx' },
-          { type: 'Excel5', ext: '.xls' },
-          { type: 'CSV', ext: '.csv' },
-        ],
       };
     },
-
 
     components: {
       'my-modal': MyModal,
@@ -99,19 +112,19 @@
     },
 
     computed: {
-      anyColumnSelected() {
+      anyColumnSelected () {
         return this.selectedCols.length > 0;
       },
     },
 
-	methods: {
+    methods: {
       /*allSel() {
        for (let ind in this.columns) {
        this.selectedCols[ind] = this.allCb;
        }
        },*/
 
-      show() {
+      show () {
         this.selectedCols = [];
 
         for (let ind in this.columns) {
@@ -121,10 +134,10 @@
         this.modalShow = true;
       },
 
-      loadExcel() {
+      loadExcel () {
         let truncColumns = JSON.parse(JSON.stringify(this.columns));
         let truncData = JSON.parse(JSON.stringify(this.data));
-		let invalidColumns = [];
+        let invalidColumns = [];
 
         for (let el in this.columns) {
           if (!this.selectedCols.includes(el)) {
@@ -138,75 +151,81 @@
             delete truncData[ind][invalidColumns[el]];
           }
         }
-        //------------------
+
         let tc = [];
+
         for (let el in truncColumns) {
           tc.push(el);
         }
+
         let dt = [];
         let comprRow = [];
         let element = 0;
+
         for (let row in truncData) {
           comprRow = [];
+
           for (let el in tc) {
             if (truncData[row][tc[el]]) {
-			  element = JSON.parse(JSON.stringify(truncData[row][tc[el]]));
-              if (typeof(element) == 'object') {
+              element = JSON.parse(JSON.stringify(truncData[row][tc[el]]));
+              if (typeof element === 'object') {
                 if ('value' in element) {
                   element['v'] = element.value;
                   delete element.value;
                 }
+
                 if ('class' in element) {
                   element['c'] = element.class;
                   delete element.class;
                 }
               }
-            } else
+            } else {
               element = null;
+            }
+
             comprRow.push(element);
+
             delete truncData[row][tc[el]];
           }
+
           dt.push(comprRow);
+
           truncData[row]['__cmpr'] = comprRow;
         }
-
-        //--------------------
 
         this.blockButton = true;
 
         axios.post(this.ajaxPath, {
+          cmpCol: tc,
           columns: truncColumns,
           data: truncData,
+          format: this.format,
           headerName: this.header,
           sheetName: this.sheet,
-          format: this.format,
-          cmpCol: tc,
         }).then(response => {
             this.blockButton = false;
 
             let downloadLink = document.createElement('a');
-				
+
             downloadLink.href = response.data.file;
 
-			downloadLink.download = this.filename + '.' + response.data.ext; // ie11 не умеет
-			document.body.appendChild(downloadLink);
-			
+            // ie11 не умеет
+            downloadLink.download = this.filename + '.' + response.data.ext;
+            document.body.appendChild(downloadLink);
+
             downloadLink.click();
 
             document.body.removeChild(downloadLink);
 
-            this.modalShow = false;//
+            this.modalShow = false;
           },
           error => {
             this.blockButton = false;
-            this.modalShow = false;//
-            console.log(error);
+            this.modalShow = false;
+
             alert('Произошла ошибка на сервере.');
           });
       },
     },
   };
 </script>
-
-<style lang="less" scoped>
-</style>
