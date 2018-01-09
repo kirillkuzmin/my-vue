@@ -39,9 +39,9 @@
 </template>
 
 <script>
-  import MyModal from 'components/my-modal';
-  import MyLoading from 'components/my-loading';
-  import MyCheckbox from 'components/my-checkbox';
+  import MyModal from 'components/my-modal.vue';
+  import MyLoading from 'components/my-loading.vue';
+  import MyCheckbox from 'components/my-checkbox.vue';
 
   export default {
     props: {
