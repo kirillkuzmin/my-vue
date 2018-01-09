@@ -17,6 +17,7 @@ import MyRadio from './my-radio';
 import MySidenav from './my-sidenav';
 //import { MyTable, MyTableActionBar } from './my-table';
 import { MyTabs, MyTabsFixed, MyTabsPane } from './my-tabs';
+import MyTextedit from './my-textedit';
 import MyTree from './my-tree';
 import MyTwig from './my-twig';
 import MyYear from './my-year';
@@ -48,6 +49,7 @@ export {
   MyTabs,
   MyTabsFixed,
   MyTabsPane,
+  MyTextedit,
   MyTree,
   MyTwig,
   MyYear,
