@@ -2,11 +2,12 @@
   <div style="padding: 0; width: 390px; height: auto;">
     <div
       class="my-textedit__edit"
-      @click="vsbl = !vsbl"
-      v-html="'&#9998;'"
       title="Редактирование и предпросмотр"
-    ></div>
-    <div v-if="vsbl" class="btn-group" style="100%: inherit; background: #1ab7f2;">
+      v-html="'&#9998;'"
+      @click="vsbl = !vsbl"
+    >
+    </div>
+    <div v-if="vsbl" class="btn-group" style="background: #1ab7f2;">
       <button class="button_te" tag="b" @click="tagIns"><b>B</b></button>
       <button class="button_te" tag="i" @click="tagIns"><i>I</i></button>
       <button class="button_te" tag="u" @click="tagIns"><u>U</u></button>
@@ -18,34 +19,34 @@
       <button class="button_te" @click="undo" :disabled="undoDisabled">&#8630</button>
     </div>
     <div>
-			<textarea
-        style="width: 100%; box-sizing: border-box; "
-        :id="nam"
-        v-model="textValue"
-        :title="hint"
-        :rows="rows"
+      <textarea
         :cols="cols"
+        :id="nam"
+        :rows="rows"
+        :title="hint"
+        style="width: 100%; box-sizing: border-box;"
+        v-model="textValue"
         @keydown="chng"
         @paste="pst"
         @input="inputdt"
       >
-			</textarea>
+      </textarea>
     </div>
     <div v-html="textValue" class="my-textedit__preview" v-if="vsbl"></div>
   </div>
 </template>
 
 <script>
-  let before = []; // при создании нового экземпляра компонента эта штука не чистится, а нам это на руку,
+  import findIndex from 'lodash/findIndex';
+  import findLastIndex from 'lodash/findLastIndex';
+
+  let before = [];
+  // при создании нового экземпляра компонента эта штука не чистится, а нам это на руку,
   // т.к. можно сразу 2 окошка редактировать и им вместе не грустно.
 
   export default {
     props: {
-      rows: String,
-
       cols: String,
-
-      value: String,
 
       hint: {
         type: String,
@@ -53,48 +54,49 @@
       },
 
       nam: String,
-      //
+
+      rows: String,
+
+      value: String,
     },
 
-    data() {
+    data () {
       return {
-        vsbl: false,
         textValue: '',
         undoDisabled: true,
+        vsbl: false,
       };
     },
 
-    watch: {
-      value(val, oldval) {
-        this.textValue = val;
-      },
-    },
-
-    created() {
+    created () {
       before[this.nam] = [];
 
       this.$bus.listen('my-textedit:clearUndoBuffer', () => {
         before[this.nam] = [];
       });
     },
-    mounted() {
+    mounted () {
       this.textValue = this.value;
     },
 
     methods: {
-      undo(e) {
-        if (e) e.preventDefault();
+      undo (e) {
+        if (e) {
+          e.preventDefault();
+        }
+
         if (before[this.nam].length === 0) {
           this.undoDisabled = true;
           return;
         }
+
         this.textValue = before[this.nam].pop();
         this.$emit('input', this.textValue);
       },
 
-      createTagTree() {
+      createTagTree () {
         let tagTree = [];
-        let regexp = /<(\/?)([^\s^\/^<]*?)(?:\s+|\s+[^>]*)?>/gm;
+        let regexp = /<(\/?)([^\s^\/<]*?)(?:\s+|\s+[^>]*)?>/gm;
         let res, isOpen;
         let qq;
 
@@ -103,9 +105,10 @@
           qq = -2;
 
           if (!isOpen) {
-            qq = _.findLastIndex(tagTree, (e) => {
+            qq = findLastIndex(tagTree, (e) => {
               return (e.tag == res[2] && e.isOpen && e.tagId == -2);
             });
+
             if (qq > -1) {
               tagTree[qq].tagId = qq;
             }
@@ -119,12 +122,15 @@
             end: res.index + res[0].length,
           });
         }
+
         return tagTree;
       },
 
-      tagIns(e) {
+      tagIns (e) {
         e.preventDefault();
+
         this.chng();
+
         let tag = e.currentTarget.getAttribute('tag');
         let tArea = document.getElementById(this.nam);
         let selS = tArea.selectionStart;
@@ -132,7 +138,7 @@
 
         let tagTree = this.createTagTree();
 
-        if (-1 == _.findIndex(tagTree, (e) => {
+        if (-1 == findIndex(tagTree, (e) => {
             return (e.beg < selS && e.end > selE);
           })) {
 
@@ -142,7 +148,7 @@
         }
       },
 
-      oneTagIns(e) {
+      oneTagIns (e) {
         e.preventDefault();
 
         let tag = e.currentTarget.getAttribute('tag');
@@ -152,7 +158,7 @@
 
         let tagTree = this.createTagTree();
 
-        if (-1 == _.findIndex(tagTree, (e) => {
+        if (-1 == findIndex(tagTree, (e) => {
             return (e.beg < selS && e.end > selE);
           })) {
           this.chng();
@@ -161,8 +167,9 @@
         }
       },
 
-      unTag(e) {
+      unTag (e) {
         e.preventDefault();
+
         let tArea = document.getElementById(this.nam);
         let selS = tArea.selectionStart;
         let selE = tArea.selectionEnd;
@@ -175,7 +182,7 @@
 
         let tagTree = this.createTagTree();
 
-        inTag = _.findIndex(tagTree, (e) => {
+        inTag = findIndex(tagTree, (e) => {
           return (e.beg < selS && e.end > selE);
         });
 
@@ -190,22 +197,22 @@
         }
 
         // это последний элемент, претендующий на открытый тег..
-        iopTag = _.findLastIndex(tagTree, (e) => {
+        iopTag = findLastIndex(tagTree, (e) => {
           return (e.end <= selS && e.tagId != -2 && e.isOpen);
         });
 
         // это первый элемент, претендующий на закрытый тег..
-        iclTag = _.findIndex(tagTree, (e) => {
+        iclTag = findIndex(tagTree, (e) => {
           return (e.beg >= selE && e.tagId != -2 && !e.isOpen);
         });
 
         while (iopTag >= 0) {
-          opTag = _.findLastIndex(tagTree.slice(0, iopTag + 1), (e) => {
+          opTag = findLastIndex(tagTree.slice(0, iopTag + 1), (e) => {
             return (e.tagId != -2 && e.isOpen);
           });
 
           if (opTag != -1) {
-            clTag = _.findIndex(tagTree.slice(iclTag), (e) => {
+            clTag = findIndex(tagTree.slice(iclTag), (e) => {
               return (e.tagId == tagTree[opTag].tagId && !e.isOpen && e.tag == tagTree[opTag].tag);
             });
             if (clTag != -1) {
@@ -226,11 +233,11 @@
         }
       },
 
-      pst(e) {
+      pst (e) {
         this.chng();
       },
 
-      chng(e) {
+      chng (e) {
         let isInput = false;
 
         if (e !== undefined) {
@@ -256,8 +263,14 @@
         }
       },
 
-      inputdt(inp) {
+      inputdt (inp) {
         this.$emit('input', this.textValue);
+      },
+    },
+
+    watch: {
+      value (val, oldval) {
+        this.textValue = val;
       },
     },
   };
@@ -265,42 +278,42 @@
 
 <style lang="less" scoped>
   .my-textedit__edit {
-    width: 18px;
-    height: 18px;
-    font-size: 12 pх;
-    text-align: center;
     background-color: #1ab7f2;
     color: greenyellow;
-    display: inline-block;
     cursor: pointer;
+    display: inline-block;
     float: left;
+    font-size: 12px;
+    height: 18px;
+    text-align: center;
+    width: 18px;
   }
 
   .btn-group .button_te {
+    //width: -100%;
     background-color: #1ab7f2;
     border: none;
     color: black;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
     padding: 10px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    cursor: pointer;
-    //width: -100%;
   }
 
   .my-textedit__preview {
-    width: 100%;
-    box-sizing: border-box;
-    height: auto;
-    border-style: inset;
-    padding: 10px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    border-style: inset;
+    box-sizing: border-box;
+    height: auto;
     overflow: auto;
+    padding: 10px;
+    user-select: none;
+    width: 100%;
   }
 
   .btn-group .button_te:hover {
