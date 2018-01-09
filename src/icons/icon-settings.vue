@@ -14,7 +14,7 @@
     data () {
       return {
         icon: {
-          size: '24',
+          size: 24,
           paths: [
             {
               d: 'M0 0h24v24H0z',
