@@ -4,7 +4,10 @@
       <div class="my-modal__container" :style="'opacity: '+ windowOpacity + ';'" ref="container">
         <!--@click.stop-->
         <div :class="headerClass" ref="header">
-          <slot name="header">default header</slot>
+          <span v-text="header" v-if="header"></span>
+          <template v-else>
+            <slot name="header">default header</slot>
+          </template>
           <div class="my-modal__header-icons">
             <icon-opacity
               title="Изменить прозрачность"
@@ -36,12 +39,22 @@
           class="my-modal__body-wrapper"
           ref="bodyWrapper"
         >
-          <div class="my-modal__body" ref="body">
+          <div class="my-modal__body" ref="body" v-html="body" v-if="body"></div>
+          <div class="my-modal__body" ref="body" v-else>
             <slot name="body">default body</slot>
           </div>
         </div>
         <div class="my-modal__footer" ref="footer">
-          <slot name="footer">default footer</slot>
+          <template v-if="type === 'alert'">
+            <button type="button" @click="$emit('ok')" autofocus>OK</button>
+          </template>
+          <template v-else-if="type === 'confirm'">
+            <button type="button" @click="$emit('yes')" autofocus>Да</button>
+            <button type="button" @click="$emit('no')">Нет</button>
+          </template>
+          <template v-else>
+            <slot name="footer">default footer</slot>
+          </template>
         </div>
       </div>
     </div>
@@ -56,28 +69,32 @@
 
   export default {
     props: {
-      //
+      body: {
+        type: String,
+        default: '',
+      },
+
       close: {
         type: Boolean,
         default: false,
       },
 
-      //
+      header: {
+        type: String,
+        default: '',
+      },
+
       headerType: String,
 
-      //
       maxMin: {
         type: Boolean,
         default: false,
       },
 
-      //
       maxWidth: String,
 
-      //
       maxHeight: String,
-
-      //
+      
       opacityControl: {
         type: Boolean,
         default: true,
@@ -88,11 +105,15 @@
         default: false,
       },
 
-      //
       show: {
         type: Boolean,
         default: false,
       },
+      
+      type: {
+        type: String,
+        default: '',
+      }
     },
 
     data () {

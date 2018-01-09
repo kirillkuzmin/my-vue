@@ -6,16 +6,16 @@
   export default {
     props: {
       size: {
-        type: String,
-        default: '24px',
+        type: Number,
+        default: 24,
       },
     },
 
     computed: {
       style () {
         return {
-          'height': this.size,
-          'width': this.size,
+          'height': this.size + 'px',
+          'width': this.size + 'px',
         };
       },
     },
