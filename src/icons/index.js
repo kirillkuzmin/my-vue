@@ -19,6 +19,7 @@ export {
   IconClose,
   IconDatepicker,
   IconError,
+  IconInfo,
   IconMaximize,
   IconMinimize,
   IconOpacity,
