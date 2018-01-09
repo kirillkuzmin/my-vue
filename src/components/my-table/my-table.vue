@@ -356,7 +356,7 @@
       getColumnClass (column, key) {
         return [
           {
-            'my-table__column--sorted': sortKey === key,
+            'my-table__column--sorted': this.sortKey === key,
             'my-table__column--not-sortable': column.sortable === false,
           },
           column.class,
