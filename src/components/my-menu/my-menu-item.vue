@@ -3,7 +3,9 @@
     <div class="my-menu-item__before" v-if="$slots.before">
       <slot name="before"></slot>
     </div>
-    <div class="my-menu-item__text" v-text="text" @click="go"></div>
+    <div class="my-menu-item__text" @click="go">
+      <span v-text="text"></span>
+    </div>
     <div class="my-menu-item__after" v-if="$slots.after">
       <slot name="after"></slot>
     </div>
@@ -53,6 +55,8 @@
     }
 
     &__text {
+      align-items: center;
+      display: inline-flex;
       color: #424242;
       height: 100%;
       padding: 5px;
