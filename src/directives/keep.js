@@ -73,7 +73,7 @@ let keep = Vue.directive('keep', {
 
   componentUpdated(el, binding, vNode, oldVnode) {
     var whatToSwitch = vNode.componentOptions ? vNode.componentOptions.tag : '';
-	console.log(vNode.componentOptions, vNode.componentOptions.tag, 'forKeep' in vNode.componentInstance);
+	console.log(vNode.componentOptions, vNode.componentOptions.tag || vNode.tag );
     var vkeepId = vNode.data.directives[_.findIndex(vNode.data.directives, (e) => {
       return e.name === 'keep';
     })].value;
