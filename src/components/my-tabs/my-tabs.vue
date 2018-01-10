@@ -50,7 +50,16 @@
     },
 
     computed: {
-      tabsClass () {
+      forKeep () {
+		get: function() {
+			return this.selectedTabIndex;
+		},
+		set: function(newValue) {
+			this.selectTab(this.tabs[newValue], newValue)
+		},
+		
+	  },
+	  tabsClass () {
         return [
           'my-tabs',
           {
