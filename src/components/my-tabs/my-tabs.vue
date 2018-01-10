@@ -50,11 +50,11 @@
     },
 
     computed: {
-      forKeep () {
-		get: function() {
+      forKeep: {
+		get() {
 			return this.selectedTabIndex;
 		},
-		set: function(newValue) {
+		set(newValue) {
 			this.selectTab(this.tabs[newValue], newValue)
 		},
 		

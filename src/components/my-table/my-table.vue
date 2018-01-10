@@ -235,14 +235,14 @@
 
     computed: {
       forKeep: {
-        get: function() {
+        get() {
           return {
             selectedRow: this.selectedRow,
             sortKey: this.sortKey,
             sortOrder: this.sortOrder,
           }
         },
-        set: function(newValue) {
+        set(newValue) {
           this.sortKey = newValue.sortKey;
           this.sortOrder = newValue.sortOrder;
           let intId = setInterval(() => {
