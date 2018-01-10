@@ -1,13 +1,15 @@
-import globalMixin from 'mixins/global';
-import EventBus from 'plugins/event-bus';
-import directives from './directives';
 import components from './components';
+import directives from './directives';
+import globalMixin from 'mixins/global';
 import icons from './icons';
+import plugins from './plugins';
 
 function install (Vue) {
   Vue.mixin(globalMixin);
 
-  Vue.use(EventBus);
+  for (const name in plugins) {
+    Vue.use(plugins[name]);
+  }
 
   for (const name in directives) {
     Vue.directive(name, directives[name]);
