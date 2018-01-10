@@ -67,14 +67,10 @@ let keep = Vue.directive('keep', {
           break;
       }
     }
-
   },
 
   componentUpdated(el, binding, vNode, oldVnode) {
     var whatToSwitch = vNode.componentOptions ? vNode.componentOptions.tag : '';
-	
-	console.log(vNode.componentOptions, !vNode.componentOptions ? vNode.tag : '' );
-    
 	var vkeepId = vNode.data.directives[_.findIndex(vNode.data.directives, (e) => {
       return e.name === 'keep';
     })].value;
@@ -88,7 +84,6 @@ let keep = Vue.directive('keep', {
       default:
 		if (vNode.componentInstance && vNode.componentInstance.forKeep) {
 		  Keep.set(keepname, vNode.componentInstance.forKeep);
-		  console.log('tabs/table/...');
 		}
         break;
     }
