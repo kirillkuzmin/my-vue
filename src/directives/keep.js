@@ -60,11 +60,10 @@ let keep = Vue.directive('keep', {
           }
 
           break;
-        case 'my-tabs':
-        case 'my-table':
-          vNode.componentInstance.forKeep = data;
-          break;
         default:
+		  if (vNode.componentInstance && vNode.componentInstance.forKeep) {
+		    vNode.componentInstance.forKeep = data;
+		  }
           break;
       }
     }
@@ -86,10 +85,6 @@ let keep = Vue.directive('keep', {
       case 'select':
         Keep.set(keepname, el['value']);
         break;
-      // case 'my-tabs':
-      // case 'my-table':
-        // Keep.set(keepname, vNode.componentInstance.forKeep);
-        // break;
       default:
 		if (vNode.componentInstance && vNode.componentInstance.forKeep) {
 		  Keep.set(keepname, vNode.componentInstance.forKeep);
