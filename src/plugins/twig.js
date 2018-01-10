@@ -1,20 +1,9 @@
-class Twig {
-  constructor () {
-  }
-
-  set (field, value) {
-    this[field] = value;
-  }
-
-  get (field) {
-    return this[field];
-  }
-}
-
-const twig = new Twig();
+import Twig from 'classes/Twig';
 
 export default {
   install (Vue) {
+    const twig = new Twig();
+
     Object.defineProperties(Vue.prototype, {
       $twig: {
         get () {
