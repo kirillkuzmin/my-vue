@@ -96,7 +96,6 @@
 </template>
 
 <script>
-  import clickOutside from 'directives/click-outside';
   import IconArrowLeft from 'icons/icon-arrow-left.vue';
   import IconArrowRight from 'icons/icon-arrow-right.vue';
   import IconDatepicker from 'icons/icon-datepicker.vue';
@@ -219,10 +218,6 @@
       'icon-arrow-left': IconArrowLeft,
       'icon-arrow-right': IconArrowRight,
       'icon-datepicker': IconDatepicker,
-    },
-
-    directives: {
-      'click-outside': clickOutside,
     },
 
     created () {

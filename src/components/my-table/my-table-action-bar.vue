@@ -20,7 +20,6 @@
 </template>
 
 <script>
-  import clickOutside from 'directives/click-outside';
   import IconSettings from 'icons/icon-settings.vue';
   import MyExcel from 'components/my-excel';
 
@@ -36,10 +35,6 @@
     components: {
       'icon-settings': IconSettings,
       'my-excel': MyExcel,
-    },
-
-    directives: {
-      'click-outside': clickOutside,
     },
 
     methods: {

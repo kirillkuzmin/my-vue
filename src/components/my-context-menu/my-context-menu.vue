@@ -12,8 +12,6 @@
 </template>
 
 <script>
-  import clickOutside from 'directives/click-outside';
-
   export default {
     props: {},
 
@@ -23,10 +21,6 @@
         x: 0,
         y: 0,
       };
-    },
-
-    directives: {
-      'click-outside': clickOutside,
     },
 
     computed: {

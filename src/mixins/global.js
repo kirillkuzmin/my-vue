@@ -1,7 +1,5 @@
-import Vue from 'vue';
-
-Vue.mixin({
+export default {
   created () {
     this.$options.delimiters = ['${', '}'];
   },
-});
+};

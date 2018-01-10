@@ -1,4 +1,4 @@
-const clickOutside = Vue.directive('click-outside', {
+export default {
   bind (el, binding) {
     const bubble = binding.modifiers.bubble;
 
@@ -10,6 +10,4 @@ const clickOutside = Vue.directive('click-outside', {
 
     document.addEventListener('click', handler);
   },
-});
-
-export default clickOutside;
+};

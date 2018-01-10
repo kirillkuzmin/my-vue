@@ -12,7 +12,7 @@ import IconRemove from './icon-remove.vue';
 import IconSettings from './icon-settings.vue';
 import IconWarning from './icon-warning.vue';
 
-export {
+export default {
   IconAdd,
   IconArrowLeft,
   IconArrowRight,
