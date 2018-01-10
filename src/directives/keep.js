@@ -61,23 +61,8 @@ let keep = Vue.directive('keep', {
 
           break;
         case 'my-tabs':
-          // vNode.componentInstance.selectTab(vNode.componentInstance.tabs[data], data);
-          // break;
         case 'my-table':
           vNode.componentInstance.forKeep = data;
-          // vNode.componentInstance.sortKey = data.sortKey;
-          // vNode.componentInstance.sortOrder = data.sortOrder;
-          // let intId = setInterval(() => {
-          //   if (vNode.componentInstance.ready) {
-          //     clearInterval(intId);
-          //     eventBus.fire('my-table:select', {
-          //       myTableId: vNode.componentInstance.$options.propsData.id,
-          //       rowId: data.selectedRow,
-          //       scrollTo: true,
-          //     });
-          //   }
-          // }, 50);
-          // vNode.componentInstance.sortBy(data.sortKey, data.sortOrder);
           break;
         default:
           break;
@@ -88,7 +73,7 @@ let keep = Vue.directive('keep', {
 
   componentUpdated(el, binding, vNode, oldVnode) {
     var whatToSwitch = vNode.componentOptions ? vNode.componentOptions.tag : '';
-
+	console.log(vNode.componentOptions, vNode.componentOptions.tag, 'forKeep' in vNode.componentInstance);
     var vkeepId = vNode.data.directives[_.findIndex(vNode.data.directives, (e) => {
       return e.name === 'keep';
     })].value;
