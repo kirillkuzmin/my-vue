@@ -1,6 +1,6 @@
 <template>
   <select :id="id" :name="name" v-model="selected">
-    <option value="-1" style="font-style: italic;">- All -</option>
+    <option value="-1" style="font-style: italic;">- Все -</option>
     <option
       v-for="(month, m) in months"
       :value="(++m).toString().padStart(2, '0')"
@@ -19,18 +19,18 @@
         type: Array,
         default () {
           return [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December',
+            'Январь',
+            'Февраль',
+            'Март',
+            'Апрель',
+            'Май',
+            'Июнь',
+            'Июль',
+            'Август',
+            'Сентябрь',
+            'Октябрь',
+            'Ноябрь',
+            'Декабрь',
           ];
         },
       },
