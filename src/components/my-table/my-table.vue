@@ -62,7 +62,6 @@
             <template v-for="(column, key) in columns">
               <td
                 :class="[{ 'my-table__cell--sorted': sortKey === key }, getCellClass(row[key])]"
-                key="td"
                 v-if="slotExists(key)"
                 v-show="!column.hidden"
               >
@@ -75,7 +74,6 @@
               </td>
               <td
                 :class="[{ 'my-table__cell--sorted': sortKey === key }, getCellClass(row[key])]"
-                key="td"
                 v-else
                 v-html="getCellValue(row[key])"
                 v-show="!column.hidden"
@@ -431,7 +429,11 @@
 
         const main = document.getElementsByTagName('main')[0];
 
-        const content = document.getElementsByClassName('content')[0];
+        let content = document.getElementsByClassName('content')[0];
+
+        /*if (content === undefined) {
+          content = document.getElementsByTagName('body')[0];
+        }*/
 
         spaceForMyTables = main.offsetHeight - (content.offsetHeight - totalHeight) - 0.001;
 
@@ -539,6 +541,7 @@
 
     &__fixed-header {
       position: relative;
+      z-index: 2;
 
       & table {
         & thead {
