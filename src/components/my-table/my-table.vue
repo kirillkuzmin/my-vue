@@ -234,6 +234,35 @@
     },
 
     computed: {
+      $_forKeep: {
+        get () {
+          return {
+            selectedRow: this.selectedRow,
+            sortKey: this.sortKey,
+            sortOrder: this.sortOrder,
+          };
+        },
+	
+        set (newValue) {
+          this.sortKey = newValue.sortKey;
+          this.sortOrder = newValue.sortOrder;
+	  
+          let i = setInterval(() => {
+            if (this.ready) {
+              clearInterval(i);
+	      
+              this.$bus.fire('my-table:select', {
+                myTableId: this.id,
+                rowId: newValue.selectedRow,
+                scrollTo: true,
+              });
+            }
+          }, 50);
+          
+	  this.sortBy(newValue.sortKey, newValue.sortOrder);
+        },
+      },
+
       found () {
         return this.filteredData.length > 0;
       },
@@ -281,6 +310,9 @@
         return data;
       },
     },
+	
+	
+  
 
     watch: {
       data () {
