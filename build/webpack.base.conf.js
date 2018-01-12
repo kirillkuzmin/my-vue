@@ -37,6 +37,10 @@ module.exports = function () {
             loaders: {
               js: 'babel-loader!eslint-loader',
               i18n: '@kazupon/vue-i18n-loader',
+              /*less: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: 'css-loader!less-loader',
+              }),*/
             },
           },
         },
@@ -45,13 +49,13 @@ module.exports = function () {
           exclude: /node_modules/,
           loader: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: 'css-loader!postcss-loader!less-loader',
+            use: 'css-loader!less-loader',
           }),
         },
-        /*{
+        {
           test: /\.(svg|gif)$/,
           loader: 'url-loader',
-        },*/
+        },
       ],
     },
     performance: {
@@ -59,11 +63,9 @@ module.exports = function () {
     },
     plugins: [
       new webpack.optimize.ModuleConcatenationPlugin(),
-      /*new ExtractTextPlugin({
-        filename: './style.css',
-        disable: false,
-        allChunks: true,
-      }),*/
     ],
+    stats: {
+      children: false,
+    },
   };
 };

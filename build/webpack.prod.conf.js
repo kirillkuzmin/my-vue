@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.base.conf');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = function (env) {
   return merge(baseConfig(env), {
@@ -29,6 +30,11 @@ module.exports = function (env) {
         },
         parallel: true,
         sourceMap: false,
+      }),
+      new ExtractTextPlugin({
+        filename: '../dist/my-vue.min.css',
+        disable: false,
+        allChunks: true,
       }),
     ],
   });
