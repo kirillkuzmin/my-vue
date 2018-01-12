@@ -1,0 +1,24 @@
+.my-alert {
+	align-items: center;
+	border-radius: @alert-border-radius;
+	box-sizing: border-box;
+	display: flex;
+	padding: @padding-default;
+
+	& > p {
+		margin-left: 5px;
+		vertical-align: middle;
+	}
+
+	&--info {
+		.my-alert-custom(@alert-info-text-color, @alert-info-bg-color);
+	}
+
+	&--warning {
+		.my-alert-custom(@alert-warning-text-color, @alert-warning-bg-color);
+	}
+
+	&--error {
+		.my-alert-custom(@alert-error-text-color, @alert-error-bg-color);
+	}
+}

@@ -1,0 +1,48 @@
+.my-collapse {
+	&__header {
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		background-color: @collapse-header-bg-color;
+		border: 1px solid @collapse-header-border-color;
+		color: @collapse-header-text-color;
+		cursor: pointer;
+		display: block;
+		font-size: 13px;
+		font-weight: bold;
+		margin-top: 2px;
+		outline: none;
+		padding: @padding-default;
+		position: relative;
+		text-align: left;
+		user-select: none;
+
+		&--has-errors {
+			background-color: @collapse-header-error-bg-color;
+			border-color: @collapse-header-error-border-color;
+			color: @collapse-header-error-text-color;
+		}
+	}
+
+	&__content {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		background-color: @collapse-content-bg-color;
+		box-sizing: border-box;
+		color: @collapse-content-text-color;
+		height: 0;
+		overflow: hidden;
+		transition: height 0.1s ease-out;
+
+		& > div {
+			border: 1px solid @collapse-content-border-color;
+			border-top: none;
+			padding: @padding-default;
+		}
+
+		&--has-errors {
+			border-color: @collapse-content-error-border-color;
+		}
+	}
+}
