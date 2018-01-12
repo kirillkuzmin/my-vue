@@ -1,5 +1,7 @@
 import ClickOutside from './click-outside';
-import keep from './keep';
+import Keep from './keep';
+
 export default {
-  ClickOutside, keep,
+  ClickOutside, 
+  Keep,
 };
