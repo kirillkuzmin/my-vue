@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <img
-      src="/../images/excel_small.png"
-      style="cursor: pointer;"
-      title="Экспортировать таблицу в Exсel"
+  <div class="my-excel">
+    <icon-import-export
+      title="Экспорт"
       @click="show"
-    >
+    />
     <my-modal :show="modalShow" :close="!blockButton" max-height="500" @close="modalShow = false">
-      <span slot="header">Экспорт в Excel</span>
+      <span slot="header">Экспорт таблицы</span>
       <div slot="body">
         <h6 style="margin: 0 0 5px;">Выберите колонки для экспорта</h6>
         <template v-for="(col, ind) in columns">
@@ -44,6 +42,7 @@
 </template>
 
 <script>
+  import IconImportExport from 'icons/icon-import-export.vue';
   import MyCheckbox from 'components/my-checkbox';
   import MyLoading from 'components/my-loading';
   import MyModal from 'components/my-modal';
@@ -106,6 +105,7 @@
     },
 
     components: {
+      'icon-import-export': IconImportExport,
       'my-modal': MyModal,
       'my-loading': MyLoading,
       'my-checkbox': MyCheckbox,
@@ -229,3 +229,10 @@
     },
   };
 </script>
+
+<style lang="less" scoped>
+  .my-excel {
+    align-items: center;
+    display: flex;
+  }
+</style>
