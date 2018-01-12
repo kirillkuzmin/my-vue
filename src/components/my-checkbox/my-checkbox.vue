@@ -129,6 +129,7 @@
         position: absolute;
         top: 0;
         width: 16px;
+        z-index: 1;
       }
 
       &--empty {
@@ -137,8 +138,10 @@
     }
 
     &__input {
+      left: 0;
       pointer-events: none;
       position: absolute;
+      top: 0;
       visibility: hidden;
 
       &:checked {
@@ -162,6 +165,7 @@
             top: 0;
             transform: rotate(45deg);
             width: 6px;
+            z-index: 1;
           }
         }
 
