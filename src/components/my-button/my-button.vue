@@ -5,8 +5,8 @@
     class="my-button"
     @click="onClick"
   >
-    <my-loading 
-      :size="16" 
+    <my-loading
+      :size="16"
       v-if="loading"
     />
     <div :style="contentStyle" v-if="$slots.default">

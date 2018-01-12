@@ -240,15 +240,15 @@
             sortOrder: this.sortOrder,
           };
         },
-	
+
         set (newValue) {
           this.sortKey = newValue.sortKey;
           this.sortOrder = newValue.sortOrder;
-	  
+
           let i = setInterval(() => {
             if (this.ready) {
               clearInterval(i);
-	      
+
               this.$bus.fire('my-table:select', {
                 myTableId: this.id,
                 rowId: newValue.selectedRow,
@@ -256,8 +256,8 @@
               });
             }
           }, 50);
-          
-	  this.sortBy(newValue.sortKey, newValue.sortOrder);
+
+          this.sortBy(newValue.sortKey, newValue.sortOrder);
         },
       },
 
@@ -308,9 +308,6 @@
         return data;
       },
     },
-	
-	
-  
 
     watch: {
       data () {

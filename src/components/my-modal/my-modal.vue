@@ -94,7 +94,7 @@
       maxWidth: String,
 
       maxHeight: String,
-      
+
       opacityControl: {
         type: Boolean,
         default: true,
@@ -109,11 +109,11 @@
         type: Boolean,
         default: false,
       },
-      
+
       type: {
         type: String,
         default: '',
-      }
+      },
     },
 
     data () {

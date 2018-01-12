@@ -58,7 +58,7 @@
           this.selectTab(this.tabs[newValue], newValue);
         },
       },
-      
+
       tabsClass () {
         return [
           'my-tabs',
