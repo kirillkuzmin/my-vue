@@ -1,7 +1,7 @@
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import Keep from 'classes/Keep';
-import trim from 'lodash/find';
+import trim from 'lodash/trim';
 
 export default {
   inserted (el, binding, vNode) {
