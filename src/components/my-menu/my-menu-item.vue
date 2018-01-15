@@ -41,35 +41,3 @@
     },
   };
 </script>
-
-<style lang="less" scoped>
-  @menu-hover-bg: #d5e4f3;
-
-  .my-menu-item {
-    align-items: center;
-    display: flex;
-    padding: 0;
-
-    &__before {
-      margin-left: 5px;
-    }
-
-    &__text {
-      align-items: center;
-      display: inline-flex;
-      color: #424242;
-      height: 100%;
-      padding: 5px;
-      width: 100%;
-    }
-
-    &:hover {
-      background-color: @menu-hover-bg;
-      cursor: pointer;
-
-      & > .my-menu {
-        visibility: visible;
-      }
-    }
-  }
-</style>

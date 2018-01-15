@@ -39,10 +39,3 @@
     },
   };
 </script>
-
-<style lang="less" scoped>
-  .my-code {
-    font-family: PTMonoRegular, serif;
-    font-size: 12px;
-  }
-</style>

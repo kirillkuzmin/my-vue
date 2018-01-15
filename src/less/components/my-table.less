@@ -1,104 +1,98 @@
-@table-column-sorted: #dcedf8;
-@table-cell-sorted: #edf5fb;
-@table-row-selected: #e0e0e0;
-@excel-icon-margin-left: 5px;
-@excel-icon-width: 16px;
-@search-input-width: 160px;
-
 .my-table {
-	position: relative;
+  position: relative;
 
-	&__wrapper {
-		overflow-x: auto;
-		width: auto;
-	}
+  &__wrapper {
+    overflow-x: auto;
+    width: auto;
+  }
 
-	&__fixed-header {
-		position: relative;
+  &__fixed-header {
+    position: relative;
+    z-index: 2;
 
-		& table {
-			& thead {
-				& td, th {
-					box-sizing: border-box;
-					cursor: pointer;
-				}
-			}
-		}
-	}
+    & table {
+      & thead {
+        & td, th {
+          box-sizing: border-box;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 
-	&__column {
-		&--sorted {
-			background-color: @table-column-sorted !important;
-		}
+  &__column {
+    &--sorted {
+      background-color: @table-column-sorted !important;
+    }
 
-		&--not-sortable {
-			cursor: default !important;
-		}
-	}
+    &--not-sortable {
+      cursor: default !important;
+    }
+  }
 
-	&__row {
-		&--selected {
-			& td {
-				background-color: @table-row-selected;
-			}
-		}
-	}
+  &__row {
+    &--selected {
+      & td {
+        background-color: @table-row-selected;
+      }
+    }
+  }
 
-	&__cell {
-		&--sorted {
-			background-color: @table-cell-sorted;
-		}
-	}
+  &__cell {
+    &--sorted {
+      background-color: @table-cell-sorted;
+    }
+  }
 
-	&__table {
-		overflow-x: hidden;
-		overflow-y: auto;
+  &__table {
+    overflow-x: hidden;
+    overflow-y: auto;
 
-		& table {
-			& thead {
-				& td, th {
-					box-sizing: border-box;
-				}
-			}
-		}
-	}
+    & table {
+      & thead {
+        & td, th {
+          box-sizing: border-box;
+        }
+      }
+    }
+  }
 
-	& p {
-		margin-top: 0;
-	}
+  & p {
+    margin-top: 0;
+  }
 
-	&__action-bar {
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-		position: absolute;
-	}
+  &__action-bar {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: absolute;
+  }
 
-	&__action-bar-container {
-		align-items: center;
-		background-color: #fff;
-		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-		cursor: default;
-		display: inline-flex;
-		justify-content: center;
-		min-width: @search-input-width + @excel-icon-width + @excel-icon-margin-left;
-		padding: 5px;
-		position: absolute;
-		z-index: 9998;
-	}
+  &__action-bar-container {
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    cursor: default;
+    display: inline-flex;
+    justify-content: center;
+    min-width: @table-search-input-width + @table-export-icon-width + @table-export-icon-margin-left;
+    padding: 5px;
+    position: absolute;
+    z-index: 9998;
+  }
 
-	&__action-bar-icon {
-		position: absolute;
-		z-index: 9997;
-	}
+  &__action-bar-icon {
+    position: absolute;
+    z-index: 9997;
+  }
 
-	&__excel {
-		margin-left: @excel-icon-margin-left;
-	}
+  &__excel {
+    margin-left: @table-export-icon-margin-left;
+  }
 
-	&__search {
-		& input {
-			width: @search-input-width;
-		}
-	}
+  &__search {
+    & input {
+      width: @table-search-input-width;
+    }
+  }
 }

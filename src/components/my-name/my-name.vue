@@ -116,26 +116,3 @@
     },
   };
 </script>
-
-<style lang="less" scoped>
-  .my-name {
-    display: flex;
-
-    &--horizontal {
-      flex-direction: row;
-
-      & input {
-        box-sizing: border-box;
-        margin-right: 4px;
-      }
-    }
-
-    &--vertical {
-      flex-direction: column;
-
-      & input {
-        margin-bottom: 4px;
-      }
-    }
-  }
-</style>

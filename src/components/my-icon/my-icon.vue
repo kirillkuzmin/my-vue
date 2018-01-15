@@ -88,14 +88,3 @@
     },
   };
 </script>
-
-<style lang="less" scoped>
-  .my-icon {
-    cursor: pointer;
-    display: inline-flex;
-
-    &--disabled {
-      cursor: default;
-    }
-  }
-</style>

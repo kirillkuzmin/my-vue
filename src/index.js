@@ -1,3 +1,4 @@
+import './less/index.less';
 import components from './components';
 import directives from './directives';
 import globalMixin from 'mixins/global';

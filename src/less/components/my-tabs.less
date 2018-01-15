@@ -1,79 +1,77 @@
-@error-background-color: #e95326;
-
 .my-tabs {
-	background-color: #fff;
+  background-color: @tabs-bg-color;
 
-	& > ul {
-		align-items: center;
-		border-bottom: 2px solid #5c98d1;
-		display: flex;
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-	}
+  & > ul {
+    align-items: center;
+    border-bottom: @tabs-border-bottom-width solid @tabs-border-bottom-color;
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
 
-	&__tab {
-		background-color: #d5e4f3;
-		color: #333;
-		cursor: pointer;
-		margin: 0 3px 0 0;
-		padding: 8px 20px;
-		white-space: nowrap;
+  &__tab {
+    background-color: @tabs-tab-bg-color;
+    color: @tabs-tab-text-color;
+    cursor: pointer;
+    margin: 0 3px 0 0;
+    padding: 8px 20px;
+    white-space: nowrap;
 
-		&:first-child {
-			margin-left: 5px;
-		}
+    &:first-child {
+      margin-left: 5px;
+    }
 
-		&:hover {
-			background-color: #e9f1f9;
-		}
+    &:hover {
+      background-color: @tabs-tab-hover-bg-color;
+    }
 
-		&--active {
-			background-color: #5c98d1;
-			color: #fff;
-			cursor: default;
+    &--active {
+      background-color: @tabs-tab-active-bg-color;
+      color: @tabs-tab-active-text-color;
+      cursor: default;
 
-			&:hover {
-				background-color: #5c98d1;
-				cursor: default;
-			}
-		}
+      &:hover {
+        background-color: @tabs-tab-active-hover-bg-color;
+        cursor: default;
+      }
+    }
 
-		&--disabled {
-			background-color: #dde9f5;
-			color: #bebebe;
-			cursor: default;
+    &--disabled {
+      background-color: @tabs-tab-disabled-bg-color;
+      color: @tabs-tab-disabled-text-color;
+      cursor: default;
 
-			&:hover {
-				background-color: #dde9f5;
-				cursor: default;
-			}
-		}
+      &:hover {
+        background-color: @tabs-tab-disabled-hover-bg-color;
+        cursor: default;
+      }
+    }
 
-		&--has-errors {
-			background-color: @error-background-color;
-			color: #fff;
+    &--has-errors {
+      background-color: @tabs-tab-error-bg-color;
+      color: @tabs-tab-error-text-color;
 
-			&:hover {
-				background-color: @error-background-color;
-			}
-		}
-	}
+      &:hover {
+        background-color: @tabs-tab-error-hover-bg-color;
+      }
+    }
+  }
 
-	&__pane {
-		box-sizing: border-box;
-		padding: 0;
-	}
+  &__pane {
+    box-sizing: border-box;
+    padding: 0;
+  }
 
-	&--linear {
-		& ul {
-			border-bottom: none;
+  &--linear {
+    & ul {
+      border-bottom: none;
 
-			& li {
-				&:first-child {
-					margin-left: 0;
-				}
-			}
-		}
-	}
+      & li {
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
 }

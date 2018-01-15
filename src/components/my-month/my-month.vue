@@ -59,6 +59,3 @@
     methods: {},
   };
 </script>
-
-<style lang="less" scoped>
-</style>

@@ -106,35 +106,3 @@
     },
   };
 </script>
-
-<style lang="less" scoped>
-  .my-tree {
-    display: block;
-    margin-left: 24px;
-
-    &__branch,
-    &__leaf {
-      align-items: center;
-      cursor: pointer;
-      display: inline-flex;
-      font-family: PTMonoRegular, serif;
-      font-size: 11px;
-      height: 24px;
-
-      & > span {
-        padding-left: 2px;
-      }
-
-      &:hover {
-        color: #005eb8;
-      }
-    }
-
-    /*&__branch {
-      &--disabled {
-        color: #bebebe;
-        cursor: default;
-      }
-    }*/
-  }
-</style>

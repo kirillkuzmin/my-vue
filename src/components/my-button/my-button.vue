@@ -55,10 +55,3 @@
     },
   };
 </script>
-
-<style lang="less" scoped>
-  .my-button {
-    align-items: center;
-    display: inline-flex;
-  }
-</style>

@@ -229,10 +229,3 @@
     },
   };
 </script>
-
-<style lang="less" scoped>
-  .my-excel {
-    align-items: center;
-    display: flex;
-  }
-</style>
