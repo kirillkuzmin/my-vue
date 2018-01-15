@@ -62,19 +62,12 @@ class Validator {
 
       const errorWidth = this.container.children[0].offsetWidth;
 
-      /*if (this.options.maxWidth && errorWidth > this.options.maxWidth) {
-       this.container.children[0].style.maxWidth = this.options.maxWidth + 'px';
-       this.container.children[0].style.whiteSpace = 'normal';
-       } else {
-       this.container.children[0].style.whiteSpace = 'nowrap';
-       }*/
-
       const rightEdge = this.element.offsetLeft + errorWidth;
 
       // TODO: +6 is bad
-      this.container.style.top = this.element.offsetHeight + 6 + 'px';
+      this.container.style.top = this.element.getBoundingClientRect().top + this.element.offsetHeight + 6 + 'px';
 
-      this.container.style.left = (window.innerWidth < rightEdge ? -errorWidth : -elementWidth) + 'px';
+      this.container.style.left = this.element.getBoundingClientRect().left + (window.innerWidth < rightEdge ? -errorWidth + elementWidth : 0) + 'px';
 
       this.container.children[0].className = (window.innerWidth < rightEdge ? 'reverse' : 'normal');
     }
@@ -94,6 +87,10 @@ class Validator {
     this.element.onblur = () => {
       this.hideErrors();
     };
+
+    window.addEventListener('scroll', () => {
+      this.hideErrors();
+    }, true);
   }
 
   getProperty () {
@@ -133,7 +130,6 @@ class Validator {
         if (!this.container) {
           let focused = this.element === document.activeElement;
 
-          // to restore cursor position in IE
           let selStart = this.element.selectionStart;
           let selEnd = this.element.selectionEnd;
 
@@ -157,10 +153,10 @@ class Validator {
 
         if (errorText !== currentText) {
           this.container.children[0].innerHTML = errorText;
-        }
 
-        if (this.element === document.activeElement && getComputedStyle(this.container).display === 'none') {
-          this.showErrors();
+          if (this.element === document.activeElement && getComputedStyle(this.container).display === 'none') {
+            this.showErrors();
+          }
         }
       } else {
         if (this.container) {
@@ -211,23 +207,12 @@ class Validator {
   createContainer () {
     this.checkTabs();
 
-    let wrapper = document.createElement('div');
-
-    wrapper.style.display = 'inline-flex';
-    //wrapper.style.flexDirection = 'column';
-    //wrapper.style.maxWidth = this.element.parentNode.getBoundingClientRect().width + 'px';
-    //wrapper.style.width = this.element.getBoundingClientRect().width + 'px';
-
-    this.element.parentNode.insertBefore(wrapper, this.element.nextSibling);
-
-    wrapper.appendChild(this.element);
-
     let container = document.createElement('div');
 
     container.className = 'error';
     container.innerHTML = '<span></span>';
 
-    this.element.parentNode.insertBefore(container, this.element.nextSibling);
+    document.body.appendChild(container);
 
     this.container = container;
   }
