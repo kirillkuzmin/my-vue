@@ -5,12 +5,15 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.base.conf');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = function (env) {
   return merge(baseConfig(env), {
-    entry: './src/index.js',
+    entry: {
+      'my-vue': './src/index.js',
+    },
     output: {
-      filename: 'my-vue.min.js',
+      filename: '[name].min.js',
       library: 'my-vue',
       libraryTarget: 'umd',
       path: path.resolve(__dirname, '../dist'),
@@ -32,9 +35,14 @@ module.exports = function (env) {
         sourceMap: false,
       }),
       new ExtractTextPlugin({
-        filename: '../dist/my-vue.min.css',
-        disable: false,
         allChunks: true,
+        disable: false,
+        filename: '../dist/my-vue.min.css',
+      }),
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: {
+          zindex: false,
+        },
       }),
     ],
   });
