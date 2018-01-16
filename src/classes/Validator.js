@@ -62,7 +62,7 @@ class Validator {
 
       const errorWidth = this.container.children[0].offsetWidth;
 
-      const rightEdge = this.element.offsetLeft + errorWidth;
+      const rightEdge = this.element.getBoundingClientRect().left + errorWidth;
 
       // TODO: +6 is bad
       this.container.style.top = this.element.getBoundingClientRect().top + this.element.offsetHeight + 6 + 'px';
