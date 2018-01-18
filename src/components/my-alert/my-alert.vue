@@ -1,9 +1,9 @@
 <template>
   <div :class="className">
     <component :is="icon"></component>
-    <p>
+    <div class="my-alert__content">
       <slot></slot>
-    </p>
+    </div>
   </div>
 </template>
 
