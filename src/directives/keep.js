@@ -37,7 +37,11 @@ export default {
           break;
         default:
           if (vNode.componentInstance && vNode.componentInstance.$_forKeep) {
-            vNode.componentInstance.$_forKeep = data;
+            try {
+              vNode.componentInstance.$_forKeep = data;
+            } catch (err) {
+              Keep.remove(trim([vkeepId, trim(location.pathname, '/'), el.id].join('.'), '.'));
+            }
           }
           break;
       }
