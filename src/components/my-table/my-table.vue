@@ -36,7 +36,7 @@
           <tr>
             <td
               v-for="(column, key) in columns"
-              :class="[{ 'my-table__column--sorted': sortKey === key }, column.class]"
+              :class="getColumnClass(column, key)"
               :style="getColumnStyle(column)"
               v-show="!column.hidden"
               @click="column.sortable === false ? false : sortBy(key, null, column.sortType)"
@@ -85,9 +85,9 @@
         </table>
       </div>
     </div>
-    <p class="alert alert-info mb-0" v-if="data.length && !found">Ничего не найдено!</p>
+    <my-alert type="warning" v-if="data.length && !found">Ничего не найдено!</my-alert>
     <slot name="empty" v-if="!data.length">
-      <p class="alert alert-info mb-0">Список пуст!</p>
+      <my-alert type="info">Список пуст!</my-alert>
     </slot>
   </div>
 </template>
@@ -95,6 +95,7 @@
 <script>
   import debounce from 'lodash/debounce';
   import isObject from 'lodash/isObject';
+  import MyAlert from 'components/my-alert';
   import MyTableActionBar from './my-table-action-bar.vue';
   import orderBy from 'lodash/orderBy';
   import remove from 'lodash/remove';
@@ -104,6 +105,8 @@
   };
 
   export default {
+    name: 'my-table',
+
     props: {
       actionBar: {
         type: Boolean,
@@ -171,17 +174,21 @@
     },
 
     components: {
+      'my-alert': MyAlert,
       'my-table-action-bar': MyTableActionBar,
     },
 
     data () {
       return {
+        sCols: [],
+        scrollX: false,
+        sDirs: [],
+        searchQuery: '',
+        selectedRow: '',
         sortKey: this.sortColumn,
         sortOrder: this.sortDirection,
         sortType: '',
-        searchQuery: '',
-        selectedRow: '',
-        scrollX: false,
+        sTypes: [],
       };
     },
 
@@ -236,14 +243,16 @@
         get () {
           return {
             selectedRow: this.selectedRow,
-            sortKey: this.sortKey,
-            sortOrder: this.sortOrder,
+            sortKeys: this.sCols,
+            sortOrders: this.sDirs,
+            sortTypes: this.sTypes,
           };
         },
 
         set (newValue) {
-          this.sortKey = newValue.sortKey;
-          this.sortOrder = newValue.sortOrder;
+          this.sCols = newValue.sortKeys;
+          this.sDirs = newValue.sortOrders;
+          this.sTypes = newValue.sortTypes;
 
           let i = setInterval(() => {
             if (this.ready) {
@@ -257,7 +266,9 @@
             }
           }, 50);
 
-          this.sortBy(newValue.sortKey, newValue.sortOrder);
+          let j = this.sCols.length - 1;
+
+          this.sortBy(this.sCols[j], this.sDirs[j], this.sTypes[j]);
         },
       },
 
@@ -286,17 +297,40 @@
             return row.ignoreSort;
           });
 
-          data = orderBy(data, (e) => {
-            let cell = e[sortKey];
+          const pos = this.sCols.indexOf(sortKey);
 
-            if (sortType === 'numeric') {
-              cell = (isObject(cell) ? cell.value : cell);
-              cell = (isNaN(parseFloat(cell)) ? cell : parseFloat(cell));
-              return cell;
-            }
+          if (pos !== -1 || sortDir === 'none') {
+            this.sCols.splice(pos, 1);
+            this.sDirs.splice(pos, 1);
+            this.sTypes.splice(pos, 1);
+          }
 
-            return (isObject(cell) ? cell.value : cell);
-          }, sortDir);
+          if (sortDir !== 'none') {
+            this.sCols.push(sortKey);
+            this.sDirs.push(sortDir);
+            this.sTypes.push(sortType);
+          }
+
+          if (sortDir === 'none') {
+            this.sortKey = '';
+            this.sortOrder = '';
+            this.sortType = '';
+          }
+
+          this.sCols.forEach((col, i) => {
+            data = orderBy(data, e => {
+              let cell = e[col];
+
+              if (this.sTypes[i] === 'numeric') {
+                cell = (isObject(cell) ? cell.value : cell);
+                cell = (isNaN(parseFloat(cell)) ? cell : parseFloat(cell));
+
+                return cell;
+              }
+
+              return (isObject(cell) ? cell.value : cell);
+            }, this.sDirs[i]);
+          });
 
           fixed.forEach(element => {
             data.push(element);
@@ -309,28 +343,39 @@
       },
     },
 
-    watch: {
-      data () {
-        this.$nextTick(() => this.assignEvents());
-      },
-
-      ready () {
-        if (this.sortColumn && this.sortColumn === this.sortKey) {
-          this.sortBy(this.sortColumn, this.sortDirection);
-        }
-      },
-    },
-
     methods: {
+      $_getSortDir (column) {
+        const pos = this.sCols.indexOf(column);
+
+        return this.sDirs[pos];
+      },
+
       sortBy (key, dir, type) {
         if (this.sort) {
-          if (this.sortKey !== key) {
-            this.sortOrder = 'asc';
-          } else {
-            this.sortOrder = (dir ? dir : (this.sortOrder === 'asc' ? 'desc' : 'asc'));
+          if (key === undefined) {
+            this.sortKey = '';
+            this.sortOrder = '';
+            this.sortType = '';
+
+            return;
+          }
+
+          let sortOrder = '';
+
+          switch (this.$_getSortDir(key)) {
+            case 'asc':
+              sortOrder = 'desc';
+              break;
+            case 'desc':
+              sortOrder = 'none';
+              break;
+            default:
+              sortOrder = 'asc';
+              break;
           }
 
           this.sortKey = key;
+          this.sortOrder = (dir ? dir : sortOrder);
           this.sortType = type;
         }
       },
@@ -382,9 +427,12 @@
 
       getColumnClass (column, key) {
         return [
+          'my-table__column',
           {
             'my-table__column--sorted': this.sortKey === key,
-            'my-table__column--not-sortable': column.sortable === false,
+            'my-table__column--sorted-asc': this.$_getSortDir(key) === 'asc',
+            'my-table__column--sorted-desc': this.$_getSortDir(key) === 'desc',
+            'my-table__column--not-sortable': column.sortable === false || !this.sort,
           },
           column.class,
         ];
@@ -550,6 +598,18 @@
         const headerHeight = this.$refs.fixedHeader.clientHeight;
 
         this.$refs.table.scrollTop = (tr ? tr.offsetTop - headerHeight : 0);
+      },
+    },
+
+    watch: {
+      data () {
+        this.$nextTick(() => this.assignEvents());
+      },
+
+      ready () {
+        if (this.sortKey) {
+          this.sortBy(this.sortKey, this.sortOrder);
+        }
       },
     },
   };

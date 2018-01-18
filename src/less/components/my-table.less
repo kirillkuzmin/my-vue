@@ -21,12 +21,25 @@
   }
 
   &__column {
+    background: url(@image-sortable) no-repeat center right;
+    padding-right: 24px !important;
+
     &--sorted {
       background-color: @table-column-sorted !important;
+
+      &-asc {
+        background-image: url(@image-sorted-asc);
+      }
+
+      &-desc {
+        background-image: url(@image-sorted-desc);
+      }
     }
 
     &--not-sortable {
+      background-image: none;
       cursor: default !important;
+      padding-right: 5px !important;
     }
   }
 
