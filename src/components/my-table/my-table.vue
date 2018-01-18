@@ -55,13 +55,13 @@
           </thead>
           <tbody ref="tbody">
           <tr
-            v-for="row in filteredData"
-            :class="[{ 'my-table__row--selected': row.rowId == selectedRow }, row.rowClass]"
+            v-for="(row, i) in filteredData"
+            :class="getRowClass(row)"
             :id="row.rowId"
           >
             <template v-for="(column, key) in columns">
               <td
-                :class="[{ 'my-table__cell--sorted': sortKey === key }, getCellClass(row[key])]"
+                :class="getCellClass(row[key], key)"
                 v-if="slotExists(key)"
                 v-show="!column.hidden"
               >
@@ -73,10 +73,10 @@
                 </slot>
               </td>
               <td
-                :class="[{ 'my-table__cell--sorted': sortKey === key }, getCellClass(row[key])]"
-                v-else
+                :class="getCellClass(row[key], key)"
                 v-html="getCellValue(row[key])"
                 v-show="!column.hidden"
+                v-else
               >
               </td>
             </template>
@@ -85,7 +85,12 @@
         </table>
       </div>
     </div>
-    <my-alert type="warning" v-if="data.length && !found">Ничего не найдено!</my-alert>
+    <my-alert
+      type="warning"
+      v-if="data.length && !found"
+    >
+      Ничего не найдено!
+    </my-alert>
     <slot name="empty" v-if="!data.length">
       <my-alert type="info">Список пуст!</my-alert>
     </slot>
@@ -344,6 +349,10 @@
     },
 
     methods: {
+      $_getLastSortCol () {
+        return this.sCols[this.sCols.length - 1];
+      },
+
       $_getSortDir (column) {
         const pos = this.sCols.indexOf(column);
 
@@ -429,7 +438,7 @@
         return [
           'my-table__column',
           {
-            'my-table__column--sorted': this.sortKey === key,
+            'my-table__column--sorted': this.$_getLastSortCol() === key,
             'my-table__column--sorted-asc': this.$_getSortDir(key) === 'asc',
             'my-table__column--sorted-desc': this.$_getSortDir(key) === 'desc',
             'my-table__column--not-sortable': column.sortable === false || !this.sort,
@@ -448,6 +457,15 @@
         return style;
       },
 
+      getRowClass (row) {
+        return [
+          {
+            'my-table__row--selected': row.rowId == this.selectedRow,
+          },
+          row.rowClass,
+        ];
+      },
+
       getCellValue (cell) {
         if (isObject(cell)) {
           return cell.value;
@@ -456,12 +474,18 @@
         }
       },
 
-      getCellClass (cell) {
+      getCellClass (cell, key) {
+        let cl = [];
+
         if (isObject(cell) && cell.hasOwnProperty('class')) {
-          return cell.class;
+          cl.push(cell.class);
         }
 
-        return '';
+        if (key === this.$_getLastSortCol()) {
+          cl.push('my-table__cell--sorted');
+        }
+
+        return cl;
       },
 
       adjustHeight () {
