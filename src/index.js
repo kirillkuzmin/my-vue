@@ -2,11 +2,13 @@ import './less/index.less';
 import components from './components';
 import directives from './directives';
 import globalMixin from 'mixins/global';
+import localeMixin from 'mixins/locale';
 import icons from './icons';
 import plugins from './plugins';
 
 function install (Vue) {
   Vue.mixin(globalMixin);
+  Vue.mixin(localeMixin);
 
   for (const name in plugins) {
     Vue.use(plugins[name]);
@@ -23,6 +25,12 @@ function install (Vue) {
   for (const name in icons) {
     Vue.component(name, icons[name]);
   }
+
+  Vue.prototype.$my = new Vue({
+    data: {
+      lang: Vue.config.lang || 'en',
+    },
+  });
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
