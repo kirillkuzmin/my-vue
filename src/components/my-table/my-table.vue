@@ -255,6 +255,10 @@
         },
 
         set (newValue) {
+          if (!newValue.hasOwnProperty('sortKeys')) {
+            return;
+          }
+
           this.sCols = newValue.sortKeys;
           this.sDirs = newValue.sortOrders;
           this.sTypes = newValue.sortTypes;
