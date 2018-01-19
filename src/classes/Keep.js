@@ -17,6 +17,10 @@ class Keep {
 
     localStorage.setItem(path, value);
   }
+
+  static remove (path) {
+    localStorage.removeItem(path);
+  }
 }
 
 export default Keep;
