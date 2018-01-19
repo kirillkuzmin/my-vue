@@ -15,6 +15,7 @@ import MyMonth from './my-month';
 import MyName from './my-name';
 import MyOverlay from './my-overlay';
 import MyRadio from './my-radio';
+import MySelect from './my-select';
 import MySidenav from './my-sidenav';
 import { MyTable } from './my-table';
 import { MyTabs, MyTabsFixed, MyTabsPane } from './my-tabs';
@@ -45,6 +46,7 @@ export default {
   MyName,
   MyOverlay,
   MyRadio,
+  MySelect,
   MySidenav,
   MyTable,
   MyTabs,
