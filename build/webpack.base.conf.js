@@ -13,6 +13,7 @@ module.exports = function () {
         'components': path.resolve(__dirname, '../src/components'),
         'directives': path.resolve(__dirname, '../src/directives'),
         'icons': path.resolve(__dirname, '../src/icons'),
+        'locale': path.resolve(__dirname, '../src/locale'),
         'mixins': path.resolve(__dirname, '../src/mixins'),
         'plugins': path.resolve(__dirname, '../src/plugins'),
         'utils': path.resolve(__dirname, '../src/utils'),
