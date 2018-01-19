@@ -4,6 +4,13 @@
   export default {
     extends: MyIcon,
 
+    props: {
+      color: {
+        type: String,
+        default: '#000',
+      },
+    },
+
     data () {
       return {
         icon: {
