@@ -1,3 +1,5 @@
 export default {
-  test: 'Привет',
+  myMonth: {
+    all: 'Все',
+  },
 };

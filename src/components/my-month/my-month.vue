@@ -1,6 +1,6 @@
 <template>
   <select :id="id" :name="name" v-model="selected">
-    <option value="-1" style="font-style: italic;">- Все -</option>
+    <option value="-1" style="font-style: italic;" v-text="t('myMonth.all')"></option>
     <option
       v-for="(month, m) in months"
       :value="(++m).toString().padStart(2, '0')"
