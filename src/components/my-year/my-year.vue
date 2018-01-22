@@ -1,6 +1,12 @@
 <template>
   <select :id="id" :name="name" v-model="selected">
-    <option value="-1" style="font-style: italic;" v-if="all">- Все -</option>
+    <option
+      style="font-style: italic;"
+      v-if="all"
+      v-text="$trans('myYear.all')"
+      value="-1"
+    >
+    </option>
     <option
       v-for="(year, y) in yearRange"
       :value="year"
@@ -12,6 +18,8 @@
 
 <script>
   export default {
+    name: 'my-year',
+
     props: {
       all: {
         type: Boolean,
@@ -35,10 +43,6 @@
       value: [String, Number],
     },
 
-    data () {
-      return {};
-    },
-
     computed: {
       selected: {
         get () {
@@ -60,7 +64,5 @@
         return range;
       },
     },
-
-    methods: {},
   };
 </script>

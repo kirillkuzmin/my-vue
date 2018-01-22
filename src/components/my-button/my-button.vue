@@ -19,6 +19,8 @@
   import MyLoading from 'components/my-loading';
 
   export default {
+    name: 'my-button',
+
     props: {
       disabled: {
         type: Boolean,
@@ -37,7 +39,7 @@
     },
 
     components: {
-      'my-loading': MyLoading,
+      MyLoading,
     },
 
     computed: {

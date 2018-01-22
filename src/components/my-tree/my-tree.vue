@@ -64,9 +64,9 @@
     },
 
     components: {
-      'icon-description': IconDescription,
-      'icon-folder': IconFolder,
-      'icon-folder-open': IconFolderOpen,
+      IconDescription,
+      IconFolder,
+      IconFolderOpen,
     },
 
     computed: {

@@ -13,7 +13,7 @@
 
 <script>
   export default {
-    props: {},
+    name: 'my-context-menu',
 
     data () {
       return {

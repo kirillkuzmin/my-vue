@@ -1,13 +1,13 @@
 <template>
   <div class="my-excel">
     <icon-import-export
-      title="Экспорт"
+      :title="$trans('myExcel.iconTitle')"
       @click="show"
     />
     <my-modal :show="modalShow" :close="!blockButton" max-height="500" @close="modalShow = false">
-      <span slot="header">Экспорт таблицы</span>
+      <span slot="header" v-text="$trans('myExcel.header')"></span>
       <div slot="body">
-        <h6 style="margin: 0 0 5px;">Выберите колонки для экспорта</h6>
+        <h6 style="margin: 0 0 5px;" v-text="$trans('myExcel.subheader')"></h6>
         <template v-for="(col, ind) in columns">
           <my-checkbox
             :label="col.title.replace(/<\/?[^>]+>/gi, ' ')"
@@ -18,7 +18,7 @@
         </template>
       </div>
       <div slot="footer">
-        Формат:
+        {{ $trans('myExcel.format') }}:
         <select v-model="format">
           <option
             v-for="form in fformats"
@@ -31,7 +31,7 @@
           :disabled="!anyColumnSelected"
           type="button"
           v-if="!blockButton"
-          v-text="'Экспорт'"
+          v-text="$trans('myExcel.btnExport')"
           @click="loadExcel"
         >
         </button>
@@ -48,6 +48,8 @@
   import MyModal from 'components/my-modal';
 
   export default {
+    name: 'my-excel',
+
     props: {
       ajaxPath: {
         type: String,
@@ -105,10 +107,10 @@
     },
 
     components: {
-      'icon-import-export': IconImportExport,
-      'my-modal': MyModal,
-      'my-loading': MyLoading,
-      'my-checkbox': MyCheckbox,
+      IconImportExport,
+      MyModal,
+      MyLoading,
+      MyCheckbox,
     },
 
     computed: {
@@ -223,7 +225,7 @@
             this.blockButton = false;
             this.modalShow = false;
 
-            alert('Произошла ошибка на сервере.');
+            alert(this.$trans('serverError'));
           });
       },
     },

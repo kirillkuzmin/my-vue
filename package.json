@@ -25,7 +25,6 @@
     "vue": "2.x"
   },
   "devDependencies": {
-    "@kazupon/vue-i18n-loader": "^0.2.1",
     "autoprefixer": "^7.1.6",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",

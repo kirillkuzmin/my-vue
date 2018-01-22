@@ -6,6 +6,8 @@
 
 <script>
   export default {
+    name: 'my-collapse',
+
     props: {
       collapseAll: {
         type: Boolean,
@@ -17,12 +19,5 @@
         default: false,
       },
     },
-
-    data () {
-      return {};
-    },
   };
 </script>
-
-<style lang="less" scoped>
-</style>

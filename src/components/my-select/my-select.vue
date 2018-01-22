@@ -149,7 +149,9 @@
 
       ownValueLabel: {
         type: String,
-        default: 'Свое значение',
+        default () {
+          return this.$trans('mySelect.ownValue');
+        },
       },
 
       readonly: {
@@ -185,8 +187,8 @@
     },
 
     components: {
-      'icon-clear': IconClear,
-      'icon-arrow-down': IconArrowDown,
+      IconClear,
+      IconArrowDown,
     },
 
     created () {
@@ -391,7 +393,7 @@
         } else {
           // plak
           if (this.validate && this.validateOnBlur && !this.selected) {
-            this.validator.setError('Выберите значение из выпадающего списка');
+            this.validator.setError(this.$trans('mySelect.onBlurError'));
           }
         }
       },

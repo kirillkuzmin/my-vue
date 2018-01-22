@@ -8,14 +8,14 @@
 
 <script>
   export default {
+    name: 'my-code',
+
     props: {
-      //
       src: {
         type: String,
         default: '',
       },
 
-      //
       lang: {
         type: String,
         default: '',

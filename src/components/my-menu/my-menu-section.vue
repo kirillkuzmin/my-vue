@@ -7,6 +7,8 @@
 
 <script>
   export default {
+    name: 'my-menu-section',
+
     props: {
       header: {
         type: String,

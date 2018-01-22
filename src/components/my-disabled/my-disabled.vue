@@ -7,15 +7,13 @@
 
 <script>
   export default {
+    name: 'my-disabled',
+
     props: {
       disabled: {
         type: Boolean,
         default: false,
       },
-    },
-
-    data () {
-      return {};
     },
 
     mounted () {

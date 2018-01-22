@@ -6,6 +6,8 @@
 
 <script>
   export default {
+    name: 'my-tabs-pane',
+
     props: {
       disabled: {
         type: Boolean,
@@ -60,7 +62,5 @@
         }).length > 0;
       },
     },
-
-    methods: {},
   };
 </script>

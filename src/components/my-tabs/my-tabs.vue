@@ -17,6 +17,8 @@
 
 <script>
   export default {
+    name: 'my-tabs',
+
     props: {
       fixed: {
         type: Boolean,
