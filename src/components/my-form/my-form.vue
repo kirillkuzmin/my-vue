@@ -20,7 +20,7 @@
       overlayMessage: {
         type: String,
         default () {
-          return this.$t('myForm.overlayMessage');
+          return this.$trans('myForm.overlayMessage');
         },
       },
     },
