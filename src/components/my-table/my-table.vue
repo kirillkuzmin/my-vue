@@ -85,14 +85,13 @@
         </table>
       </div>
     </div>
-    <my-alert
-      type="warning"
-      v-if="data.length && !found"
-    >
-      Ничего не найдено!
+    <my-alert type="warning" v-if="data.length && !found">
+      {{ $trans('myTable.nothingFound') }}
     </my-alert>
     <slot name="empty" v-if="!data.length">
-      <my-alert type="info">Список пуст!</my-alert>
+      <my-alert type="info">
+        {{ $trans('myTable.empty') }}
+      </my-alert>
     </slot>
   </div>
 </template>
@@ -179,8 +178,8 @@
     },
 
     components: {
-      'my-alert': MyAlert,
-      'my-table-action-bar': MyTableActionBar,
+      MyAlert,
+      MyTableActionBar,
     },
 
     data () {

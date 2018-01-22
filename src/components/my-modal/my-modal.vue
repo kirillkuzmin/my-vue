@@ -10,25 +10,25 @@
           </template>
           <div class="my-modal__header-icons">
             <icon-opacity
-              title="Изменить прозрачность"
+              :title="$trans('myModal.opacity')"
               v-if="opacityControl"
               @mouseenter="disappear"
               @mouseleave="appear"
             />
             <template v-if="maxMin">
               <icon-maximize
-                title="Развернуть"
+                :title="$trans('myModal.maximize')"
                 v-if="!maximized"
                 @click="max()"
               />
               <icon-minimize
-                title="Свернуть в окно"
+                :title="$trans('myModal.minimize')"
                 v-else
                 @click="min()"
               />
             </template>
             <icon-close
-              title="Закрыть"
+              :title="$trans('myModal.close')"
               v-if="close"
               @click="$emit('close')"
             />
@@ -46,11 +46,28 @@
         </div>
         <div class="my-modal__footer" ref="footer">
           <template v-if="type === 'alert'">
-            <button type="button" @click="$emit('ok')" autofocus>OK</button>
+            <button
+              autofocus
+              type="button"
+              v-text="$trans('myModal.btnOk')"
+              @click="$emit('ok')"
+            >
+            </button>
           </template>
           <template v-else-if="type === 'confirm'">
-            <button type="button" @click="$emit('yes')" autofocus>Да</button>
-            <button type="button" @click="$emit('no')">Нет</button>
+            <button
+              autofocus
+              type="button"
+              v-text="$trans('myModal.btnYes')"
+              @click="$emit('yes')"
+            >
+            </button>
+            <button
+              type="button"
+              v-text="$trans('myModal.btnNo')"
+              @click="$emit('no')"
+            >
+            </button>
           </template>
           <template v-else>
             <slot name="footer">default footer</slot>
@@ -68,6 +85,8 @@
   import IconMinimize from 'icons/icon-minimize.vue';
 
   export default {
+    name: 'my-modal',
+
     props: {
       body: {
         type: String,
@@ -126,10 +145,10 @@
     },
 
     components: {
-      'icon-close': IconClose,
-      'icon-opacity': IconOpacity,
-      'icon-maximize': IconMaximize,
-      'icon-minimize': IconMinimize,
+      IconClose,
+      IconOpacity,
+      IconMaximize,
+      IconMinimize,
     },
 
     computed: {

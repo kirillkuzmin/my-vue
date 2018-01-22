@@ -28,6 +28,8 @@
 
 <script>
   export default {
+    name: 'my-checkbox',
+
     model: {
       prop: 'checked',
       event: 'change',

@@ -22,6 +22,8 @@
 
 <script>
   export default {
+    name: 'my-collapse-block',
+
     props: {
       id: {
         type: String,

@@ -23,9 +23,9 @@
     },
 
     components: {
-      'icon-error': IconError,
-      'icon-info': IconInfo,
-      'icon-warning': IconWarning,
+      IconError,
+      IconInfo,
+      IconWarning,
     },
 
     computed: {

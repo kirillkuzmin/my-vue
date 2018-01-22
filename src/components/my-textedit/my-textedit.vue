@@ -45,6 +45,8 @@
   // т.к. можно сразу 2 окошка редактировать и им вместе не грустно.
 
   export default {
+    name: 'my-textedit',
+
     props: {
       cols: String,
 

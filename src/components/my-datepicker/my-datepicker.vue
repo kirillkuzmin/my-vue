@@ -25,7 +25,7 @@
         />
         <select class="my-datepicker__select" v-model="month" @change="drawCalendar">
           <option
-            v-for="(month, index) in months"
+            v-for="(month, index) in $trans('months')"
             :value="index + 1"
             v-text="month"
           >
@@ -48,7 +48,7 @@
       <table class="my-datepicker__table">
         <thead>
         <tr>
-          <td v-for="(day, index) in days" v-text="day"></td>
+          <td v-for="(day, index) in $trans('days')" v-text="day"></td>
         </tr>
         </thead>
         <tbody>
@@ -64,7 +64,7 @@
         </tbody>
       </table>
       <div v-if="withTime">
-        <div class="my-datepicker__subheader">Выберите время</div>
+        <div class="my-datepicker__subheader" v-text="$trans('myDatepicker.chooseTime')"></div>
         <div class="my-datepicker__time">
           <select v-model="hour" @change="changeTime(true)">
             <option
@@ -87,8 +87,8 @@
           type="button"
           v-if="withSave"
           @click="$emit('save')"
+          v-text="$trans('myDatepicker.btnSave')"
         >
-          Сохранить
         </button>
       </div>
     </div>
@@ -103,14 +103,9 @@
   import Validator from 'classes/Validator';
 
   export default {
-    props: {
-      days: {
-        type: Array,
-        default () {
-          return ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-        },
-      },
+    name: 'my-datepicker',
 
+    props: {
       defaultTime: {
         type: String,
         default () {
@@ -141,26 +136,6 @@
       id: String,
 
       initValue: String,
-
-      months: {
-        type: Array,
-        default () {
-          return [
-            'Январь',
-            'Февраль',
-            'Март',
-            'Апрель',
-            'Май',
-            'Июнь',
-            'Июль',
-            'Август',
-            'Сентябрь',
-            'Октябрь',
-            'Ноябрь',
-            'Декабрь',
-          ];
-        },
-      },
 
       name: String,
 
@@ -214,10 +189,9 @@
     },
 
     components: {
-      'icon-arrow-datepicker': IconDatepicker,
-      'icon-arrow-left': IconArrowLeft,
-      'icon-arrow-right': IconArrowRight,
-      'icon-datepicker': IconDatepicker,
+      IconArrowLeft,
+      IconArrowRight,
+      IconDatepicker,
     },
 
     created () {

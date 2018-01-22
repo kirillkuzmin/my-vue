@@ -18,15 +18,13 @@
 
 <script>
   export default {
+    name: 'my-sidenav',
+
     props: {
       show: {
         type: Boolean,
         default: false,
       },
-    },
-
-    data () {
-      return {};
     },
 
     methods: {

@@ -11,6 +11,8 @@
 
 <script>
   export default {
+    name: 'my-context-menu-item',
+
     props: {
       disabled: {
         type: Boolean,
@@ -31,10 +33,6 @@
         type: Boolean,
         default: false,
       },
-    },
-
-    data () {
-      return {};
     },
 
     computed: {
