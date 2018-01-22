@@ -20,6 +20,8 @@
 
 <script>
   export default {
+    name: 'my-radio',
+
     model: {
       prop: 'checked',
       event: 'change',

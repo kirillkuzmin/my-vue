@@ -12,25 +12,21 @@
   import MyOverlay from 'components/my-overlay';
 
   export default {
+    name: 'my-form',
+
     props: {
-      //
       overlayHash: String,
 
-      //
       overlayMessage: {
         type: String,
-        default: 'Запрос отправлен, ожидайте ответа.',
+        default () {
+          return this.$t('myForm.overlayMessage');
+        },
       },
     },
 
-    data () {
-      return {};
-    },
-
     components: {
-      'my-overlay': MyOverlay,
+      MyOverlay,
     },
-
-    methods: {},
   };
 </script>

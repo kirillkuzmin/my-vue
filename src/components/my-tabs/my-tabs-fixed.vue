@@ -14,7 +14,7 @@
 
 <script>
   export default {
-    props: {},
+    name: 'my-tabs-fixed',
 
     data () {
       return {

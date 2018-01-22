@@ -14,6 +14,8 @@
 
 <script>
   export default {
+    name: 'my-menu-item',
+
     props: {
       text: {
         type: String,

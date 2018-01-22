@@ -8,7 +8,11 @@
     </div>
     <div class="my-table__action-bar-container" v-show="show">
       <div class="my-table__search">
-        <input type="text" placeholder="Поиск" @input="search($event.target.value)">
+        <input
+          :placeholder="$trans('myTableActionBar.search')"
+          type="text"
+          @input="search($event.target.value)"
+        >
       </div>
       <my-excel
         :columns="$parent.columns"
@@ -24,7 +28,7 @@
   import MyExcel from 'components/my-excel';
 
   export default {
-    props: {},
+    name: 'my-table-action-bar',
 
     data () {
       return {
@@ -33,8 +37,8 @@
     },
 
     components: {
-      'icon-settings': IconSettings,
-      'my-excel': MyExcel,
+      IconSettings,
+      MyExcel,
     },
 
     methods: {

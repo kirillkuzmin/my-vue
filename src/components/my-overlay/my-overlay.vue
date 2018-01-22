@@ -13,6 +13,8 @@
   import MyLoading from 'components/my-loading';
 
   export default {
+    name: 'my-overlay',
+
     props: {
       hash: {
         type: String,
@@ -23,7 +25,9 @@
 
       message: {
         type: String,
-        default: 'Запрос отправлен, ожидайте ответа.',
+        default () {
+          return this.$trans('myOverlay.message');
+        },
       },
 
       /*show: {
@@ -44,7 +48,7 @@
     },
 
     components: {
-      'my-loading': MyLoading,
+      MyLoading,
     },
 
     created () {

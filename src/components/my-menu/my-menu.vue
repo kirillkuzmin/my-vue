@@ -7,6 +7,8 @@
 
 <script>
   export default {
+    name: 'my-menu',
+
     props: {
       header: {
         type: String,

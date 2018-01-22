@@ -24,6 +24,8 @@
 
 <script>
   export default {
+    name: 'my-icon',
+
     props: {
       color: {
         type: String,

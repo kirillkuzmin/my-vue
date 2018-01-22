@@ -4,6 +4,8 @@
 
 <script>
   export default {
+    name: 'my-loading',
+
     props: {
       size: {
         type: Number,

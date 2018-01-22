@@ -1,27 +1,27 @@
 <template>
   <div :class="className">
     <input
+      :placeholder="$trans('myName.lastName')"
       :style="inputStyle"
       :value="name.lastname"
-      placeholder="Фамилия"
       ref="lastname"
       type="text"
       v-validate="lastnameValidator"
       @input="update"
     >
     <input
+      :placeholder="$trans('myName.firstName')"
       :style="inputStyle"
       :value="name.firstname"
-      placeholder="Имя"
       ref="firstname"
       type="text"
       v-validate="firstnameValidator"
       @input="update"
     >
     <input
+      :placeholder="$trans('myName.middleName')"
       :style="inputStyle"
       :value="name.middlename"
-      placeholder="Отчество"
       ref="middlename"
       type="text"
       v-validate="middlenameValidator"
@@ -32,6 +32,8 @@
 
 <script>
   export default {
+    name: 'my-name',
+
     props: {
       direction: {
         type: String,
@@ -67,10 +69,6 @@
         type: [Number, String],
         default: 450,
       },
-    },
-
-    data () {
-      return {};
     },
 
     computed: {
