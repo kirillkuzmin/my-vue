@@ -25,12 +25,6 @@ function install (Vue) {
   for (const name in icons) {
     Vue.component(name, icons[name]);
   }
-
-  Vue.prototype.$my = new Vue({
-    data: {
-      lang: Vue.config.lang || 'en',
-    },
-  });
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
