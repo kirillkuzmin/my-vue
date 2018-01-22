@@ -42,7 +42,7 @@ export default {
     btnNo: 'No',
     btnOk: 'OK',
     btnYes: 'Yes',
-    close: 'Clse',
+    close: 'Close',
     maximize: 'Maximize',
     minimize: 'Minimize',
     opacity: 'Change opacity',
