@@ -48,14 +48,19 @@
       <table class="my-datepicker__table">
         <thead>
         <tr>
-          <td v-for="(day, index) in $trans('days')" v-text="day"></td>
+          <td
+            v-for="(day, index) in $trans('days')"
+            class="my-datepicker__day"
+            v-text="day"
+          >
+          </td>
         </tr>
         </thead>
         <tbody>
         <tr v-for="(week, w) in grid">
           <td
             v-for="(dayNum, d) in week"
-            :class="{ 'my-datepicker__day': dayNum, 'my-datepicker__day--selected': isSelected(dayNum), 'my-datepicker__day--today': isToday(dayNum) }"
+            :class="['my-datepicker__day', { 'my-datepicker__day--selected': isSelected(dayNum), 'my-datepicker__day--today': isToday(dayNum) }]"
             v-text="dayNum"
             @click="selectDay(dayNum)"
           >

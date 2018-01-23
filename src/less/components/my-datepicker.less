@@ -49,7 +49,6 @@
     & thead tr > td:first-child,
     & tbody tr > td,
     & tbody tr > td:first-child {
-      background: none !important;
       border: none;
       color: @datepicker-text-color;
       padding: 4px 8px;
@@ -96,6 +95,7 @@
   }
 
   &__day {
+    background-color: @datepicker-bg-color !important;
     cursor: pointer;
 
     &:hover {
