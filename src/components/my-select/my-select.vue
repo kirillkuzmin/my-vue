@@ -278,6 +278,7 @@
           {
             'my-select__item--selected': this.itemSelected(item, index),
           },
+          item.class,
         ];
       },
 
@@ -358,7 +359,7 @@
 
         let values = [];
 
-        this.filteredOptions.every(item => {
+        this.filteredOptions.some(item => {
           if (this.selected.indexOf(item[this.valueKey]) > -1) {
             values.push(item[this.labelKey]);
           }
