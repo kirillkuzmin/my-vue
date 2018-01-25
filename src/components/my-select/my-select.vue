@@ -214,7 +214,6 @@
         if (data.id === this.id) {
           this.searchText = data.label;
           this.selected = data.value;
-
         }
       });
     },
@@ -267,6 +266,10 @@
       },
 
       title () {
+        if (!this.searchText) {
+          return '';
+        }
+
         return this.searchText.replace(/; /g, '\n');
       },
     },
