@@ -33,9 +33,7 @@
     },
 
     created () {
-      this.$bus.listen('my-context-menu:hide', () => {
-        this.hide();
-      });
+      this.$bus.listen('my-context-menu:hide', this.hide);
     },
 
     methods: {
