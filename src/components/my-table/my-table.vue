@@ -62,6 +62,7 @@
             <template v-for="(column, key) in columns">
               <td
                 :class="getCellClass(row[key], key)"
+                :style="getCellStyle(column)"
                 v-if="slotExists(key)"
                 v-show="!column.hidden"
               >
@@ -74,6 +75,7 @@
               </td>
               <td
                 :class="getCellClass(row[key], key)"
+                :style="getCellStyle(column)"
                 v-html="getCellValue(row[key])"
                 v-show="!column.hidden"
                 v-else
@@ -489,6 +491,16 @@
         }
 
         return cl;
+      },
+
+      getCellStyle (options) {
+        let style = '';
+
+        if (options.width) {
+          style = 'width: ' + options.width + ';';
+        }
+
+        return style;
       },
 
       adjustHeight () {
