@@ -1,6 +1,5 @@
 .my-datepicker {
   display: inline-flex;
-  position: relative;
 
   &__element {
     align-items: center;
@@ -27,8 +26,12 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     box-sizing: border-box;
     display: block;
+    left: 0;
     padding: 4px;
     position: absolute;
+    top: 0;
+    transform: translate(0px, 0px);
+    will-change: transform;
     z-index: 9999;
   }
 
@@ -115,4 +118,14 @@
       }
     }
   }
+
+  /*.my-datepicker-fade-enter-active,
+  .my-datepicker-fade-leave-active {
+    transition: opacity 0.1s ease-in;
+  }
+
+  .my-datepicker-fade-enter,
+  .my-datepicker-fade-leave-to {
+    opacity: 0
+  }*/
 }

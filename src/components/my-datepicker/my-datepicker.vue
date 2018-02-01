@@ -16,6 +16,7 @@
         @click="show"
       />
     </div>
+    <!--<transition name="my-datepicker-fade" mode="out-in">-->
     <div ref="calendar" class="my-datepicker__calendar" v-show="showMe">
       <div class="my-datepicker__nav">
         <icon-arrow-left
@@ -97,6 +98,7 @@
         </button>
       </div>
     </div>
+    <!--</transition>-->
   </div>
 </template>
 
@@ -104,6 +106,7 @@
   import IconArrowLeft from 'icons/icon-arrow-left.vue';
   import IconArrowRight from 'icons/icon-arrow-right.vue';
   import IconDatepicker from 'icons/icon-datepicker.vue';
+  //import debounce from 'lodash/debounce';
   import parse from 'date-fns/parse';
   import Validator from 'classes/Validator';
 
@@ -181,7 +184,7 @@
 
         month: null,
 
-        relative: true,
+        //relative: true,
 
         selectedDate: '',
 
@@ -201,6 +204,10 @@
 
     created () {
       this.init();
+
+      //this.setPosition();
+      //window.addEventListener('scroll', debounce(this.setPosition, 50), true);
+      window.addEventListener('scroll', this.hide, true);
     },
 
     mounted () {
@@ -210,12 +217,6 @@
         this.$on('validation-error', error => {
           this.validator.setError(error);
         });
-      }
-
-      // temp
-      if (this.$parent.$options._componentTag === 'my-modal') {
-        this.$refs.datepicker.style.position = 'static';
-        this.relative = false;
       }
     },
 
@@ -235,6 +236,12 @@
 
       isEnd () {
         return (this.year === this.endYear && this.month === 12);
+      },
+
+      x () {
+        console.log(111);
+
+        return 1;
       },
     },
 
@@ -464,32 +471,34 @@
         return range;
       },
 
-      getPosition () {
-        let pos = 0;
+      $_getX () {
+        // TODO: right edge
+        return this.$refs.element.getBoundingClientRect().left + 'px';
+      },
 
-        const el = this.$refs.element;
+      $_getY () {
+        const element = this.$refs.element.getBoundingClientRect();
 
-        const calendar = this.$refs.calendar;
+        const scrollingElement = document.scrollingElement || document.documentElement;
 
-        // TODO: no footer
-        const footer = document.getElementsByTagName('footer')[0];
+        const calendarHeight = this.$refs.calendar.getBoundingClientRect().height;
 
-        const elTop = el.getBoundingClientRect().top;
+        const bottom = element.top + element.height + calendarHeight;
 
-        const elBottom = el.getBoundingClientRect().bottom;
+        let y = 0;
 
-        if ((elBottom + calendar.offsetHeight) > footer.getBoundingClientRect().top) {
-          pos = -calendar.offsetHeight;
+        if (bottom > window.innerHeight) {
+          y = element.top - calendarHeight + scrollingElement.scrollTop;
         } else {
-          pos = el.offsetHeight;
+          y = element.top + element.height + scrollingElement.scrollTop;
         }
 
-        return (this.relative ? pos : elTop + pos) + 'px';
+        return y + 'px';
       },
 
       setPosition () {
         this.$nextTick(() => {
-          this.$refs.calendar.style.top = this.getPosition();
+          this.$refs.calendar.style.transform = `translate(${this.$_getX()}, ${this.$_getY()})`;
         });
       },
 
