@@ -14,6 +14,7 @@ import MyModal from './my-modal';
 import MyMonth from './my-month';
 import MyName from './my-name';
 import MyOverlay from './my-overlay';
+import MyPopover from './my-popover';
 import MyRadio from './my-radio';
 import MySelect from './my-select';
 import MySidenav from './my-sidenav';
@@ -45,6 +46,7 @@ export default {
   MyMonth,
   MyName,
   MyOverlay,
+  MyPopover,
   MyRadio,
   MySelect,
   MySidenav,
