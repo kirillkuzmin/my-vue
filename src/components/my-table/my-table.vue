@@ -329,9 +329,18 @@
 
           this.sCols.forEach((col, i) => {
             data = orderBy(data, e => {
+              const sType = this.sTypes[i];
+              
               let cell = e[col];
+              
+              // TODO: regexp
+              if (sType.includes('column')) {
+                cell = e[sType.split(':')[1]];
+                
+                return (isObject(cell) ? cell.value : cell);
+              }
 
-              if (this.sTypes[i] === 'numeric') {
+              if (sType === 'numeric') {
                 cell = (isObject(cell) ? cell.value : cell);
                 cell = (isNaN(parseFloat(cell)) ? cell : parseFloat(cell));
 
