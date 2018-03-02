@@ -1,7 +1,11 @@
 <template>
   <div class="my-modal" v-show="show"><!--@click="hide"-->
-    <div class="my-modal__wrapper">
-      <div class="my-modal__container" :style="'opacity: '+ windowOpacity + ';'" ref="container">
+    <div class="my-modal__wrapper" @click.self="closeMe(true)">
+      <div
+        class="my-modal__container"
+        :style="'opacity: '+ windowOpacity + ';'"
+        ref="container"
+      >
         <!--@click.stop-->
         <div :class="headerClass" ref="header">
           <span v-text="header" v-if="header"></span>
@@ -30,7 +34,7 @@
             <icon-close
               :title="$trans('myModal.close')"
               v-if="close"
-              @click="$emit('close')"
+              @click="closeMe"
             />
           </div>
         </div>
@@ -114,6 +118,11 @@
 
       maxHeight: String,
 
+      outsideClose: {
+        type: Boolean,
+        default: true,
+      },
+
       opacityControl: {
         type: Boolean,
         default: true,
@@ -146,9 +155,9 @@
 
     components: {
       IconClose,
-      IconOpacity,
       IconMaximize,
       IconMinimize,
+      IconOpacity,
     },
 
     computed: {
@@ -156,20 +165,20 @@
         return {
           maxHeight: this.maxHeight + 'px',
           maxWidth: this.maxWidth + 'px',
-          overflowY: (this.scroll ? 'scroll' : 'auto'),
+          overflowY: this.scroll ? 'scroll' : 'auto',
         };
       },
 
       headerClass () {
         return [
           'my-modal__header',
-          (this.headerType ? 'my-modal__header--' + this.headerType : ''),
+          this.headerType ? 'my-modal__header--' + this.headerType : '',
         ];
       },
 
       /*hasExtSlot() {
-       return !!this.$slots['ext'];
-       }*/
+         return !!this.$slots['ext'];
+         }*/
     },
 
     created () {
@@ -181,11 +190,23 @@
     },
 
     methods: {
+      closeMe (out = false) {
+        if (out && !this.outsideClose) {
+          return;
+        }
+
+        this.$emit('close');
+      },
+
       max () {
         this.maximized = true;
 
         //
-        this.$refs.bodyWrapper.style.maxHeight = document.body.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.clientHeight + 'px';
+        this.$refs.bodyWrapper.style.maxHeight =
+          document.body.clientHeight -
+          this.$refs.header.clientHeight -
+          this.$refs.footer.clientHeight +
+          'px';
 
         //
         this.$refs.container.style.width = document.body.clientWidth + 'px';
