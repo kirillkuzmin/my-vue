@@ -24,7 +24,7 @@
           class="my-datepicker__icon"
           @click="getPrevious"
         />
-        <select class="my-datepicker__select" v-model="month" @change="drawCalendar">
+        <select class="my-datepicker__select" ref="month" v-model="month" @change="drawCalendar">
           <option
             v-for="(month, index) in $trans('months')"
             :value="index + 1"
@@ -32,7 +32,7 @@
           >
           </option>
         </select>
-        <select class="my-datepicker__select" v-model="year" @change="drawCalendar">
+        <select class="my-datepicker__select" ref="year" v-model="year" @change="drawCalendar">
           <option
             v-for="year in yearRange()"
             :value="year"
@@ -120,7 +120,7 @@
           // TODO: refactor
           let currentDate = new Date();
           let ut = parseInt(currentDate.getTime() / 1000, 10);
-          let cc = ut - (ut % 60);
+          let cc = ut - ut % 60;
 
           cc = cc % 600 ? cc + (600 - cc % 600) : cc;
 
@@ -132,7 +132,12 @@
 
           let hours = d.getHours();
 
-          return (parseInt(hours, 10) < 10 ? '0' : '') + hours + ':' + minutes.toString().padStart(2, '0');
+          return (
+            (parseInt(hours, 10) < 10 ? '0' : '') +
+            hours +
+            ':' +
+            minutes.toString().padStart(2, '0')
+          );
         },
       },
 
@@ -188,7 +193,7 @@
 
         selectedDate: '',
 
-        selectedTime: (this.withTime ? this.defaultTime : ''),
+        selectedTime: this.withTime ? this.defaultTime : '',
 
         showMe: false,
 
@@ -231,11 +236,11 @@
       },
 
       isStart () {
-        return (this.year === this.startYear && this.month === 1);
+        return this.year === this.startYear && this.month === 1;
       },
 
       isEnd () {
-        return (this.year === this.endYear && this.month === 12);
+        return this.year === this.endYear && this.month === 12;
       },
     },
 
@@ -280,7 +285,7 @@
       addZero (v) {
         v = parseInt(v, 10);
 
-        return (v < 10 ? '0' + v : v);
+        return v < 10 ? '0' + v : v;
       },
 
       getValue () {
@@ -332,12 +337,16 @@
 
       getTime () {
         if (this.withTime) {
-          return this.addZero(this.getHour()) + ':' + this.addZero(this.getMinute());
+          return (
+            this.addZero(this.getHour()) + ':' + this.addZero(this.getMinute())
+          );
         }
       },
 
       getDateAndTime () {
-        return this.selectedDate + (this.selectedTime ? ' ' + this.selectedTime : '');
+        return (
+          this.selectedDate + (this.selectedTime ? ' ' + this.selectedTime : '')
+        );
       },
 
       getCurrentDay () {
@@ -374,7 +383,7 @@
         let day = 1;
 
         for (let w = 1; w <= countofWeeks; w++) {
-          let week = grid[w] = [];
+          let week = (grid[w] = []);
 
           for (let j = 0; j <= 6; j++) {
             if (w === 1 && firstOfMonth.getDay() === 0) {
@@ -383,7 +392,11 @@
 
             if (w === 1 && j < leadDays) {
               week[j] = '';
-            } else if (w === countofWeeks && lastOfMonth.getDay() > 0 && (j > lastOfMonth.getDay() - 1)) {
+            } else if (
+              w === countofWeeks &&
+              lastOfMonth.getDay() > 0 &&
+              j > lastOfMonth.getDay() - 1
+            ) {
               week[j] = '';
             } else {
               week[j] = day;
@@ -446,13 +459,21 @@
       },
 
       isToday (dayNum) {
-        return (dayNum === this.getCurrentDay() && this.month === this.getCurrentMonth() && this.year === this.getCurrentYear());
+        return (
+          dayNum === this.getCurrentDay() &&
+          this.month === this.getCurrentMonth() &&
+          this.year === this.getCurrentYear()
+        );
       },
 
       isSelected (dayNum) {
         const d = new Date(parse(this.getValue()));
 
-        return (dayNum === d.getDate() && this.month === (d.getMonth() + 1) && this.year === d.getFullYear());
+        return (
+          dayNum === d.getDate() &&
+          this.month === d.getMonth() + 1 &&
+          this.year === d.getFullYear()
+        );
       },
 
       yearRange () {
@@ -473,7 +494,8 @@
       $_getY () {
         const element = this.$refs.element.getBoundingClientRect();
 
-        const scrollingElement = document.scrollingElement || document.documentElement;
+        const scrollingElement =
+          document.scrollingElement || document.documentElement;
 
         const calendarHeight = this.$refs.calendar.getBoundingClientRect().height;
 
@@ -506,7 +528,15 @@
         this.setPosition();
       },
 
-      hide () {
+      hide (e) {
+        if (
+          e &&
+          e.type === 'scroll' &&
+          (e.target === this.$refs.month || e.target === this.$refs.year)
+        ) {
+          return;
+        }
+
         this.showMe = false;
       },
     },
