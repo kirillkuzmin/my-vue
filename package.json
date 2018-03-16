@@ -1,6 +1,6 @@
 {
   "name": "@kirillkuzmin/my-vue",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Vue.js Component Library",
   "main": "dist/my-vue.min.js",
   "author": {
