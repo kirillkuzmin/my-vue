@@ -31,9 +31,9 @@
     background-color: @collapse-content-bg-color;
     box-sizing: border-box;
     color: @collapse-content-text-color;
-    height: 0;
+    max-height: 0;
     overflow: hidden;
-    transition: height 0.1s ease-out;
+    transition: max-height 0.2s ease-in;
 
     & > div {
       border: 1px solid @collapse-content-border-color;
@@ -42,7 +42,9 @@
     }
 
     &--has-errors {
-      border-color: @collapse-content-error-border-color;
+      & > div {
+        border-color: @collapse-content-error-border-color;
+      }
     }
   }
 }

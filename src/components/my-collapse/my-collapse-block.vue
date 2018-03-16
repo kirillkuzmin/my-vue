@@ -28,7 +28,9 @@
       id: {
         type: String,
         default () {
-          return Math.random().toString(36).slice(2);
+          return Math.random()
+            .toString(36)
+            .slice(2);
         },
       },
 
@@ -84,9 +86,21 @@
 
       contentStyle () {
         return {
-          'height': this.showBlock ? this.$refs.content.scrollHeight + 'px' : 0,
+          'max-height': this.showBlock
+            ? this.$refs.content.scrollHeight + 'px'
+            : 0,
         };
       },
+    },
+
+    created () {
+      this.$bus.listen('my-collapse:add-validator', data => {
+        if (data.blockId === this.id) {
+          this.validators.push(data.validator);
+        }
+      });
+
+      this.$bus.listen(`${this.id}:resize`, this.onResize);
     },
 
     mounted () {
@@ -99,17 +113,14 @@
       }
     },
 
-    created () {
-      this.$bus.listen('my-collapse:add-validator', data => {
-        if (data.blockId === this.id) {
-          this.validators.push(data.validator);
-        }
-      });
-    },
-
     methods: {
       click () {
         this.showBlock = !this.showBlock;
+      },
+
+      onResize () {
+        this.$refs.content.style.maxHeight =
+          this.$refs.content.scrollHeight + 'px';
       },
     },
   };
