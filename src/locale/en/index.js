@@ -65,7 +65,12 @@ export default {
 
   myTable: {
     empty: 'Empty list!',
+    firstPage: 'First page',
+    lastPage: 'Last page',
+    nextPage: 'Next page',
     nothingFound: 'Nothing found!',
+    of: 'of',
+    previousPage: 'Previous page',
   },
 
   myTableActionBar: {

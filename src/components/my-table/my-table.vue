@@ -4,6 +4,11 @@
       v-if="actionBar && data.length"
       @search="find"
     />
+    <my-table-pagination
+      ref="pagination"
+      v-if="paging"
+      @change="onPageChange"
+    />
     <div class="my-table__wrapper" v-if="found">
       <div class="my-table__fixed-header" ref="fixedHeader" v-if="fixedHeader">
         <table :class="tableClass" :style="getTableStyle()">
@@ -14,7 +19,7 @@
               :class="getColumnClass(column, key)"
               :style="getColumnStyle(column)"
               v-show="!column.hidden"
-              @click="column.sortable === false ? false : sortBy(key, null, column.sortType)"
+              @click="column.sortable === false ? false : sortBy(key, null, column.sortType, $event)"
             >
               <slot
                 :name="'columns:' + key"
@@ -39,7 +44,7 @@
               :class="getColumnClass(column, key)"
               :style="getColumnStyle(column)"
               v-show="!column.hidden"
-              @click="column.sortable === false ? false : sortBy(key, null, column.sortType)"
+              @click="column.sortable === false ? false : sortBy(key, null, column.sortType, $event)"
             >
               <slot
                 :name="'columns:' + key"
@@ -103,12 +108,12 @@
   import isObject from 'lodash/isObject';
   import MyAlert from 'components/my-alert';
   import MyTableActionBar from './my-table-action-bar.vue';
+  import MyTablePagination from './my-table-pagination.vue';
   import orderBy from 'lodash/orderBy';
   import remove from 'lodash/remove';
   import { getScrollbarWidth } from 'utils/scroll';
 
-  let onWindowResize = () => {
-  };
+  let onWindowResize = () => {};
 
   export default {
     name: 'my-table',
@@ -117,6 +122,11 @@
       actionBar: {
         type: Boolean,
         default: true,
+      },
+
+      ajax: {
+        type: Boolean,
+        default: false,
       },
 
       columns: {
@@ -147,6 +157,21 @@
       minHeight: {
         type: Number,
         default: 150,
+      },
+
+      multiSort: {
+        type: Boolean,
+        default: true,
+      },
+
+      pageLength: {
+        type: Number,
+        default: 50,
+      },
+
+      paging: {
+        type: Boolean,
+        default: false,
       },
 
       ready: {
@@ -182,10 +207,12 @@
     components: {
       MyAlert,
       MyTableActionBar,
+      MyTablePagination,
     },
 
     data () {
       return {
+        currentPage: 1,
         sCols: [],
         scrollX: false,
         sDirs: [],
@@ -195,6 +222,7 @@
         sortOrder: this.sortDirection,
         sortType: '',
         sTypes: [],
+        totalRows: 0,
       };
     },
 
@@ -213,16 +241,26 @@
         }
       });
 
+      this.$bus.listen(`${this.id}:goto`, pageNum => {
+        this.$refs.pagination.currentNum = pageNum;
+
+        this.currentPage = pageNum;
+      });
+
+      this.$bus.listen(`${this.id}:set_total`, total => {
+        this.totalRows = total;
+      });
+
       if (this.fixedHeader) {
         this.$bus.listen('my-table:onload', myTableId => {
           if (!myTableId || myTableId === this.id) {
-            this.$nextTick(() => this.redraw());
+            this.$nextTick(this.redraw);
           }
         });
 
         this.$bus.listen('my-table:redraw', myTableId => {
           if (!myTableId || myTableId === this.id) {
-            this.$nextTick(() => this.redraw());
+            this.$nextTick(this.redraw);
           }
         });
       }
@@ -247,23 +285,25 @@
     computed: {
       $_forKeep: {
         get () {
+          if (!this.multiSort) {
+            return {
+              selectedRow: this.selectedRow,
+              sortKey: this.sortKey,
+              sortOrder: this.sortOrder,
+              pageNum: this.currentPage,
+            };
+          }
+
           return {
             selectedRow: this.selectedRow,
             sortKeys: this.sCols,
             sortOrders: this.sDirs,
             sortTypes: this.sTypes,
+            pageNum: this.currentPage,
           };
         },
 
         set (newValue) {
-          if (!newValue.hasOwnProperty('sortKeys')) {
-            return;
-          }
-
-          this.sCols = newValue.sortKeys;
-          this.sDirs = newValue.sortOrders;
-          this.sTypes = newValue.sortTypes;
-
           let i = setInterval(() => {
             if (this.ready) {
               clearInterval(i);
@@ -276,6 +316,26 @@
             }
           }, 50);
 
+          if (this.paging) {
+            this.currentPage = newValue.pageNum;
+
+            this.$refs.pagination.currentNum = newValue.pageNum;
+          }
+
+          if (!this.multiSort) {
+            this.sortBy(newValue.sortKey, newValue.sortOrder);
+
+            return;
+          }
+
+          if (!newValue.hasOwnProperty('sortKeys')) {
+            return;
+          }
+
+          this.sCols = newValue.sortKeys;
+          this.sDirs = newValue.sortOrders;
+          this.sTypes = newValue.sortTypes;
+
           let j = this.sCols.length - 1;
 
           this.sortBy(this.sCols[j], this.sDirs[j], this.sTypes[j]);
@@ -287,17 +347,46 @@
       },
 
       filteredData () {
+        return this.ajax ? this.dynamicData : this.staticData;
+      },
+
+      dynamicData () {
+        if (!this.ajax) {
+          return {};
+        }
+
+        return this.data.slice();
+      },
+
+      staticData () {
+        if (this.ajax) {
+          return {};
+        }
+
         const sortKey = this.sortKey;
         const sortDir = this.sortOrder;
         const sortType = this.sortType;
         const filterKey = this.searchQuery && this.searchQuery.toLowerCase();
 
-        let data = this.data.slice();
+        let data;
+
+        if (this.paging) {
+          const from = (this.currentPage - 1) * this.pageLength;
+          const to = from + this.pageLength;
+
+          data = this.data.slice(from, to);
+        } else {
+          data = this.data.slice();
+        }
 
         if (filterKey) {
           data = data.filter(function (row) {
             return Object.keys(row).some(function (key) {
-              return String((isObject(row[key]) ? row[key].value : row[key])).toLowerCase().indexOf(filterKey) > -1;
+              return (
+                String(isObject(row[key]) ? row[key].value : row[key])
+                  .toLowerCase()
+                  .indexOf(filterKey) > -1
+              );
             });
           });
         }
@@ -328,27 +417,31 @@
           }
 
           this.sCols.forEach((col, i) => {
-            data = orderBy(data, e => {
-              const sType = this.sTypes[i];
+            data = orderBy(
+              data,
+              e => {
+                const sType = this.sTypes[i];
 
-              let cell = e[col];
+                let cell = e[col];
 
-              // TODO: regexp
-              if (sType && sType.includes('column')) {
-                cell = e[sType.split(':')[1]];
+                // TODO: regexp
+                if (sType && sType.includes('column')) {
+                  cell = e[sType.split(':')[1]];
 
-                return (isObject(cell) ? cell.value : cell);
-              }
+                  return isObject(cell) ? cell.value : cell;
+                }
 
-              if (sType === 'numeric') {
-                cell = (isObject(cell) ? cell.value : cell);
-                cell = (isNaN(parseFloat(cell)) ? cell : parseFloat(cell));
+                if (sType === 'numeric') {
+                  cell = isObject(cell) ? cell.value : cell;
+                  cell = isNaN(parseFloat(cell)) ? cell : parseFloat(cell);
 
-                return cell;
-              }
+                  return cell;
+                }
 
-              return (isObject(cell) ? cell.value : cell);
-            }, this.sDirs[i]);
+                return isObject(cell) ? cell.value : cell;
+              },
+              this.sDirs[i],
+            );
           });
 
           fixed.forEach(element => {
@@ -364,16 +457,24 @@
 
     methods: {
       $_getLastSortCol () {
-        return this.sCols[this.sCols.length - 1];
+        if (this.multiSort) {
+          return this.sCols[this.sCols.length - 1];
+        }
+
+        return this.sortKey;
       },
 
       $_getSortDir (column) {
-        const pos = this.sCols.indexOf(column);
+        if (this.multiSort) {
+          const pos = this.sCols.indexOf(column);
 
-        return this.sDirs[pos];
+          return this.sDirs[pos];
+        }
+
+        return this.sortOrder;
       },
 
-      sortBy (key, dir, type) {
+      sortBy (key, dir, type, event) {
         if (this.sort) {
           if (key === undefined) {
             this.sortKey = '';
@@ -383,23 +484,32 @@
             return;
           }
 
-          let sortOrder = '';
+          let sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
 
-          switch (this.$_getSortDir(key)) {
-            case 'asc':
-              sortOrder = 'desc';
-              break;
-            case 'desc':
-              sortOrder = 'none';
-              break;
-            default:
-              sortOrder = 'asc';
-              break;
+          if (this.multiSort) {
+            switch (this.$_getSortDir(key)) {
+              case 'asc':
+                sortOrder = 'desc';
+                break;
+              case 'desc':
+                sortOrder = 'none';
+                break;
+              default:
+                sortOrder = 'asc';
+                break;
+            }
           }
 
           this.sortKey = key;
-          this.sortOrder = (dir ? dir : sortOrder);
+          this.sortOrder = dir ? dir : sortOrder;
           this.sortType = type;
+
+          if (event && event.type === 'click') {
+            this.$emit('sort', {
+              col: this.sortKey,
+              dir: this.sortOrder,
+            });
+          }
         }
       },
 
@@ -452,10 +562,15 @@
         return [
           'my-table__column',
           {
+            'my-table__column--multi':
+            this.multiSort && column.sortable !== false,
             'my-table__column--sorted': this.$_getLastSortCol() === key,
-            'my-table__column--sorted-asc': this.$_getSortDir(key) === 'asc',
-            'my-table__column--sorted-desc': this.$_getSortDir(key) === 'desc',
-            'my-table__column--not-sortable': column.sortable === false || !this.sort,
+            'my-table__column--sorted-asc':
+            this.multiSort && this.$_getSortDir(key) === 'asc',
+            'my-table__column--sorted-desc':
+            this.multiSort && this.$_getSortDir(key) === 'desc',
+            'my-table__column--not-sortable':
+            column.sortable === false || !this.sort,
           },
           column.class,
         ];
@@ -502,11 +617,11 @@
         return cl;
       },
 
-      getCellStyle (options) {
+      getCellStyle (column) {
         let style = '';
 
-        if (options.width) {
-          style = 'width: ' + options.width + ';';
+        if (column.width) {
+          style = 'width: ' + column.width + ';';
         }
 
         return style;
@@ -532,7 +647,10 @@
         const myTables = document.getElementsByClassName('my-table__table');
 
         Array.from(myTables).forEach((myTable, i) => {
-          if (getComputedStyle(myTable).display === 'block' && myTable.clientHeight > 0) {
+          if (
+            getComputedStyle(myTable).display === 'block' &&
+            myTable.clientHeight > 0
+          ) {
             scrollPositions[i] = myTable.scrollTop;
 
             scrollHeights[i] = myTable.scrollHeight - myTable.clientHeight;
@@ -544,7 +662,8 @@
 
             initialHeights[i] = tableHeight;
 
-            minHeights[i] = (tableHeight < this.minHeight ? tableHeight : this.minHeight);
+            minHeights[i] =
+              tableHeight < this.minHeight ? tableHeight : this.minHeight;
 
             totalHeight += tableHeight;
 
@@ -557,10 +676,11 @@
         let content = document.getElementsByClassName('content')[0];
 
         /*if (content === undefined) {
-          content = document.getElementsByTagName('body')[0];
-        }*/
+                content = document.getElementsByTagName('body')[0];
+              }*/
 
-        spaceForMyTables = main.offsetHeight - (content.offsetHeight - totalHeight) - 0.001;
+        spaceForMyTables =
+          main.offsetHeight - (content.offsetHeight - totalHeight) - 0.001;
 
         for (let i in initialHeights) {
           if (initialHeights[i] < spaceForMyTables / myTablesCount) {
@@ -572,12 +692,17 @@
 
         for (let i in initialHeights) {
           if (newHeights[i] === undefined) {
-            newHeights[i] = Math.round(Math.min(initialHeights[i], spaceForMyTables / myTablesCount));
+            newHeights[i] = Math.round(
+              Math.min(initialHeights[i], spaceForMyTables / myTablesCount),
+            );
           }
         }
 
         Array.from(myTables).forEach((myTable, i) => {
-          if (getComputedStyle(myTable).display === 'block' && myTable.clientHeight > 0) {
+          if (
+            getComputedStyle(myTable).display === 'block' &&
+            myTable.clientHeight > 0
+          ) {
             let height = 0;
 
             if (spaceForMyTables / myTablesCount > minHeights[i]) {
@@ -591,14 +716,18 @@
             let width = 0;
 
             if (myTable.scrollHeight > myTable.offsetHeight) {
-              width = myTable.firstChild.getBoundingClientRect().width + 0.001 + window.scrollbarWidth;
+              width =
+                myTable.firstChild.getBoundingClientRect().width +
+                0.001 +
+                window.scrollbarWidth;
             } else {
               width = myTable.firstChild.getBoundingClientRect().width + 0.001;
             }
 
             myTable.style.width = width + 'px';
 
-            let diff = (myTable.scrollHeight - myTable.clientHeight) - scrollHeights[i];
+            let diff =
+              myTable.scrollHeight - myTable.clientHeight - scrollHeights[i];
 
             if (scrollPositions[i] > 0) {
               myTable.scrollTop = scrollPositions[i] + diff;
@@ -612,10 +741,12 @@
         const fixedRow = this.$refs.thead_fixed.firstChild;
 
         Array.from(fixedRow.cells).forEach((cell, index) => {
-          cell.style.width = baseRow.cells[index].getBoundingClientRect().width + 0.001 + 'px';
+          cell.style.width =
+            baseRow.cells[index].getBoundingClientRect().width + 0.001 + 'px';
         });
 
-        this.$refs.fixedHeader.style.width = this.$refs.thead.getBoundingClientRect().width + 1 + 'px';
+        this.$refs.fixedHeader.style.width =
+          this.$refs.thead.getBoundingClientRect().width + 1 + 'px';
         this.$refs.table.style.marginTop = -baseRow.offsetHeight - 1 + 'px';
       },
 
@@ -645,19 +776,32 @@
 
         const headerHeight = this.$refs.fixedHeader.clientHeight;
 
-        this.$refs.table.scrollTop = (tr ? tr.offsetTop - headerHeight : 0);
+        this.$refs.table.scrollTop = tr ? tr.offsetTop - headerHeight : 0;
+      },
+
+      onPageChange (num) {
+        this.currentPage = num;
+
+        this.$emit('page-change');
+
+        this.$nextTick(this.redraw);
       },
     },
 
     watch: {
       data () {
-        this.$nextTick(() => this.assignEvents());
+        this.$nextTick(this.assignEvents);
       },
 
       ready () {
         if (this.sortKey) {
           this.sortBy(this.sortKey, this.sortOrder);
         }
+      },
+
+      sortColumn () {
+        this.sortKey = this.sortColumn;
+        this.sortOrder = this.sortDirection;
       },
     },
   };

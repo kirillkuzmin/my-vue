@@ -65,7 +65,12 @@ export default {
 
   myTable: {
     empty: 'Список пуст!',
+    firstPage: 'Первая страница',
+    lastPage: 'Последняя страница',
+    nextPage: 'Следующая страница',
     nothingFound: 'Ничего не найдено!',
+    of: 'из',
+    previousPage: 'Предыдущая страница',
   },
 
   myTableActionBar: {
