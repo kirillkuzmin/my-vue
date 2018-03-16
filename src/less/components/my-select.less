@@ -2,12 +2,12 @@
   display: block;
   margin: 0;
   padding: 0;
-  position: relative;
-  width: auto;
 
   &__container {
     align-items: center;
-    display: flex;
+    display: inline-flex;
+    position: relative;
+    width: 100%;
   }
 
   &__input {
@@ -32,13 +32,16 @@
     border: @select-border-width solid @select-border-color;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     box-sizing: border-box;
-    flex-direction: column;
+    display: block;
     left: 0;
     max-height: 200px;
     overflow-y: auto;
     position: absolute;
     right: 0;
-    z-index: 3;
+    top: 0;
+    transform: translate(0px, 0px);
+    will-change: transform;
+    z-index: 9999;
 
     & > ul {
       display: flex;

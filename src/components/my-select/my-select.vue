@@ -216,6 +216,8 @@
           this.selected = data.value;
         }
       });
+
+      window.addEventListener('scroll', this.hide, true);
     },
 
     mounted () {
@@ -412,13 +414,55 @@
       show () {
         this.showList = true;
 
+        this.setPosition();
+
         this.$nextTick(() => {
           this.$refs.list.scrollTop = 0;
         });
       },
 
-      hide () {
+      hide (e) {
+        if (e && e.type === 'click' && e.target === this.$refs.input) {
+          return;
+        }
+
+        if (e && e.type === 'scroll' && e.target === this.$refs.list) {
+          return;
+        }
+
         this.showList = false;
+      },
+
+      $_getX () {
+        // TODO: right edge
+        return this.$refs.input.getBoundingClientRect().left + 'px';
+      },
+
+      $_getY () {
+        const input = this.$refs.input.getBoundingClientRect();
+
+        const scrollingElement = document.scrollingElement || document.documentElement;
+
+        const listHeight = this.$refs.list.getBoundingClientRect().height;
+
+        const bottom = input.top + input.height + listHeight;
+
+        let y = 0;
+
+        if (bottom > window.innerHeight) {
+          y = input.top - listHeight + scrollingElement.scrollTop;
+        } else {
+          y = input.top + input.height + scrollingElement.scrollTop;
+        }
+
+        return y + 'px';
+      },
+
+      setPosition () {
+        this.$nextTick(() => {
+          this.$refs.list.style.width = this.$refs.input.getBoundingClientRect().width + 'px';
+          this.$refs.list.style.transform = `translate(${this.$_getX()}, ${this.$_getY()})`;
+        });
       },
 
       changeState (loading = false) {
@@ -432,9 +476,9 @@
               this.select(this.options[0]);
             }*/
 
-            this.showList = true;
+            this.show();
           } else if (this.options.length === 0) {
-            this.showList = false;
+            this.hide();
           }
         });
       },
