@@ -3,8 +3,6 @@
     :class="iconClass"
     :title="title"
     @click="click"
-    @mouseenter="mouseenter"
-    @mouseleave="mouseleave"
   >
     <svg
       :fill="fill"
@@ -78,14 +76,6 @@
         } else {
           this.$emit('click');
         }
-      },
-
-      mouseenter () {
-        this.$emit('mouseenter');
-      },
-
-      mouseleave () {
-        this.$emit('mouseleave');
       },
     },
   };
