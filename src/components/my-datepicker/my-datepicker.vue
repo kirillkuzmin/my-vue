@@ -237,12 +237,6 @@
       isEnd () {
         return (this.year === this.endYear && this.month === 12);
       },
-
-      x () {
-        console.log(111);
-
-        return 1;
-      },
     },
 
     methods: {
