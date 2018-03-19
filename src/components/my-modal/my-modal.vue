@@ -16,8 +16,8 @@
             <icon-opacity
               :title="$trans('myModal.opacity')"
               v-if="opacityControl"
-              @mouseenter="disappear"
-              @mouseleave="appear"
+              @mouseenter.native="disappear"
+              @mouseleave.native="appear"
             />
             <template v-if="maxMin">
               <icon-maximize
