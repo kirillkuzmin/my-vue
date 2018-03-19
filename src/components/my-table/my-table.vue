@@ -154,14 +154,10 @@
           default: false,
       },
 
-
-
       fixedHeader: {
         type: Boolean,
         default: true,
       },
-
-
 
       id: {
         type: String,
