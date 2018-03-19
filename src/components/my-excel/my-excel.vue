@@ -218,7 +218,7 @@
             downloadLink.href = response.data.file;
 
             // ie11 не умеет
-            let nowDate = format(new Date(), 'YYYY-MM-DD_hh:mm:ss');
+            let nowDate = format(new Date(), 'YYYY-MM-DD_HH-mm-ss');
 
             downloadLink.download = this.filename +
               (this.timestamp ? '_' + nowDate : '') +
