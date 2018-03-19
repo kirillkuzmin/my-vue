@@ -46,6 +46,7 @@
   import MyCheckbox from 'components/my-checkbox';
   import MyLoading from 'components/my-loading';
   import MyModal from 'components/my-modal';
+  import format from 'date-fns/format';
 
   export default {
     name: 'my-excel',
@@ -79,6 +80,11 @@
       sheet: {
         type: String,
         default: 'Sheet',
+      },
+
+      timestamp: {
+        type: Boolean,
+        default: false,
       },
     },
 
@@ -212,7 +218,12 @@
             downloadLink.href = response.data.file;
 
             // ie11 не умеет
-            downloadLink.download = this.filename + '.' + response.data.ext;
+            let nowDate = format(new Date(), 'YYYY-MM-DD_hh:mm:ss');
+
+            downloadLink.download = this.filename +
+              (this.timestamp ? '_' + nowDate : '') +
+              '.' + response.data.ext;
+
             document.body.appendChild(downloadLink);
 
             downloadLink.click();

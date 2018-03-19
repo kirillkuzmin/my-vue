@@ -144,6 +144,16 @@
         default: '',
       },
 
+      excelFilename: {
+          type: String,
+          default: 'table',
+      },
+
+      excelTimestamp: {
+          type: Boolean,
+          default: false,
+      },
+
       fixedHeader: {
         type: Boolean,
         default: true,
