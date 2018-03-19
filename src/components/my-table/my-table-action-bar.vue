@@ -17,9 +17,9 @@
       <my-excel
         :columns="$parent.columns"
         :data="$parent.filteredData"
-        class="my-table__excel"
-        :timestamp="$parent.excelTimestamp"
         :filename="$parent.excelFilename"
+        :timestamp="$parent.excelTimestamp"
+        class="my-table__excel"
       />
     </div>
   </div>
