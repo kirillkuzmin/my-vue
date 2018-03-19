@@ -80,6 +80,11 @@
         type: String,
         default: 'Sheet',
       },
+
+      timestamp: {
+        type: Boolean,
+        default: false,
+      },
     },
 
     data () {
@@ -212,7 +217,12 @@
             downloadLink.href = response.data.file;
 
             // ie11 не умеет
-            downloadLink.download = this.filename + '.' + response.data.ext;
+            let nowDate = format(new Date(), 'YYYY-MM-DD_hh:mm:ss');
+
+            downloadLink.download = this.filename +
+              (this.timestamp ? '_' + nowDate : '') +
+              '.' + response.data.ext;
+
             document.body.appendChild(downloadLink);
 
             downloadLink.click();

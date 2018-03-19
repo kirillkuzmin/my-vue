@@ -18,6 +18,8 @@
         :columns="$parent.columns"
         :data="$parent.filteredData"
         class="my-table__excel"
+        :timestamp="$parent.excelTimestamp"
+        :filename="$parent.excelFilename"
       />
     </div>
   </div>
