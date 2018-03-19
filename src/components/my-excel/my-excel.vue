@@ -46,6 +46,7 @@
   import MyCheckbox from 'components/my-checkbox';
   import MyLoading from 'components/my-loading';
   import MyModal from 'components/my-modal';
+  import format from 'date-fns/format';
 
   export default {
     name: 'my-excel',
