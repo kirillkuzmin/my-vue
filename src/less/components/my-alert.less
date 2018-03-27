@@ -3,15 +3,21 @@
   border-radius: @alert-border-radius;
   box-sizing: border-box;
   display: flex;
-  height: 34px;
-  padding: @padding-default;
+  padding: 10px;
 
   &__icon {
     margin-right: 5px;
   }
 
   &__content {
+    align-items: center;
+    display: inline-flex;
+    height: 24px;
     vertical-align: middle;
+  }
+
+  &__close {
+    margin-left: 10px;
   }
 
   &--info {
