@@ -8,12 +8,12 @@
     <div class="my-alert__content">
       <slot></slot>
     </div>
-    <icon-close
+    <!--<icon-close
       :color="closeColor"
       class="my-alert__close"
       v-if="hideIcon"
       @click="hide"
-    />
+    />-->
   </div>
 </template>
 
@@ -27,6 +27,11 @@
     name: 'my-alert',
 
     props: {
+      flat: {
+        type: Boolean,
+        default: true,
+      },
+
       hideIcon: {
         type: Boolean,
         default: false,
@@ -61,6 +66,7 @@
         return [
           'my-alert',
           {
+            'my-alert--flat': this.flat,
             'my-alert--error': this.type === 'error',
             'my-alert--warning': this.type === 'warning',
             'my-alert--info': this.type === 'info',
@@ -68,9 +74,9 @@
         ];
       },
 
-      closeColor () {
+      /*closeColor () {
         return '#33691e';
-      },
+      },*/
 
       closeClass () {
         return `my-alert__close--${this.type}`;
