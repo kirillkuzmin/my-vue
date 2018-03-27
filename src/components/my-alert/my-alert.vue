@@ -1,6 +1,10 @@
 <template>
   <div :class="className">
-    <component :is="icon"></component>
+    <component
+      :is="iconComponent"
+      class="my-alert__icon"
+      v-if="icon"
+    />
     <div class="my-alert__content">
       <slot></slot>
     </div>
@@ -20,6 +24,11 @@
         type: String,
         default: 'warning',
       },
+
+      icon: {
+        type: Boolean,
+        default: true,
+      },
     },
 
     components: {
@@ -33,6 +42,7 @@
         return [
           'my-alert',
           {
+            //'my-alert--no-icon': !this.icon,
             'my-alert--error': this.type === 'error',
             'my-alert--warning': this.type === 'warning',
             'my-alert--info': this.type === 'info',
@@ -40,7 +50,7 @@
         ];
       },
 
-      icon () {
+      iconComponent () {
         return `icon-${this.type}`;
       },
     },
