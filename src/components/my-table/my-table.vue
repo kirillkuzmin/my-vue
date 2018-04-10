@@ -36,7 +36,7 @@
         </table>
       </div>
       <div class="my-table__table" ref="table">
-        <table :class="tableClass" :id="id" :style="getTableStyle()">
+        <table :class="tableClass" :id="id" :style="getTableStyle()" :width="wholeWidth ? '100%' : 'auto'">
           <thead ref="thead">
           <tr>
             <td
@@ -145,13 +145,13 @@
       },
 
       excelFilename: {
-          type: String,
-          default: 'table',
+        type: String,
+        default: 'table',
       },
 
       excelTimestamp: {
-          type: Boolean,
-          default: false,
+        type: Boolean,
+        default: false,
       },
 
       fixedHeader: {
@@ -211,6 +211,11 @@
         default () {
           return {};
         },
+      },
+
+      wholeWidth: {
+        type: Boolean,
+        default: false,
       },
     },
 
