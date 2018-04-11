@@ -1,5 +1,5 @@
 <template>
-  <div class="my-table" v-show="ready">
+  <div :class="['my-table', { 'my-table--auto-width': autoWidth }]" v-show="ready">
     <my-table-action-bar
       v-if="actionBar && data.length"
       @search="find"
@@ -36,7 +36,7 @@
         </table>
       </div>
       <div class="my-table__table" ref="table">
-        <table :class="tableClass" :id="id" :style="getTableStyle()" :width="wholeWidth ? '100%' : 'auto'">
+        <table :class="tableClass" :id="id" :style="getTableStyle()">
           <thead ref="thead">
           <tr>
             <td
@@ -129,6 +129,11 @@
         default: false,
       },
 
+      autoWidth: {
+        type: Boolean,
+        default: true,
+      },
+
       columns: {
         type: Object,
         required: true,
@@ -211,11 +216,6 @@
         default () {
           return {};
         },
-      },
-
-      wholeWidth: {
-        type: Boolean,
-        default: false,
       },
     },
 

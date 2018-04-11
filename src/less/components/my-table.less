@@ -1,6 +1,9 @@
 .my-table {
-  display: inline-block;
   position: relative;
+
+  &--auto-width {
+    display: inline-block;
+  }
 
   &__wrapper {
     overflow-x: auto;
@@ -65,6 +68,8 @@
     overflow-y: auto;
 
     & table {
+      width: 100%;
+
       & thead {
         & td, th {
           box-sizing: border-box;
