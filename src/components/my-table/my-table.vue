@@ -1,5 +1,5 @@
 <template>
-  <div :class="['my-table', { 'my-table--auto-width': autoWidth }]" v-show="ready">
+  <div class="my-table" v-show="ready">
     <my-table-action-bar
       v-if="actionBar && data.length"
       @search="find"
@@ -11,7 +11,7 @@
     />
     <div class="my-table__wrapper" v-if="found">
       <div class="my-table__fixed-header" ref="fixedHeader" v-if="fixedHeader">
-        <table :class="tableClass" :style="getTableStyle()">
+        <table :class="tableClass" :style="tableStyle">
           <thead ref="thead_fixed">
           <tr>
             <td
@@ -36,7 +36,7 @@
         </table>
       </div>
       <div class="my-table__table" ref="table">
-        <table :class="tableClass" :id="id" :style="getTableStyle()">
+        <table :class="tableClass" :id="id" :style="tableStyle">
           <thead ref="thead">
           <tr>
             <td
@@ -127,11 +127,6 @@
       ajax: {
         type: Boolean,
         default: false,
-      },
-
-      autoWidth: {
-        type: Boolean,
-        default: true,
       },
 
       columns: {
@@ -557,22 +552,6 @@
         }
       },
 
-      getTableStyle () {
-        let style = '';
-
-        const hasStyles = Object.keys(this.tableStyle).length;
-
-        if (hasStyles) {
-          for (let key in this.tableStyle) {
-            let value = this.tableStyle[key];
-
-            style += key + ': ' + value + ';';
-          }
-        }
-
-        return style;
-      },
-
       getColumnClass (column, key) {
         return [
           'my-table__column',
@@ -673,7 +652,7 @@
             myTable.style.height = 'auto';
             myTable.style.width = 'auto';
 
-            let tableHeight = myTable.firstChild.offsetHeight;
+            const tableHeight = myTable.firstChild.getBoundingClientRect().height;
 
             initialHeights[i] = tableHeight;
 
@@ -689,10 +668,6 @@
         const main = document.getElementsByTagName('main')[0];
 
         let content = document.getElementsByClassName('content')[0];
-
-        /*if (content === undefined) {
-                content = document.getElementsByTagName('body')[0];
-              }*/
 
         spaceForMyTables =
           main.offsetHeight - (content.offsetHeight - totalHeight) - 0.001;
@@ -730,7 +705,7 @@
 
             let width = 0;
 
-            if (myTable.scrollHeight > myTable.offsetHeight) {
+            if (this.getScrollHeight(myTable) > myTable.clientHeight) {
               width =
                 myTable.firstChild.getBoundingClientRect().width +
                 0.001 +
@@ -751,6 +726,22 @@
         });
       },
 
+      getScrollHeight (element) {
+        const rect = element.getBoundingClientRect();
+
+        return Math.floor(
+          element.scrollHeight + (parseInt(rect.height, 10) - rect.height - 0.01),
+        );
+      },
+
+      getScrollWidth (element) {
+        const rect = element.getBoundingClientRect();
+
+        return Math.floor(
+          element.scrollWidth + (parseInt(rect.width, 10) - rect.width - 0.01),
+        );
+      },
+
       fixHeader () {
         const baseRow = this.$refs.thead.firstChild;
         const fixedRow = this.$refs.thead_fixed.firstChild;
@@ -762,6 +753,7 @@
 
         this.$refs.fixedHeader.style.width =
           this.$refs.thead.getBoundingClientRect().width + 1 + 'px';
+
         this.$refs.table.style.marginTop = -baseRow.offsetHeight - 1 + 'px';
       },
 
