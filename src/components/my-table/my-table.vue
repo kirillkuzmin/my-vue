@@ -18,6 +18,7 @@
               v-for="(column, key) in columns"
               :class="getColumnClass(column, key)"
               :style="getColumnStyle(column)"
+              :title="column.hint"
               v-show="!column.hidden"
               @click="column.sortable === false ? false : sortBy(key, null, column.sortType, $event)"
             >
@@ -35,7 +36,7 @@
           </thead>
         </table>
       </div>
-      <div class="my-table__table" ref="table">
+      <div :class="['my-table__table', { 'my-table__table--adjustable': adjust }]" ref="table">
         <table :class="tableClass" :id="id" :style="tableStyle">
           <thead ref="thead">
           <tr>
@@ -43,6 +44,7 @@
               v-for="(column, key) in columns"
               :class="getColumnClass(column, key)"
               :style="getColumnStyle(column)"
+              :title="column.hint"
               v-show="!column.hidden"
               @click="column.sortable === false ? false : sortBy(key, null, column.sortType, $event)"
             >
@@ -53,7 +55,10 @@
               >
               </slot>
               <slot v-else>
-                <span v-html="column.title ? column.title : key"></span>
+                <span
+                  v-html="column.title ? column.title : key"
+                >
+                </span>
               </slot>
             </td>
           </tr>
@@ -127,6 +132,11 @@
       ajax: {
         type: Boolean,
         default: false,
+      },
+
+      adjust: {
+        type: Boolean,
+        default: true,
       },
 
       columns: {
@@ -622,6 +632,10 @@
       },
 
       adjustHeight () {
+        if (!this.adjust) {
+          return;
+        }
+
         let totalHeight = 0;
 
         let myTablesCount = 0;
@@ -638,7 +652,7 @@
 
         let spaceForMyTables = 0;
 
-        const myTables = document.getElementsByClassName('my-table__table');
+        const myTables = document.getElementsByClassName('my-table__table--adjustable');
 
         Array.from(myTables).forEach((myTable, i) => {
           if (
