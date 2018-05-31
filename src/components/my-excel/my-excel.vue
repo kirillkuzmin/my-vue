@@ -209,7 +209,7 @@
           cmpCol: tc,
           columns: truncColumns,
           data: truncData,
-          format: this.format,
+          fileFormat: this.format,
           headerName: this.header,
           sheetName: this.sheet,
         }).then(response => {
