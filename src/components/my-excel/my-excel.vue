@@ -94,19 +94,19 @@
         blockButton: false,
         fformats: [
           {
-            type: 'Excel2007',
+            type: 'Xlsx',
             ext: '.xlsx',
           },
           {
-            type: 'Excel5',
+            type: 'Xls',
             ext: '.xls',
           },
           {
-            type: 'CSV',
+            type: 'Csv',
             ext: '.csv',
           },
         ],
-        format: 'Excel2007',
+        format: 'Xlsx',
         modalShow: false,
         selectedCols: [],
       };
@@ -203,39 +203,30 @@
 
         this.blockButton = true;
 
+        let filename = this.filename +
+          (this.timestamp ? '_' + format(new Date(), 'YYYY-MM-DD_HH-mm') : '');
         axios.post(this.ajaxPath, {
           cmpCol: tc,
           columns: truncColumns,
           data: truncData,
-          format: this.format,
+          fileFormat: this.format,
           headerName: this.header,
           sheetName: this.sheet,
+          filename: filename,
         }).then(response => {
             this.blockButton = false;
-
             let downloadLink = document.createElement('a');
-
             downloadLink.href = response.data.file;
-
             // ie11 не умеет
-            let nowDate = format(new Date(), 'YYYY-MM-DD_HH-mm-ss');
-
-            downloadLink.download = this.filename +
-              (this.timestamp ? '_' + nowDate : '') +
-              '.' + response.data.ext;
-
+            downloadLink.download = filename + '.' + response.data.ext;
             document.body.appendChild(downloadLink);
-
             downloadLink.click();
-
             document.body.removeChild(downloadLink);
-
             this.modalShow = false;
           },
           error => {
             this.blockButton = false;
             this.modalShow = false;
-
             alert(this.$trans('serverError'));
           });
       },
