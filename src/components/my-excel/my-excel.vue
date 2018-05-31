@@ -212,6 +212,7 @@
           fileFormat: this.format,
           headerName: this.header,
           sheetName: this.sheet,
+          filename: filename,
         }).then(response => {
             this.blockButton = false;
             let downloadLink = document.createElement('a');
