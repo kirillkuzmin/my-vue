@@ -69,9 +69,5 @@
   "scripts": {
     "build": "webpack --config build/webpack.prod.conf.js",
     "watch": "webpack --watch --config build/webpack.dev.conf.js"
-  },
-  "dependencies": {
-    "global": "^4.3.2",
-    "prettier": "^1.10.2"
   }
 }
