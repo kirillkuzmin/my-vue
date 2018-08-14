@@ -67,15 +67,13 @@
 
     methods: {
       click (e) {
-        if (this.disabled) {
+        if (this.disabled && e.shiftKey) {
+          this.$emit('shift');
+          
           return;
         }
-
-        if (e.shiftKey) {
-          this.$emit('shift');
-        } else {
-          this.$emit('click');
-        }
+        
+        this.$emit('click');
       },
     },
   };
