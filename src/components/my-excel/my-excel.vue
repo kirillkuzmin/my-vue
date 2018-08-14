@@ -86,6 +86,11 @@
         type: Boolean,
         default: false,
       },
+
+      tableId: {
+        type: String,
+        required: true,
+      },
     },
 
     data () {
@@ -112,6 +117,13 @@
       };
     },
 
+    created () {
+      this.$bus.listen(`my-table-excel-${this.tableId}:save`, () => {
+        this.loadExcel(true);
+      });
+    },
+
+
     components: {
       IconImportExport,
       MyModal,
@@ -125,13 +137,13 @@
       },
     },
 
+
     methods: {
       /*allSel() {
        for (let ind in this.columns) {
        this.selectedCols[ind] = this.allCb;
        }
        },*/
-
       show () {
         this.selectedCols = [];
 
@@ -142,21 +154,21 @@
         this.modalShow = true;
       },
 
-      loadExcel () {
+      loadExcel (allParams = false) {
         let truncColumns = JSON.parse(JSON.stringify(this.columns));
         let truncData = JSON.parse(JSON.stringify(this.data));
         let invalidColumns = [];
-
-        for (let el in this.columns) {
-          if (!this.selectedCols.includes(el)) {
-            invalidColumns.push(el);
-            delete truncColumns[el];
+        if (allParams === false) {
+          for (let el in this.columns) {
+            if (!this.selectedCols.includes(el)) {
+              invalidColumns.push(el);
+              delete truncColumns[el];
+            }
           }
-        }
-
-        for (let el in invalidColumns) {
-          for (let ind in this.data) {
-            delete truncData[ind][invalidColumns[el]];
+          for (let el in invalidColumns) {
+            for (let ind in this.data) {
+              delete truncData[ind][invalidColumns[el]];
+            }
           }
         }
 

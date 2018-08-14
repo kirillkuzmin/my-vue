@@ -19,6 +19,7 @@
         :data="$parent.filteredData"
         :filename="$parent.excelFilename"
         :timestamp="$parent.excelTimestamp"
+        :tableId="$parent.id"
         class="my-table__excel"
       />
     </div>
