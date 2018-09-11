@@ -67,9 +67,11 @@
 
     methods: {
       click (e) {
-        if (this.disabled && e.shiftKey) {
-          this.$emit('shift');
-          
+        if (this.disabled) {
+          if (e.shiftKey) {
+            this.$emit('shift');
+          }
+
           return;
         }
         
