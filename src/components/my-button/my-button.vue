@@ -5,12 +5,11 @@
     class="my-button"
     @click="onClick"
   >
-    <my-loading
-      :size="16"
-      v-if="loading"
-    />
     <div :style="contentStyle" v-if="$slots.default">
       <slot></slot>
+    </div>
+    <div class="my-button__loading" v-show="loading">
+      <my-loading :size="16"/>
     </div>
   </button>
 </template>
@@ -45,7 +44,7 @@
     computed: {
       contentStyle () {
         return {
-          'margin-left': this.loading ? '5px' : '0',
+          'opacity': this.loading ? '0.0' : '1.0',
         };
       },
     },

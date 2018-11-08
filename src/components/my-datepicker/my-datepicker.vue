@@ -72,7 +72,7 @@
       <div v-if="withTime">
         <div class="my-datepicker__subheader" v-text="$trans('myDatepicker.chooseTime')"></div>
         <div class="my-datepicker__time">
-          <select v-model="hour" @change="changeTime(true)">
+          <select ref="hour" v-model="hour" @change="changeTime(true)">
             <option
               v-for="(hr, h) in Array(24)"
               v-text="addZero(h)"
@@ -80,7 +80,7 @@
             </option>
           </select>
           <span>:</span>
-          <select v-model="minute" @change="changeTime(false)">
+          <select ref="minute" v-model="minute" @change="changeTime(false)">
             <option
               v-for="m in ['00', '10', '20', '30', '40', '50']"
               v-text="m"
@@ -103,12 +103,12 @@
 </template>
 
 <script>
+  import Validator from 'classes/Validator';
+  //import debounce from 'lodash/debounce';
+  import parse from 'date-fns/parse';
   import IconArrowLeft from 'icons/icon-arrow-left.vue';
   import IconArrowRight from 'icons/icon-arrow-right.vue';
   import IconDatepicker from 'icons/icon-datepicker.vue';
-  //import debounce from 'lodash/debounce';
-  import parse from 'date-fns/parse';
-  import Validator from 'classes/Validator';
 
   export default {
     name: 'my-datepicker',
@@ -529,10 +529,17 @@
       },
 
       hide (e) {
+        const dtSelects = [
+          this.$refs.month,
+          this.$refs.year,
+          this.$refs.hour,
+          this.$refs.minute,
+        ];
+
         if (
           e &&
           e.type === 'scroll' &&
-          (e.target === this.$refs.month || e.target === this.$refs.year)
+          dtSelects.includes(e.target)
         ) {
           return;
         }

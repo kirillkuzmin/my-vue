@@ -109,14 +109,14 @@
 </template>
 
 <script>
+  import MyAlert from 'components/my-alert';
   import debounce from 'lodash/debounce';
   import isObject from 'lodash/isObject';
-  import MyAlert from 'components/my-alert';
-  import MyTableActionBar from './my-table-action-bar.vue';
-  import MyTablePagination from './my-table-pagination.vue';
   import orderBy from 'lodash/orderBy';
   import remove from 'lodash/remove';
   import { getScrollbarWidth } from 'utils/scroll';
+  import MyTableActionBar from './my-table-action-bar.vue';
+  import MyTablePagination from './my-table-pagination.vue';
 
   let onWindowResize = () => {};
 
@@ -567,14 +567,14 @@
           'my-table__column',
           {
             'my-table__column--multi':
-            this.multiSort && column.sortable !== false,
+              this.multiSort && column.sortable !== false,
             'my-table__column--sorted': this.$_getLastSortCol() === key,
             'my-table__column--sorted-asc':
-            this.multiSort && this.$_getSortDir(key) === 'asc',
+              this.multiSort && this.$_getSortDir(key) === 'asc',
             'my-table__column--sorted-desc':
-            this.multiSort && this.$_getSortDir(key) === 'desc',
+              this.multiSort && this.$_getSortDir(key) === 'desc',
             'my-table__column--not-sortable':
-            column.sortable === false || !this.sort,
+              column.sortable === false || !this.sort,
           },
           column.class,
         ];
@@ -783,7 +783,9 @@
         this.searchQuery = text;
 
         this.$nextTick(() => {
-          this.$bus.fire('my-table:redraw');
+          if (this.fixedHeader) {
+            this.$bus.fire('my-table:redraw');
+          }
 
           this.assignEvents();
         });

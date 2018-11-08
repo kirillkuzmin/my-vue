@@ -31,7 +31,7 @@ export default {
   },
 
   myForm: {
-    overlayMessage: 'Запрос отправлен, ожидайте ответа.',
+    overlayMessage: 'Пожалуйста, подождите.',
   },
 
   myMonth: {
@@ -55,7 +55,7 @@ export default {
   },
 
   myOverlay: {
-    message: 'Запрос отправлен, ожидайте ответа.',
+    message: 'Пожалуйста, подождите.',
   },
 
   mySelect: {

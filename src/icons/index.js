@@ -1,6 +1,7 @@
 import IconAdd from './icon-add.vue';
 import IconArrowLeft from './icon-arrow-left.vue';
 import IconArrowRight from './icon-arrow-right.vue';
+import IconClear from './icon-clear.vue';
 import IconClose from './icon-close.vue';
 import IconDatepicker from './icon-datepicker.vue';
 import IconError from './icon-error.vue';
@@ -16,6 +17,7 @@ export default {
   IconAdd,
   IconArrowLeft,
   IconArrowRight,
+  IconClear,
   IconClose,
   IconDatepicker,
   IconError,
