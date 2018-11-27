@@ -3,19 +3,11 @@ class Keep {
   }
 
   static get (path = '') {
-    try {
-      return JSON.parse(localStorage.getItem(path));
-    } catch (e) {
-      return localStorage.getItem(path);
-    }
+    return JSON.parse(localStorage.getItem(path));
   }
 
   static set (path, value) {
-    if (_.isObject(value)) {
-      value = JSON.stringify(value);
-    }
-
-    localStorage.setItem(path, value);
+    localStorage.setItem(path, JSON.stringify(value));
   }
 
   static remove (path) {

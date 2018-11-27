@@ -9,7 +9,7 @@ export default {
       return e.name === 'keep';
     }).value;
 
-    vkeepId = vkeepId ? vkeepId : '';
+    vkeepId = vkeepId || '';
 
     const data = Keep.get(trim([vkeepId, trim(location.pathname, '/'), el.id].join('.'), '.'));
 
@@ -51,7 +51,7 @@ export default {
       return e.name === 'keep';
     })].value;
 
-    vkeepId = vkeepId ? vkeepId : '';
+    vkeepId = vkeepId || '';
 
     let keepname = trim([vkeepId, trim(location.pathname, '/'), el.id].join('.'), '.');
 
