@@ -8,7 +8,7 @@
     >
     </option>
     <option
-      v-for="(year, y) in yearRange"
+      v-for="year in yearRange"
       :value="year"
       v-text="year"
     >
@@ -22,25 +22,31 @@
 
     props: {
       all: {
-        type: Boolean,
         default: false,
+        type: Boolean,
       },
 
       endYear: {
-        type: Number,
         default: new Date().getFullYear() + 2,
+        type: Number,
       },
 
-      id: String,
+      id: {
+        type: String,
+      },
 
-      name: String,
+      name: {
+        type: String,
+      },
 
       startYear: {
-        type: Number,
         default: 2006,
+        type: Number,
       },
 
-      value: [String, Number],
+      value: {
+        type: [String, Number],
+      },
     },
 
     computed: {
@@ -55,13 +61,13 @@
       },
 
       yearRange () {
-        let range = [];
+        let range = new Set();
 
         for (let y = this.startYear; y <= this.endYear; y++) {
-          range.push(y);
+          range.add(y);
         }
 
-        return range;
+        return Array.from(range);
       },
     },
   };
