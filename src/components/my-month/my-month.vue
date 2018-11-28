@@ -1,6 +1,12 @@
 <template>
   <select :id="id" :name="name" v-model="selected">
-    <option value="-1" style="font-style: italic;" v-text="$trans('myMonth.all')"></option>
+    <option
+      style="font-style: italic;"
+      v-if="all"
+      v-text="$trans('myMonth.all')"
+      value="-1"
+    >
+    </option>
     <option
       v-for="(month, m) in $trans('months')"
       :value="(++m).toString().padStart(2, '0')"
@@ -15,11 +21,22 @@
     name: 'my-month',
 
     props: {
-      id: String,
+      all: {
+        default: true,
+        type: Boolean,
+      },
 
-      name: String,
+      id: {
+        type: String,
+      },
 
-      value: [String, Number],
+      name: {
+        type: String,
+      },
+
+      value: {
+        type: [String, Number],
+      },
     },
 
     computed: {
