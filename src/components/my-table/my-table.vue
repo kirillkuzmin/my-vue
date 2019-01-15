@@ -684,7 +684,7 @@
         let content = document.getElementsByClassName('content')[0];
 
         spaceForMyTables =
-          main.offsetHeight - (content.offsetHeight - totalHeight) - 0.001;
+          main.offsetHeight - (content.offsetHeight - totalHeight) - 1.001;
 
         for (let i in initialHeights) {
           if (initialHeights[i] < spaceForMyTables / myTablesCount) {

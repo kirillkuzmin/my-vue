@@ -18,7 +18,7 @@
     position: relative;
 
     &::before {
-      border: 2px solid @checkbox-color;
+      border: 1px solid @checkbox-color;
       box-sizing: border-box;
       content: '';
       height: 16px;
@@ -43,7 +43,8 @@
     &:checked {
       & + label {
         &::before {
-          background-color: @checkbox-color;
+          background-color: @checkbox-color-checked;
+          border-color: @checkbox-color-checked;
         }
 
         &::after {
@@ -67,7 +68,7 @@
       &:disabled {
         & + label {
           &::before {
-            background-color: @checkbox-disabled-color;
+            background-color: @checkbox-color-disabled;
           }
         }
       }
@@ -76,7 +77,8 @@
     &:disabled {
       & + label {
         &::before {
-          border-color: @checkbox-disabled-color;
+          background-color: lighten(@checkbox-color-disabled, 10%);
+          border-color: @checkbox-color-disabled;
         }
       }
     }

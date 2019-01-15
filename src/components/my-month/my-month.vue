@@ -22,7 +22,7 @@
 
     props: {
       all: {
-        default: true,
+        default: false,
         type: Boolean,
       },
 
