@@ -3,6 +3,7 @@ export default {
     const myVue = window.myVue = new Vue({
       data: {
         lang: Vue.config.lang || 'en',
+        validators: {},
       },
     });
 

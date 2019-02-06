@@ -1,5 +1,7 @@
 class Validator {
   constructor (el, prop, rules, options) {
+    this.$i = {};
+
     // element
     this.element = el;
 
@@ -16,22 +18,15 @@ class Validator {
 
     this.options = options;
 
-    // is required
-    this.required = (this.rules.indexOf('required') !== -1);
-
     // errors
     this.errors = [];
 
     // error div
     this.container = null;
 
-    // required class
-    if (this.required) {
-      el.classList.add('required');
-    }
-
-    // ?
     this.ignore = false;
+
+    this.setRequired();
 
     //
     this.assignEvents();
@@ -109,7 +104,7 @@ class Validator {
   watchProperty () {
     let oldValue = this.getProperty();
 
-    setInterval(() => {
+    this.$i.p = setInterval(() => {
       if (!this.ignore) {
         let currentValue = this.getProperty();
 
@@ -125,7 +120,7 @@ class Validator {
   }
 
   watchErrors () {
-    setInterval(() => {
+    this.$i.e = setInterval(() => {
       if (this.errors.length) {
         if (!this.container) {
           let focused = this.element === document.activeElement;
@@ -167,7 +162,7 @@ class Validator {
           this.hideErrors();
         }
       }
-    }, 50);
+    }, 100);
   }
 
   check (val) {
@@ -182,11 +177,8 @@ class Validator {
       return;
     }
 
-    for (let i in this.rules) {
-      let rule = this.rules[i];
-
-      // TODO: to app
-      let vr = window.validators[rule];
+    for (let rule of this.rules) {
+      const vr = myVue.validators[rule];
 
       if (vr && val) {
         if (typeof vr === 'function') {
@@ -196,8 +188,10 @@ class Validator {
             this.errors.push(error);
           }
         } else {
-          if (!vr.pattern.test(val)) {
-            this.errors.push(vr.message);
+          const k = vr.hasOwnProperty('default') ? 'default' : config.server;
+
+          if (!vr[k].test(val)) {
+            this.errors.push(vr.error);
           }
         }
       }
@@ -236,7 +230,6 @@ class Validator {
   checkTabs () {
     let parent = this.element.parentNode;
 
-    // идем вверх по dom
     while (parent.tagName !== 'HTML') {
       // if element is inside my-tabs-pane
       if (parent.classList.contains('my-tabs__pane')) {
@@ -260,18 +253,36 @@ class Validator {
     }
   }
 
+  getRules () {
+    return this.rules.join(' ');
+  }
+
+  setRules (rules) {
+    this.clearErrors();
+
+    if (typeof rules === 'string') {
+      this.rules = rules.split(' ');
+    } else {
+      this.rules = rules;
+    }
+
+    this.setRequired();
+  }
+
   clearRules () {
     this.rules = [];
   }
 
-  addRules (rules) {
-    if (this.rules.indexOf(rules) === -1) {
-      if (typeof rules === 'object') {
-        this.rules = rules;
-      } else {
-        this.rules.push(rules);
-      }
+  setRequired () {
+    this.required = (this.rules.indexOf('required') !== -1);
+
+    if (this.required) {
+      this.element.classList.add('required');
+
+      return;
     }
+
+    this.element.classList.remove('required');
   }
 }
 
