@@ -40,9 +40,9 @@ class Validator {
     this.watchErrors();
 
     // global validator
-    /*if (typeof app.$validator !== 'undefined') {
+    if (typeof app.$validator !== 'undefined') {
       app.$validator.add(this);
-    }*/
+    }
   }
 
   hasErrors () {
@@ -188,7 +188,7 @@ class Validator {
             this.errors.push(error);
           }
         } else {
-          const k = vr.hasOwnProperty('default') ? 'default' : config.server;
+          const k = vr.hasOwnProperty('default') ? 'default' : Vue.prototype.$config.server;
 
           if (!vr[k].test(val)) {
             this.errors.push(vr.error);
