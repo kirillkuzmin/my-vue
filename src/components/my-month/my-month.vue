@@ -9,7 +9,7 @@
     </option>
     <option
       v-for="(month, m) in $trans('months')"
-      :value="(++m).toString().padStart(2, '0')"
+      :value="getMonthNumber(m)"
       v-text="month"
     >
     </option>
@@ -30,6 +30,11 @@
         type: String,
       },
 
+      leadingZero: {
+        type: Boolean,
+        default: true,
+      },
+
       name: {
         type: String,
       },
@@ -48,6 +53,14 @@
         set (val) {
           this.$emit('input', val);
         },
+      },
+    },
+
+    methods: {
+      getMonthNumber (m) {
+        m = (++m).toString();
+
+        return this.leadingZero ? m.padStart(2, '0') : m;
       },
     },
   };
