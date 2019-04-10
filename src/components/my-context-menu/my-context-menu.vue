@@ -12,12 +12,22 @@
 </template>
 
 <script>
+
   export default {
     name: 'my-context-menu',
 
+    props: {
+      position: {
+        type: String,
+        default: 'auto',
+      },
+    },
+
     data () {
       return {
+        height: 0,
         show: false,
+        width: 0,
         x: 0,
         y: 0,
       };
@@ -32,51 +42,97 @@
       },
     },
 
-    created () {
+    mounted () {
       this.$bus.listen('my-context-menu:hide', this.hide);
+
+      window.addEventListener('resize', this.hide);
     },
 
     methods: {
       hide () {
-        this.show = false;
+        if (this.show) {
+          this.show = false;
+        }
       },
 
-      open (e) {
+      async open (e) {
         this.$bus.fire('my-context-menu:hide');
 
-        e = e || window.event;
-
-        const scrollingElement = document.scrollingElement
-          || document.documentElement;
-
-        const mouseX = e.pageX || e.clientX + scrollingElement.scrollLeft;
-        const mouseY = e.pageY || e.clientY + scrollingElement.scrollTop;
+        // to wait for v-click-outside
+        await this.$nextTick();
 
         this.show = true;
 
-        this.$nextTick(() => {
-          const menuHeight = this.$refs.container.getBoundingClientRect().height;
-          const menuWidth = this.$refs.container.getBoundingClientRect().width;
+        await this.$nextTick();
 
-          let rightEdge = window.innerWidth - mouseX;
+        this.setSize();
 
-          let bottomEdge = window.innerHeight - mouseY
-            - document.getElementsByTagName('footer')[0].clientHeight;
+        this.setPosition(e);
+      },
 
-          if (rightEdge < menuWidth) {
-            this.x = mouseX - menuWidth;
-          } else {
-            this.x = mouseX;
-          }
+      setSize () {
+        this.width = this.$refs.container.getBoundingClientRect().width;
+        this.height = this.$refs.container.getBoundingClientRect().height;
+      },
 
-          if (bottomEdge < menuHeight) {
-            bottomEdge = mouseY - menuHeight;
+      setPosition (e) {
+        e = e || window.event;
 
-            this.y = (bottomEdge < 0 ? 0 : bottomEdge);
-          } else {
-            this.y = mouseY;
-          }
-        });
+        switch (this.position) {
+          case 'auto':
+            this.setAuto(e);
+
+            break;
+          case 'bottomRight':
+            this.setBottomRight(e.srcElement);
+
+            break;
+          default:
+            break;
+        }
+      },
+
+      setAuto (e) {
+        let {scrollLeft, scrollTop} = this.getScrolling();
+
+        const mouseX = e.pageX || e.clientX + scrollLeft;
+        const mouseY = e.pageY || e.clientY + scrollTop;
+
+        let rightEdge = window.innerWidth - mouseX;
+
+        let bottomEdge = window.innerHeight - mouseY
+          - document.getElementsByTagName('footer')[0].clientHeight;
+
+        if (rightEdge < this.width) {
+          this.x = mouseX - this.width;
+        } else {
+          this.x = mouseX;
+        }
+
+        if (bottomEdge < this.height) {
+          bottomEdge = mouseY - this.height;
+
+          this.y = (bottomEdge < 0 ? 0 : bottomEdge);
+        } else {
+          this.y = mouseY;
+        }
+      },
+
+      setBottomRight (element) {
+        let {scrollLeft, scrollTop} = this.getScrolling();
+
+        this.x = element.getBoundingClientRect().right - this.width + scrollLeft;
+        this.y = element.getBoundingClientRect().bottom + scrollTop;
+      },
+
+      getScrolling () {
+        const scrollingElement = document.scrollingElement
+          || document.documentElement;
+
+        return {
+          scrollLeft: scrollingElement.scrollLeft,
+          scrollTop: scrollingElement.scrollTop,
+        };
       },
     },
   };
