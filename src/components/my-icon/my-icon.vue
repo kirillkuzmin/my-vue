@@ -2,7 +2,9 @@
   <div
     :class="iconClass"
     :title="title"
-    @click="click"
+    @click="onClick"
+    @mouseout="onMouseOut"
+    @mouseover="onMouseOver"
   >
     <svg
       :fill="fill"
@@ -35,6 +37,10 @@
         default: false,
       },
 
+      hover: {
+        type: String,
+      },
+
       size: {
         type: [Number, String],
         default: 24,
@@ -44,6 +50,12 @@
         type: String,
         default: '',
       },
+    },
+
+    data () {
+      return {
+        currentColor: this.color,
+      };
     },
 
     computed: {
@@ -57,7 +69,7 @@
       },
 
       fill () {
-        return (this.disabled ? '#9e9e9e' : this.color);
+        return (this.disabled ? '#9e9e9e' : this.currentColor);
       },
 
       viewBox () {
@@ -66,11 +78,23 @@
     },
 
     methods: {
-      click (e) {
+      onClick (e) {
         if (!this.disabled) {
           this.$emit('click');
         } else if (e.shiftKey) {
           this.$emit('shift');
+        }
+      },
+
+      onMouseOver () {
+        if (this.hover) {
+          this.currentColor = this.hover;
+        }
+      },
+
+      onMouseOut () {
+        if (this.hover) {
+          this.currentColor = this.color;
         }
       },
     },
