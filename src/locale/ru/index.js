@@ -21,15 +21,6 @@ export default {
     chooseTime: 'Выберите время',
   },
 
-  myExcel: {
-    btnExport: 'Экспорт',
-    format: 'Формат',
-    header: 'Экспорт таблицы',
-    iconTitle: 'Экспорт',
-    serverError: 'Произошла ошибка на сервере.',
-    subheader: 'Выберите колонки для экспорта',
-  },
-
   myForm: {
     overlayMessage: 'Пожалуйста, подождите.',
   },
@@ -73,8 +64,17 @@ export default {
     previousPage: 'Предыдущая страница',
   },
 
-  myTableActionBar: {
+  myTableSearch: {
     search: 'Поиск',
+  },
+
+  myTableExport: {
+    iconTitle: 'Экспорт',
+    header: 'Экспорт таблицы',
+    subheader: 'Выберите колонки для экспорта',
+    format: 'Формат',
+    btnExport: 'Экспорт',
+    btnCancel: 'Отмена',
   },
 
   myYear: {

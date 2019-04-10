@@ -1,110 +1,120 @@
 <template>
   <div class="my-table" v-show="ready">
-    <my-table-action-bar
-      v-if="actionBar && data.length"
-      @search="find"
-    />
-    <my-table-pagination
-      ref="pagination"
-      v-if="paging"
-      @change="onPageChange"
-    />
-    <div class="my-table__wrapper" v-if="found">
-      <div class="my-table__fixed-header" ref="fixedHeader" v-if="fixedHeader">
-        <table :class="tableClass" :style="tableStyle">
-          <thead ref="thead_fixed">
-          <tr>
-            <td
-              v-for="(column, key) in columns"
-              :class="getColumnClass(column, key)"
-              :style="getColumnStyle(column)"
-              :title="column.hint"
-              v-show="!column.hidden"
-              @click="column.sortable === false ? false : sortBy(key, null, column.sortType, $event)"
-            >
-              <slot
-                :name="'columns:' + key"
-                :value="column.title"
-                v-if="slotExists('columns:' + key)"
-              >
-              </slot>
-              <slot v-else>
-                <span v-html="column.title ? column.title : key"></span>
-              </slot>
-            </td>
-          </tr>
-          </thead>
-        </table>
+    <div class="my-table__container">
+      <div class="my-table__action-bar">
+        <div style="display: flex;">
+          <my-table-export
+            @export="onExport"
+            v-if="exportTo"
+          />
+          <my-table-search
+            @search="find"
+            v-if="search"
+          />
+        </div>
+        <my-table-pagination
+          @change="onPageChange"
+          ref="pagination"
+          v-if="paging"
+        />
       </div>
-      <div :class="['my-table__table', { 'my-table__table--adjustable': adjust }]" ref="table">
-        <table :class="tableClass" :id="id" :style="tableStyle">
-          <thead ref="thead">
-          <tr>
-            <td
-              v-for="(column, key) in columns"
-              :class="getColumnClass(column, key)"
-              :style="getColumnStyle(column)"
-              :title="column.hint"
-              v-show="!column.hidden"
-              @click="column.sortable === false ? false : sortBy(key, null, column.sortType, $event)"
-            >
-              <slot
-                :name="'columns:' + key"
-                :value="column.title"
-                v-if="slotExists('columns:' + key)"
+      <div class="my-table__wrapper" v-if="found">
+        <div class="my-table__fixed-header" ref="fixedHeader" v-if="fixedHeader">
+          <table :class="tableClass" :style="tableStyle">
+            <thead ref="thead_fixed">
+            <tr>
+              <td
+                :class="getColumnClass(column, key)"
+                :style="getColumnStyle(column)"
+                :title="column.hint"
+                @click="column.sortable === false ? false : sortBy(key, null, column.sortType, $event)"
+                v-for="(column, key) in columns"
+                v-show="!column.hidden"
               >
-              </slot>
-              <slot v-else>
+                <slot
+                  :name="'columns:' + key"
+                  :value="column.title"
+                  v-if="slotExists('columns:' + key)"
+                >
+                </slot>
+                <slot v-else>
+                  <span v-html="column.title ? column.title : key"></span>
+                </slot>
+              </td>
+            </tr>
+            </thead>
+          </table>
+        </div>
+        <div :class="['my-table__table', { 'my-table__table--adjustable': adjust }]" ref="table">
+          <table :class="tableClass" :id="id" :style="tableStyle">
+            <thead ref="thead">
+            <tr>
+              <td
+                :class="getColumnClass(column, key)"
+                :style="getColumnStyle(column)"
+                :title="column.hint"
+                @click="column.sortable === false ? false : sortBy(key, null, column.sortType, $event)"
+                v-for="(column, key) in columns"
+                v-show="!column.hidden"
+              >
+                <slot
+                  :name="'columns:' + key"
+                  :value="column.title"
+                  v-if="slotExists('columns:' + key)"
+                >
+                </slot>
+                <slot v-else>
                 <span
                   v-html="column.title ? column.title : key"
                 >
                 </span>
-              </slot>
-            </td>
-          </tr>
-          </thead>
-          <tbody ref="tbody">
-          <tr
-            v-for="(row, i) in filteredData"
-            :class="getRowClass(row)"
-            :id="row.rowId"
-          >
-            <template v-for="(column, key) in columns">
-              <td
-                :class="getCellClass(row[key], key)"
-                :style="getCellStyle(column)"
-                v-if="slotExists(key)"
-                v-show="!column.hidden"
-              >
-                <slot
-                  :name="key"
-                  :raw-value="row[key]"
-                  :value="getCellValue(row[key])"
-                >
                 </slot>
               </td>
-              <td
-                :class="getCellClass(row[key], key)"
-                :style="getCellStyle(column)"
-                v-html="getCellValue(row[key])"
-                v-show="!column.hidden"
-                v-else
-              >
-              </td>
-            </template>
-          </tr>
-          </tbody>
-        </table>
+            </tr>
+            </thead>
+            <tbody ref="tbody">
+            <tr
+              :class="getRowClass(row)"
+              :id="row.rowId"
+              v-for="(row, i) in filteredData"
+            >
+              <template v-for="(column, key) in columns">
+                <td
+                  :class="getCellClass(row[key], key)"
+                  :style="getCellStyle(column)"
+                  v-if="slotExists(key)"
+                  v-show="!column.hidden"
+                >
+                  <slot
+                    :name="key"
+                    :raw-value="row[key]"
+                    :value="getCellValue(row[key])"
+                  >
+                  </slot>
+                </td>
+                <td
+                  :class="getCellClass(row[key], key)"
+                  :style="getCellStyle(column)"
+                  v-else
+                  v-html="getCellValue(row[key])"
+                  v-show="!column.hidden"
+                >
+                </td>
+              </template>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-    <my-alert type="warning" v-if="data.length && !found">
-      {{ $trans('myTable.nothingFound') }}
-    </my-alert>
-    <slot name="empty" v-if="!data.length">
-      <my-alert type="info">
-        {{ $trans('myTable.empty') }}
+      <my-alert type="warning" v-if="data.length && !found">
+        {{ $trans('myTable.nothingFound') }}
       </my-alert>
-    </slot>
+      <slot name="empty" v-if="!data.length">
+        <my-alert type="info">
+          {{ $trans('myTable.empty') }}
+        </my-alert>
+      </slot>
+    </div>
   </div>
 </template>
 
@@ -115,8 +125,9 @@
   import orderBy from 'lodash/orderBy';
   import remove from 'lodash/remove';
   import { getScrollbarWidth } from 'utils/scroll';
-  import MyTableActionBar from './my-table-action-bar.vue';
+  import MyTableExport from './my-table-export.vue';
   import MyTablePagination from './my-table-pagination.vue';
+  import MyTableSearch from './my-table-search.vue';
 
   let onWindowResize = () => {};
 
@@ -124,11 +135,6 @@
     name: 'my-table',
 
     props: {
-      actionBar: {
-        type: Boolean,
-        default: true,
-      },
-
       ajax: {
         type: Boolean,
         default: false,
@@ -154,14 +160,14 @@
         default: '',
       },
 
-      excelFilename: {
-        type: String,
-        default: 'table',
+      exportTo: {
+        type: Boolean,
+        default: true,
       },
 
-      excelTimestamp: {
-        type: Boolean,
-        default: false,
+      exportParams: {
+        type: Object,
+        default () {},
       },
 
       fixedHeader: {
@@ -199,6 +205,11 @@
         default: false,
       },
 
+      search: {
+        type: Boolean,
+        default: true,
+      },
+
       sort: {
         type: Boolean,
         default: true,
@@ -226,8 +237,9 @@
 
     components: {
       MyAlert,
-      MyTableActionBar,
+      MyTableExport,
       MyTablePagination,
+      MyTableSearch,
     },
 
     data () {
@@ -388,16 +400,7 @@
         const sortType = this.sortType;
         const filterKey = this.searchQuery && this.searchQuery.toLowerCase();
 
-        let data;
-
-        if (this.paging) {
-          const from = (this.currentPage - 1) * this.pageLength;
-          const to = from + this.pageLength;
-
-          data = this.data.slice(from, to);
-        } else {
-          data = this.data.slice();
-        }
+        let data = this.data.slice();
 
         if (filterKey) {
           data = data.filter(function (row) {
@@ -469,6 +472,13 @@
           });
         }
 
+        if (this.paging) {
+          const from = (this.currentPage - 1) * this.pageLength;
+          const to = from + this.pageLength;
+
+          data = data.slice(from, to);
+        }
+
         this.$emit('found', data);
 
         return data;
@@ -529,6 +539,10 @@
               col: this.sortKey,
               dir: this.sortOrder,
             });
+          }
+
+          if (!this.ajax) {
+            this.$nextTick(() => this.$bus.fire('my-table:redraw'));
           }
         }
       },
@@ -808,6 +822,28 @@
         this.$emit('page-change');
 
         this.$nextTick(this.redraw);
+      },
+
+      onExport ({columns, fileFormat}) {
+        const data = {
+          body: this.filteredData,
+          columns,
+        };
+
+        const params = {
+          fileFormat,
+          filename: 'table',
+          sheetName: 'sheet',
+          tableId: this.id,
+          timestamp: false,
+          ...this.exportParams,
+        };
+
+        const service = this.$my.tables.exportService;
+
+        if (service) {
+          (new service(data, params)).export();
+        }
       },
     },
 

@@ -1,6 +1,11 @@
 .my-table {
   position: relative;
 
+  &__container {
+    /*display: inline-flex;
+    flex-direction: column;*/
+  }
+
   &__wrapper {
     overflow-x: auto;
     width: auto;
@@ -76,6 +81,26 @@
     margin-top: 0;
   }
 
+  &__action-bar {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+  }
+
+  &__export {
+    align-items: center;
+    display: flex;
+  }
+
+  &__search {
+    & input {
+      width: @table-search-input-width;
+    }
+  }
+
   &__pagination {
     display: flex;
     align-items: center;
@@ -83,52 +108,22 @@
   }
 
   &__pagination-range {
+    margin-left: 5px;
     padding-left: @padding-default;
     padding-right: @padding-default;
   }
 
   &__page {
+    align-items: center;
+    border: 1px solid @color-grey;
     cursor: pointer;
-    padding: 5px;
+    display: flex;
+    margin-left: 5px;
+    padding: 4px;
 
     &--current {
       background-color: @table-current-page-bg-color;
       color: @table-current-page-color;
-    }
-  }
-
-  &__action-bar {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    position: absolute;
-  }
-
-  &__action-bar-container {
-    align-items: center;
-    background-color: #fff;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-    cursor: default;
-    display: inline-flex;
-    justify-content: center;
-    min-width: @table-search-input-width + @table-export-icon-width + @table-export-icon-margin-left;
-    padding: 5px;
-    position: absolute;
-    z-index: 9998;
-  }
-
-  &__action-bar-icon {
-    position: absolute;
-    z-index: 9997;
-  }
-
-  &__excel {
-    margin-left: @table-export-icon-margin-left;
-  }
-
-  &__search {
-    & input {
-      width: @table-search-input-width;
     }
   }
 }

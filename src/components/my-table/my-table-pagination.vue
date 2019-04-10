@@ -1,12 +1,16 @@
 <template>
   <div class="my-table__pagination">
     <icon-first-page
+      :size="16"
       :disabled="currentNum === 1"
+      class="my-table__page"
       :title="$trans('myTable.firstPage')"
       @click="first"
     />
     <icon-arrow-left
+      :size="16"
       :disabled="currentNum === 1"
+      class="my-table__page"
       :title="$trans('myTable.previousPage')"
       @click="previous"
     />
@@ -14,12 +18,16 @@
       {{ `${from} - ${to} ${$trans('myTable.of')} ${total}` }}
     </div>
     <icon-arrow-right
+      :size="16"
       :disabled="currentNum === pagesCount"
+      class="my-table__page"
       :title="$trans('myTable.nextPage')"
       @click="next"
     />
     <icon-last-page
+      :size="16"
       :disabled="currentNum === pagesCount"
+      class="my-table__page"
       :title="$trans('myTable.lastPage')"
       @click="last"
     />
@@ -33,6 +41,8 @@
   import IconLastPage from 'icons/icon-last-page.vue';
 
   export default {
+    name: 'my-table-pagination',
+
     props: {},
 
     data () {

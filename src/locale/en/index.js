@@ -73,8 +73,17 @@ export default {
     previousPage: 'Previous page',
   },
 
-  myTableActionBar: {
+  myTableSearch: {
     search: 'Search',
+  },
+
+  myTableExport: {
+    iconTitle: 'Export',
+    header: 'Table export',
+    subheader: 'Select columns to export',
+    format: 'Format',
+    btnExport: 'Export',
+    btnCancel: 'Cancel',
   },
 
   myYear: {
