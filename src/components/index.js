@@ -8,6 +8,7 @@ import MyDatepicker from './my-datepicker';
 import MyDisabled from './my-disabled';
 import MyForm from './my-form';
 import MyIcon from './my-icon';
+import MyInitialsAvatar from './my-initials-avatar';
 import MyLoading from './my-loading';
 import { MyMenu, MyMenuItem, MyMenuSection } from './my-menu';
 import MyModal from './my-modal';
@@ -18,7 +19,7 @@ import MyPopover from './my-popover';
 import MyRadio from './my-radio';
 import MySelect from './my-select';
 import MySidenav from './my-sidenav';
-import { MyTable } from './my-table';
+import MyTable from './my-table';
 import { MyTabs, MyTabsFixed, MyTabsPane } from './my-tabs';
 import MyTextedit from './my-textedit';
 import MyTree from './my-tree';
@@ -38,6 +39,7 @@ export default {
   MyDisabled,
   MyForm,
   MyIcon,
+  MyInitialsAvatar,
   MyLoading,
   MyMenu,
   MyMenuItem,
