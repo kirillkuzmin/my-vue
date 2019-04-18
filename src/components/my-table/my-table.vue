@@ -607,7 +607,7 @@
       getRowClass (row) {
         let cl = [];
 
-        if (row.rowId === this.selectedRow) {
+        if (row.rowId == this.selectedRow) {
           cl.push('my-table__row--selected');
         }
 
