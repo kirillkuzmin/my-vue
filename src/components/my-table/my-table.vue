@@ -601,16 +601,21 @@
           style = 'width: ' + options.width + ';';
         }
 
-        return style;
+        return style || null;
       },
 
       getRowClass (row) {
-        return [
-          {
-            'my-table__row--selected': row.rowId == this.selectedRow,
-          },
-          row.rowClass,
-        ];
+        let cl = [];
+
+        if (row.rowId === this.selectedRow) {
+          cl.push('my-table__row--selected');
+        }
+
+        if (row['rowClass']) {
+          cl.push(row['rowClass']);
+        }
+
+        return cl.length ? cl : null;
       },
 
       getCellValue (cell) {
@@ -632,7 +637,7 @@
           cl.push('my-table__cell--sorted');
         }
 
-        return cl;
+        return cl.length ? cl : null;
       },
 
       getCellStyle (column) {
@@ -642,7 +647,7 @@
           style = 'width: ' + column.width + ';';
         }
 
-        return style;
+        return style || null;
       },
 
       adjustHeight () {
