@@ -54,11 +54,15 @@
 
     data () {
       return {
-        currentColor: this.color,
+        cc: '',
       };
     },
 
     computed: {
+      currentColor () {
+        return this.cc || this.color;
+      },
+
       iconClass () {
         return [
           'my-icon',
@@ -88,13 +92,13 @@
 
       onMouseOver () {
         if (this.hover) {
-          this.currentColor = this.hover;
+          this.cc = this.hover;
         }
       },
 
       onMouseOut () {
         if (this.hover) {
-          this.currentColor = this.color;
+          this.cc = '';
         }
       },
     },
