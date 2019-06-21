@@ -14,7 +14,7 @@ class Modal {
               fn(arg);
 
               v.$destroy();
-              v.$el.remove();
+              v.$el.parentNode.removeChild(v.$el);
             };
           },
         },
