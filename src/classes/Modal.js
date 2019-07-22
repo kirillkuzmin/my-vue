@@ -26,7 +26,7 @@ class Modal {
               ...params,
             },
             on: {
-              no: this.close(() => {}),
+              no: this.close(reject),
               ok: this.close(resolve),
               yes: this.close(resolve),
             },

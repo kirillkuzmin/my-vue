@@ -1,5 +1,5 @@
 <template>
-  <div class="my-modal" v-show="show"><!--@click="hide"-->
+  <div class="my-modal" v-cloak v-show="show"><!--@click="hide"-->
     <div class="my-modal__wrapper" @click.self="closeMe(true)">
       <div
         class="my-modal__container"
@@ -51,7 +51,7 @@
         <div class="my-modal__footer" ref="footer">
           <template v-if="type === 'alert'">
             <button
-              autofocus
+              ref="auto"
               type="button"
               v-text="$trans('myModal.btnOk')"
               @click="$emit('ok')"
@@ -60,7 +60,7 @@
           </template>
           <template v-else-if="type === 'confirm'">
             <button
-              autofocus
+              ref="auto"
               type="button"
               v-text="$trans('myModal.btnYes')"
               @click="$emit('yes')"
@@ -84,9 +84,9 @@
 
 <script>
   import IconClose from 'icons/icon-close.vue';
-  import IconOpacity from 'icons/icon-opacity.vue';
   import IconMaximize from 'icons/icon-maximize.vue';
   import IconMinimize from 'icons/icon-minimize.vue';
+  import IconOpacity from 'icons/icon-opacity.vue';
 
   export default {
     name: 'my-modal',
@@ -187,6 +187,12 @@
           this.max();
         }
       });
+    },
+
+    mounted () {
+      if (this.type) {
+        this.$nextTick(() => this.$refs.auto.focus());
+      }
     },
 
     methods: {
