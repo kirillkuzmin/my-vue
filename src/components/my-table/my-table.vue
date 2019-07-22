@@ -1,7 +1,7 @@
 <template>
   <div class="my-table" v-show="ready">
     <div class="my-table__container">
-      <div class="my-table__action-bar">
+      <div class="my-table__action-bar" v-if="exportTo || search || paging">
         <div style="display: flex;">
           <my-table-export
             @export="onExport"
