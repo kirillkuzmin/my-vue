@@ -5,9 +5,9 @@
       class="my-alert__icon"
       v-if="typeIcon"
     />
-    <div class="my-alert__content">
+    <span class="my-alert__message">
       <slot></slot>
-    </div>
+    </span>
     <!--<icon-close
       :color="closeColor"
       class="my-alert__close"
@@ -27,11 +27,6 @@
     name: 'my-alert',
 
     props: {
-      flat: {
-        type: Boolean,
-        default: true,
-      },
-
       hideIcon: {
         type: Boolean,
         default: false,
@@ -66,7 +61,6 @@
         return [
           'my-alert',
           {
-            'my-alert--flat': this.flat,
             'my-alert--error': this.type === 'error',
             'my-alert--warning': this.type === 'warning',
             'my-alert--info': this.type === 'info',

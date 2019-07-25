@@ -7,7 +7,7 @@
     props: {
       color: {
         type: String,
-        default: '#f9a825',
+        default: '#f7a827',
       },
     },
 
