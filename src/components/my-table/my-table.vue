@@ -74,9 +74,13 @@
             </thead>
             <tbody ref="tbody">
             <tr
+              :key="row.rowId"
               :class="getRowClass(row)"
               :id="row.rowId"
-              v-for="(row, i) in filteredData"
+              @click="onRowEvent(row, index, $event)"
+              @contextmenu="onRowEvent(row, index, $event)"
+              @dblclick="onRowEvent(row, index, $event)"
+              v-for="(row, index) in filteredData"
             >
               <template v-for="(column, key) in columns">
                 <td
@@ -551,28 +555,17 @@
         return typeof this.$scopedSlots[name] === 'function';
       },
 
-      assignEvents () {
-        if (this.events.length && this.found) {
-          const events = this.events.split(',');
+      onRowEvent (row, index, event) {
+        const events = this.events.split(',');
 
-          Array.from(this.$refs.tbody.children).forEach((row, index) => {
-            if (!this.data[index].ignoreEvents) {
-              for (let i in events) {
-                let ev = events[i].toLowerCase().trim();
+        if (!events.includes(event.type)) {
+          return;
+        }
 
-                row.addEventListener(ev, e => {
-                  if (e.target === row) {
-                    e.preventDefault();
-                  }
+        if (!this.filteredData[index].ignoreEvents) {
+          this.selectedRow = row.rowId;
 
-                  this.selectedRow = row.id;
-                  this.$emit('row-' + ev, row.id, e);
-                });
-              }
-            }
-          });
-
-          this.$emit('events-assigned');
+          this.$emit(`row-${event.type}`, row.rowId, event);
         }
       },
 
@@ -805,8 +798,6 @@
           if (this.fixedHeader) {
             this.$bus.fire('my-table:redraw');
           }
-
-          this.assignEvents();
         });
       },
 
@@ -853,10 +844,6 @@
     },
 
     watch: {
-      data () {
-        this.$nextTick(this.assignEvents);
-      },
-
       ready () {
         if (this.sortKey) {
           this.sortBy(this.sortKey, this.sortOrder);
