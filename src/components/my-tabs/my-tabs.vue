@@ -19,6 +19,11 @@
   export default {
     name: 'my-tabs',
 
+    model: {
+      prop: 'selected',
+      event: 'change',
+    },
+
     props: {
       fixed: {
         type: Boolean,
@@ -34,6 +39,11 @@
         type: Boolean,
         default: true,
       },
+
+      selected: {
+        type: String,
+        default: '',
+      },
     },
 
     data () {
@@ -46,6 +56,8 @@
     created () {
       this.tabs = this.$children;
 
+      this.$nextTick(() => this.setActiveTab(this.selected));
+
       if (this.fixed) {
         this.$bus.fire('my-tabs-fixed:init', this);
       }
@@ -56,6 +68,7 @@
         get () {
           return this.selectedTabIndex;
         },
+
         set (newValue) {
           this.selectTab(this.tabs[newValue], newValue);
         },
@@ -83,16 +96,22 @@
         ];
       },
 
-      selectTab (selectedTab, ind) {
-        this.selectedTabIndex = ind;
+      selectTab (tab, index) {
+        this.selectedTabIndex = index;
 
-        if (!selectedTab.isDisabled) {
-          this.tabs.forEach(tab => {
-            tab.isActive = (tab.title === selectedTab.title);
-          });
-
-          this.$emit('tab-click', selectedTab);
+        if (!tab.isDisabled) {
+          this.$emit('change', tab.id);
         }
+      },
+
+      setActiveTab (tabId) {
+        this.tabs.forEach(tab => tab.isActive = tab.id === tabId);
+      },
+    },
+
+    watch: {
+      selected (newVal) {
+        this.setActiveTab(newVal);
       },
     },
   };

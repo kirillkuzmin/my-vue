@@ -1,5 +1,10 @@
 <template>
-  <div class="my-tabs__pane" :id="id" v-show="isActive">
+  <div
+    :id="id"
+    class="my-tabs__pane"
+    ref="pane"
+    v-show="isActive"
+  >
     <slot></slot>
   </div>
 </template>
