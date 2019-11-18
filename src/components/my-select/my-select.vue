@@ -81,10 +81,9 @@
 </template>
 
 <script>
-  import debounce from 'lodash/debounce';
   import IconArrowDown from 'icons/icon-arrow-down.vue';
   import IconClear from 'icons/icon-clear.vue';
-  import Validator from 'classes/Validator';
+  import debounce from 'lodash/debounce';
 
   export default {
     name: 'my-select',
@@ -223,6 +222,8 @@
     mounted () {
       if (this.validate) {
         const input = this.$refs.input;
+
+        const Validator = this.$my.validator;
 
         this.validator = new Validator(input, 'value', this.validate);
 

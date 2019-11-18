@@ -103,7 +103,6 @@
 </template>
 
 <script>
-  import Validator from 'classes/Validator';
   //import debounce from 'lodash/debounce';
   import parse from 'date-fns/parse';
   import IconArrowLeft from 'icons/icon-arrow-left.vue';
@@ -217,6 +216,8 @@
 
     mounted () {
       if (this.validate) {
+        const Validator = this.$my.validator;
+
         this.validator = new Validator(this.$refs.input, 'value', this.validate);
 
         this.$on('validation-error', error => {

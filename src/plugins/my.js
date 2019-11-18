@@ -10,6 +10,7 @@ export default {
         tables: {
           exportService: null,
         },
+        validator: {},
         validators: {},
       },
 
