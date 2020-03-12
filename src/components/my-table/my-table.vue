@@ -114,7 +114,7 @@
         {{ $trans('myTable.nothingFound') }}
       </my-alert>
       <slot name="empty" v-if="!data.length">
-        <my-alert type="info">
+        <my-alert style="margin-bottom: 0;" type="info">
           {{ $trans('myTable.empty') }}
         </my-alert>
       </slot>

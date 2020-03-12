@@ -28,7 +28,7 @@
     },
 
     props: {
-      checked: [Boolean, Array, Number],
+      checked: null,
 
       disabled: [Boolean, String],
 
