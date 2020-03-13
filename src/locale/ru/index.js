@@ -34,8 +34,9 @@ export default {
     btnOk: 'ОК',
     btnYes: 'Да',
     close: 'Закрыть',
-    maximize: 'Развернуть',
-    minimize: 'Свернуть в окно',
+    enterFullScreen: 'Полноэкранный режим',
+    exitFullScreen: 'Оконный режим',
+    minimize: 'Свернуть',
     opacity: 'Изменить прозрачность',
   },
 

@@ -19,18 +19,23 @@
               @mouseenter.native="disappear"
               @mouseleave.native="appear"
             />
-            <template v-if="maxMin">
-              <icon-maximize
-                :title="$trans('myModal.maximize')"
-                v-if="!maximized"
-                @click="max()"
+            <template v-if="fullScreen">
+              <icon-enter-full-screen
+                :title="$trans('myModal.enterFullScreen')"
+                @click="enterFullScreen()"
+                v-if="!inFullScreen"
               />
-              <icon-minimize
-                :title="$trans('myModal.minimize')"
+              <icon-exit-full-screen
+                :title="$trans('myModal.exitFullScreen')"
+                @click="exitFullScreen()"
                 v-else
-                @click="min()"
               />
             </template>
+            <icon-minimize
+              :title="$trans('myModal.minimize')"
+              @click="minimizeMe"
+              v-if="minimize"
+            />
             <icon-close
               :title="$trans('myModal.close')"
               v-if="close"
@@ -84,7 +89,8 @@
 
 <script>
   import IconClose from 'icons/icon-close.vue';
-  import IconMaximize from 'icons/icon-maximize.vue';
+  import IconEnterFullScreen from 'icons/icon-enter-full-screen.vue';
+  import IconExitFullScreen from 'icons/icon-exit-full-screen.vue';
   import IconMinimize from 'icons/icon-minimize.vue';
   import IconOpacity from 'icons/icon-opacity.vue';
 
@@ -102,6 +108,11 @@
         default: false,
       },
 
+      fullScreen: {
+        type: Boolean,
+        default: false,
+      },
+
       header: {
         type: String,
         default: '',
@@ -109,14 +120,14 @@
 
       headerType: String,
 
-      maxMin: {
-        type: Boolean,
-        default: false,
-      },
-
       maxWidth: String,
 
       maxHeight: String,
+
+      minimize: {
+        type: Boolean,
+        default: false,
+      },
 
       outsideClose: {
         type: Boolean,
@@ -146,7 +157,7 @@
 
     data () {
       return {
-        maximized: false,
+        inFullScreen: false,
         intervalLive: false,
         opacityStep: 0.05,
         windowOpacity: 1.0,
@@ -155,7 +166,8 @@
 
     components: {
       IconClose,
-      IconMaximize,
+      IconEnterFullScreen,
+      IconExitFullScreen,
       IconMinimize,
       IconOpacity,
     },
@@ -183,8 +195,8 @@
 
     created () {
       window.addEventListener('resize', () => {
-        if (this.maximized) {
-          this.max();
+        if (this.inFullScreen) {
+          this.enterFullScreen();
         }
       });
     },
@@ -204,8 +216,12 @@
         this.$emit('close');
       },
 
-      max () {
-        this.maximized = true;
+      minimizeMe () {
+        this.$emit('minimize');
+      },
+
+      enterFullScreen () {
+        this.inFullScreen = true;
 
         //
         this.$refs.bodyWrapper.style.maxHeight =
@@ -219,8 +235,8 @@
         this.$refs.container.style.height = document.body.clientHeight + 'px';
       },
 
-      min () {
-        this.maximized = false;
+      exitFullScreen () {
+        this.inFullScreen = false;
 
         this.$refs.bodyWrapper.style.maxHeight = this.maxHeight + 'px';
         this.$refs.bodyWrapper.style.maxWidth = this.maxWidth + 'px';
@@ -269,7 +285,7 @@
     watch: {
       show (newVal) {
         if (newVal) {
-          this.min();
+          this.exitFullScreen();
 
           this.$emit('open');
         }
