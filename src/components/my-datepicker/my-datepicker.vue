@@ -3,6 +3,7 @@
     <div ref="element" class="my-datepicker__element">
       <input
         :class="inputClass"
+        :disabled="disabled"
         :id="id"
         :name="name"
         :value="getValue()"
@@ -12,6 +13,7 @@
         v-if="!noInput"
       >
       <icon-datepicker
+        :disabled="disabled"
         class="my-datepicker__icon"
         @click="show"
       />
@@ -138,6 +140,11 @@
             minutes.toString().padStart(2, '0')
           );
         },
+      },
+
+      disabled: {
+        type: Boolean,
+        default: false,
       },
 
       endYear: {
